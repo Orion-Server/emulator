@@ -40,6 +40,7 @@ public class NitroMessageHandler extends SimpleChannelInboundHandler<MessageEven
     @Override
     public void userEventTriggered(ChannelHandlerContext channelHandlerContext, Object event) {
         if(event instanceof ChannelInputShutdownEvent) {
+            System.out.println(STR."Disconnected by ChannelInputShutdownEvent");
             channelHandlerContext.close();
         }
     }
@@ -48,6 +49,7 @@ public class NitroMessageHandler extends SimpleChannelInboundHandler<MessageEven
     public void exceptionCaught(ChannelHandlerContext channelHandlerContext, Throwable cause) {
         if(!channelHandlerContext.channel().isActive()) return;
 
+        System.out.println(STR."Exception Caught: \{cause.getMessage()}");
         channelHandlerContext.close();
     }
 

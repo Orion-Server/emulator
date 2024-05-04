@@ -37,7 +37,7 @@ public class ServerBootstrapFactory {
                 .option(ChannelOption.SO_BACKLOG, this.environmentSettings.getIntegerOrDefault("networking.server.backlog", 500))
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
-                .childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(0x8000,0x10000));
+                .childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(32 * 1024,64 * 1024));
     }
 
     private Class<? extends ServerSocketChannel> getServerChannel() {

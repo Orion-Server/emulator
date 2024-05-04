@@ -1,7 +1,8 @@
 package Orion.Protocol.Message.Composer;
 
 public abstract class ComposerHeaders {
-    public static int PongComposer = 3928;
+    public static int PongComposer = 10;
+    public static int PingComposer = 3928;
     public static int AuthenticationOkComposer = 2491;
     public static int AvatarEffectsComposer = 340;
     public static int FigureSetIdsComposer = 1450;
@@ -12,7 +13,7 @@ public abstract class ComposerHeaders {
     public static int AchievementScoreComposer = 1968;
     public static int IsFirstLoginOfDayComposer = 793;
     public static int MysteryBoxKeysComposer = 2833;
-    public static int ObjectsDataUpdateComposer = 1453;
+    public static int ObjectsDataUpdateComposer = 1452;
     public static int CfhTopicsInitComposer = 325;
     public static int FavouritesComposer = 151;
     public static int CampaignCalendarDataComposer = 2531;

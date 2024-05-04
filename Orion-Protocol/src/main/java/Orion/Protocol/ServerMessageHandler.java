@@ -42,11 +42,16 @@ public class ServerMessageHandler implements IServerMessageHandler {
 
             final long startTime = System.currentTimeMillis();
 
-            if(messageEventHandler.getParser() != null) {
-                messageEventHandler.getParser().parse(message);
-            }
+            this.logger.info(STR."Handling Event [\{message.getId()}] \{messageEventHandler.getClass().getSimpleName()}");
 
-            this.logger.info(STR."Handling Event [\{message.getId()}] \{message.getClass().getSimpleName()}");
+            if(messageEventHandler.getParser() != null) {
+                try {
+                    messageEventHandler.getParser().parse(message);
+                } catch (Exception e) {
+                    this.logger.error(STR."Error parsing message: \{messageEventHandler.getClass().getSimpleName()} with header: \{headerId}", e);
+                    return;
+                }
+            }
 
             messageEventHandler.handle(session);
 

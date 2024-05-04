@@ -6,5 +6,5 @@ public abstract class EventHeaders {
     public static final int SSOTicketEvent = 2419;
 
     // Lifecycle
-    public static final int PingEvent = 2596;
+    public static final int PingEvent = 295;
 }

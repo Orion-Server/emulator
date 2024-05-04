@@ -24,8 +24,7 @@ public class MessageComposer implements IMessageComposer {
     }
 
     public MessageComposer(int id, ByteBuf buffer) {
-        this.id = id;
-        this.buffer = buffer;
+        this((short) id, buffer);
     }
 
     public MessageComposer(int id) {
@@ -131,7 +130,7 @@ public class MessageComposer implements IMessageComposer {
 
     public void appendDouble(double doubleValue) {
         try {
-            this.buffer.writeDouble(doubleValue);
+            this.appendString(Double.toString(doubleValue));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,7 +155,7 @@ public class MessageComposer implements IMessageComposer {
     @Override
     public void appendBoolean(Boolean booleanValue) {
         try {
-            this.buffer.writeBoolean(booleanValue);
+            this.buffer.writeByte(booleanValue ? 1 : 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,9 +172,15 @@ public class MessageComposer implements IMessageComposer {
 
     public void appendShort(int shortValue) {
         try {
-            this.buffer.writeShort(shortValue);
+            this.buffer.writeShort((short) shortValue);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public ByteBuf getBuffer() {
+        this.buffer.setInt(0, this.buffer.writerIndex() - 4);
+
+        return this.buffer;
     }
 }

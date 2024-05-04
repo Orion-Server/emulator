@@ -23,4 +23,6 @@ public interface IMessageComposer extends ByteBufHolder {
     void appendByte(int byteValue);
 
     void appendShort(int shortValue);
+
+    ByteBuf getBuffer();
 }

@@ -29,7 +29,7 @@ public class NitroSocketChannel extends ChannelInitializer<SocketChannel> {
         final ChannelPipeline pipeline = socketChannel.pipeline();
 
         pipeline.addLast(new HttpServerCodec())
-                .addLast(new HttpObjectAggregator(0x10000))
+                .addLast(new HttpObjectAggregator(65536))
                 .addLast(new WebSocketServerCompressionHandler())
                 .addLast(new NitroMessageEncoder())
                 .addLast(new NitroSessionHandler(this.sessionManager, this.serverMessageHandler));

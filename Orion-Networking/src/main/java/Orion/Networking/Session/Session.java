@@ -60,7 +60,7 @@ public class Session implements ISession {
     public ISession send(IMessageComposer composer) {
         this.logger.info(STR."Composing [\{composer.getId()}] \{composer.getClass().getName()}");
 
-        this.channel.writeAndFlush(composer.content(), this.channel.voidPromise());
+        this.channel.writeAndFlush(composer, this.channel.voidPromise());
 
         return this;
     }

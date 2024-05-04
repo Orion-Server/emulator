@@ -3,7 +3,6 @@ package Orion.Networking.Providers;
 import Orion.Api.Networking.Session.ISessionManager;
 import Orion.Api.Protocol.IServerMessageHandler;
 import Orion.Api.Server.Core.Configuration.IEmulatorEnvironmentSettings;
-import Orion.Networking.Codec.Logger.MessageEventLogger;
 import Orion.Networking.Factory.ServerBootstrapFactory;
 import Orion.Networking.Group.EventLoopGroupFactory;
 import Orion.Networking.Providers.Channel.NitroSocketChannel;

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class NitroMessageDecoder extends MessageToMessageDecoder<WebSocketFrame> {
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, WebSocketFrame webSocketFrame, List<Object> list) throws Exception {
+    protected void decode(ChannelHandlerContext channelHandlerContext, WebSocketFrame webSocketFrame, List<Object> list) {
         try {
             final ByteBuf buffer = webSocketFrame.content();
 
