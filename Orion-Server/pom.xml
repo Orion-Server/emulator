@@ -22,6 +22,24 @@
             <artifactId>Orion-API</artifactId>
             <version>0.1-ALPHA</version>
         </dependency>
+
+        <dependency>
+            <groupId>Orion</groupId>
+            <artifactId>Orion-Storage</artifactId>
+            <version>0.1-ALPHA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>Orion</groupId>
+            <artifactId>Orion-Networking</artifactId>
+            <version>0.1-ALPHA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>Orion</groupId>
+            <artifactId>Orion-Protocol</artifactId>
+            <version>0.1-ALPHA</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -33,6 +51,7 @@
                 <configuration>
                     <source>22</source>
                     <target>22</target>
+                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
 
@@ -61,7 +80,7 @@
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.boot.Main</mainClass>
+                            <mainClass>Orion.Bootstrap</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                             <classpathPrefix>lib/</classpathPrefix>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>

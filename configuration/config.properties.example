@@ -1,0 +1,24 @@
+## Database settings
+
+db.port=3306
+db.database=orioncms
+db.username=root
+db.password=
+db.params=?useTimezone=true&serverTimezone=UTC
+db.pool.min_size=25
+db.pool.max_size=100
+
+## Server settings
+networking.server.host=0.0.0.0
+
+networking.server.flash.port=3000
+networking.server.nitro.port=2096
+
+networking.server.flash.io_threads=4
+networking.server.flash.accept_threads=4
+
+networking.server.nitro.io_threads=4
+networking.server.nitro.accept_threads=4
+
+## Server variables
+networking.server.flash.backlog=500

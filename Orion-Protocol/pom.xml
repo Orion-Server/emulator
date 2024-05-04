@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Orion-Networking</artifactId>
+    <artifactId>Orion-Protocol</artifactId>
 
     <version>0.1-ALPHA</version>
 
@@ -24,6 +24,12 @@
         <dependency>
             <groupId>Orion</groupId>
             <artifactId>Orion-API</artifactId>
+            <version>0.1-ALPHA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>Orion</groupId>
+            <artifactId>Orion-Networking</artifactId>
             <version>0.1-ALPHA</version>
         </dependency>
     </dependencies>

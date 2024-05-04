@@ -81,7 +81,16 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
+# Project Specific
 *.jar
 run.bat
 *.versionsBackup
 *.iml
+
+# Mac OS
+.DS_Store
+
+# VS Code
+.vscode/
+
+*.properties
