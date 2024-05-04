@@ -2,6 +2,7 @@ package Orion.Protocol.Message.Composer;
 
 public abstract class ComposerHeaders {
     public static int PongComposer = 10;
+    public static int MachineIDComposer = 1488;
     public static int PingComposer = 3928;
     public static int AuthenticationOkComposer = 2491;
     public static int AvatarEffectsComposer = 340;

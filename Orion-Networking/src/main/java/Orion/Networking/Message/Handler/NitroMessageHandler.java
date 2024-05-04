@@ -34,7 +34,7 @@ public class NitroMessageHandler extends SimpleChannelInboundHandler<MessageEven
         }
 
         session.disconnect();
-        sessionManager.removeSession(session);
+        this.sessionManager.removeSession(session);
     }
 
     @Override

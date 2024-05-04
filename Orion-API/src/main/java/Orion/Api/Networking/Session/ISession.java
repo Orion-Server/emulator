@@ -21,4 +21,6 @@ public interface ISession {
     ISession send(IMessageComposer... composers);
 
     ISession send(List<IMessageComposer> composers);
+
+    void setMachineId(String machineId);
 }

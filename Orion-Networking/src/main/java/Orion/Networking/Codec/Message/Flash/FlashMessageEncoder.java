@@ -7,7 +7,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 public class FlashMessageEncoder extends MessageToByteEncoder<IMessageComposer> {
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, IMessageComposer messageComposer, ByteBuf byteBuf) throws Exception {
+    protected void encode(ChannelHandlerContext channelHandlerContext, IMessageComposer messageComposer, ByteBuf byteBuf) {
         final ByteBuf buffer = messageComposer.content();
 
         try {

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FlashMessageDecoder extends ByteToMessageDecoder {
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
         try {
             if (byteBuf.readableBytes() < 6) return;
 

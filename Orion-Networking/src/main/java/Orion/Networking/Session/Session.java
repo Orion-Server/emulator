@@ -57,16 +57,25 @@ public class Session implements ISession {
     }
 
     @Override
+    public void setMachineId(String machineId) {
+        this.machineId = machineId;
+    }
+
+    @Override
     public ISession send(IMessageComposer composer) {
+        if(!this.channel.channel().isOpen()) return this;
+
         this.logger.info(STR."Composing [\{composer.getId()}] \{composer.getClass().getName()}");
 
-        this.channel.writeAndFlush(composer, this.channel.voidPromise());
+        this.channel.writeAndFlush(composer);
 
         return this;
     }
 
     @Override
     public ISession send(IMessageComposer... composers) {
+        if(!this.channel.channel().isOpen()) return this;
+
         for (final IMessageComposer composer : composers) {
             this.logger.info(STR."Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
@@ -80,6 +89,8 @@ public class Session implements ISession {
 
     @Override
     public ISession send(List<IMessageComposer> composers) {
+        if(!this.channel.channel().isOpen()) return this;
+
         for (final IMessageComposer composer : composers) {
             this.channel.write(composer);
         }

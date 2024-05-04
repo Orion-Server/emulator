@@ -1,6 +1,7 @@
 package Orion.Networking.Providers;
 
 import Orion.Api.Networking.Session.ISessionManager;
+import Orion.Api.Protocol.IServerMessageHandler;
 import Orion.Api.Server.Core.Configuration.IEmulatorEnvironmentSettings;
 import Orion.Networking.Factory.ServerBootstrapFactory;
 import Orion.Networking.Group.EventLoopGroupFactory;
@@ -23,17 +24,21 @@ public class FlashServerProvider {
 
     private final ISessionManager sessionManager;
 
+    private final IServerMessageHandler serverMessageHandler;
+
     @Inject
     public FlashServerProvider(
             ServerBootstrapFactory serverBootstrapFactory,
             EventLoopGroupFactory eventLoopGroupFactory,
             IEmulatorEnvironmentSettings environmentSettings,
-            ISessionManager sessionManager
+            ISessionManager sessionManager,
+            IServerMessageHandler serverMessageHandler
     ) {
         this.serverBootstrapFactory = serverBootstrapFactory;
         this.eventLoopGroupFactory = eventLoopGroupFactory;
         this.environmentSettings = environmentSettings;
         this.sessionManager = sessionManager;
+        this.serverMessageHandler = serverMessageHandler;
     }
 
     public ServerBootstrap provide() {
@@ -46,7 +51,8 @@ public class FlashServerProvider {
                 this.eventLoopGroupFactory.createEventLoopGroup(ioThreads),
                 new FlashSocketChannel(
                         this.sessionManager,
-                        this.eventLoopGroupFactory.createEventLoopGroup(channelThreads)
+                        this.eventLoopGroupFactory.createEventLoopGroup(channelThreads),
+                        this.serverMessageHandler
                 )
         );
 

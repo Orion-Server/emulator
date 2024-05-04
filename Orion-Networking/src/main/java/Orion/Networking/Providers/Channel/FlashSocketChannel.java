@@ -2,6 +2,7 @@ package Orion.Networking.Providers.Channel;
 
 import Orion.Api.Networking.Session.ISessionManager;
 import Orion.Api.Networking.Session.Throttle.IAddressAttempt;
+import Orion.Api.Protocol.IServerMessageHandler;
 import Orion.Networking.Codec.CrossDomainDecoder;
 import Orion.Networking.Codec.Message.Flash.FlashMessageDecoder;
 import Orion.Networking.Codec.Message.Flash.FlashMessageEncoder;
@@ -26,12 +27,13 @@ public class FlashSocketChannel extends ChannelInitializer<SocketChannel> {
 
     public FlashSocketChannel(
             final ISessionManager sessionManager,
-            final EventLoopGroup eventLoopGroupFactory
+            final EventLoopGroup eventLoopGroupFactory,
+            final IServerMessageHandler serverMessageHandler
     ) {
         this.sessionManager = sessionManager;
         this.executorGroup = eventLoopGroupFactory;
 
-        this.sessionHandler = new FlashSessionHandler();
+        this.sessionHandler = new FlashSessionHandler(this.sessionManager, serverMessageHandler);
     }
 
     @Override
