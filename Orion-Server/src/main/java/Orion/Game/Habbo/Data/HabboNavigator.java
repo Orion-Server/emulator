@@ -12,8 +12,6 @@ import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
 
 public class HabboNavigator implements IHabboNavigator {
-    private int habboId;
-
     private final THashSet<IHabboNavigatorSearch> navigatorSearches;
 
     private final IHabboNavigatorWindowSetting navigatorWindowSettings;
