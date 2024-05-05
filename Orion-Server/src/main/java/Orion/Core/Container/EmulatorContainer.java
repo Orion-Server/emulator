@@ -2,9 +2,7 @@ package Orion.Core.Container;
 
 import Orion.Api.Server.Boot.IEmulator;
 import Orion.Api.Server.Core.Container.IEmulatorContainer;
-import Orion.Module.ConnectionModule;
-import Orion.Module.EmulatorModule;
-import Orion.Module.NetworkingModule;
+import Orion.Module.*;
 import Orion.Protocol.ProtocolModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -23,7 +21,9 @@ public class EmulatorContainer implements IEmulatorContainer {
                 new EmulatorModule(),
                 new ConnectionModule(),
                 new NetworkingModule(),
-                new ProtocolModule()
+                new ProtocolModule(),
+                new HabboModule(),
+                new RoomModule()
         );
 
         this.inject(this.emulator);

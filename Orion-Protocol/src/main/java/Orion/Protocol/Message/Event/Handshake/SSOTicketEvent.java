@@ -3,6 +3,7 @@ package Orion.Protocol.Message.Event.Handshake;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
 import Orion.Api.Protocol.Parser.IEventParser;
+import Orion.Api.Server.Game.Habbo.Provider.IHabboLoginProvider;
 import Orion.Protocol.Annotations.HandshakeEvent;
 import Orion.Protocol.Message.Composer.Achievement.AchievementScoreComposer;
 import Orion.Protocol.Message.Composer.Calendar.CampaignCalendarDataComposer;
@@ -32,6 +33,9 @@ public class SSOTicketEvent implements IMessageEventHandler {
     @Inject
     private SSOTicketEventParser parser;
 
+    @Inject
+    private IHabboLoginProvider loginProvider;
+
     @Override
     public int getId() {
         return EventHeaders.SSOTicketEvent;
@@ -44,14 +48,16 @@ public class SSOTicketEvent implements IMessageEventHandler {
 
     @Override
     public void handle(ISession session) {
-        String ticket = this.parser.ticket;
+        if(!this.loginProvider.canLogin(session, this.parser.ticket)) return;
 
-        session.send(
-            new AuthenticationOkComposer(), new InventoryEffectsListComposer(), new FigureSetIdsComposer(), new HabboNoobnessLevelComposer(), new HabboRightsComposer(),
-                new AvailabilityStatusComposer(), new PingComposer(), new NotificationsEnabledComposer(), new AchievementScoreComposer(),
-                new IsFirstLoginOfDayComposer(), new MysteryBoxKeysComposer(), new BuildersClubMembershipComposer(), new CfhTopicsInitComposer(), new FavoriteRoomsComposer(),
-                //new GameListComposer(), new GameAccountStatusComposer(3, 100), new GameAccountStatusComposer(0, 100),
-                new CampaignCalendarDataComposer(), new HabboClubComposer(), new UpdateInventoryComposer(), new InventoryAchievementsComposer(), new HabboHomeRoomComposer()
-        );
+        this.loginProvider.attemptLogin(session, this.parser.ticket);
+
+//        session.send(
+//            new AuthenticationOkComposer(), new InventoryEffectsListComposer(), new FigureSetIdsComposer(), new HabboNoobnessLevelComposer(), new HabboRightsComposer(),
+//                new AvailabilityStatusComposer(), new PingComposer(), new NotificationsEnabledComposer(), new AchievementScoreComposer(),
+//                new IsFirstLoginOfDayComposer(), new MysteryBoxKeysComposer(), new BuildersClubMembershipComposer(), new CfhTopicsInitComposer(), new FavoriteRoomsComposer(),
+//                //new GameListComposer(), new GameAccountStatusComposer(3, 100), new GameAccountStatusComposer(0, 100),
+//                new CampaignCalendarDataComposer(), new HabboClubComposer(), new UpdateInventoryComposer(), new InventoryAchievementsComposer(), new HabboHomeRoomComposer()
+//        );
     }
 }

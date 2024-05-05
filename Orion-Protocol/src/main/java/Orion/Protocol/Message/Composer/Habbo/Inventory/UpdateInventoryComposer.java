@@ -6,5 +6,7 @@ import Orion.Protocol.Message.Composer.ComposerHeaders;
 public class UpdateInventoryComposer extends MessageComposer {
     public UpdateInventoryComposer() {
         super(ComposerHeaders.UpdateInventoryComposer);
+
+        // TODO: Implement
     }
 }

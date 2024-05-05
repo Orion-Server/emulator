@@ -2,6 +2,7 @@ package Orion.Networking.Session;
 
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Networking.Session.ISession;
+import Orion.Api.Server.Game.Habbo.IHabbo;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +19,10 @@ public class Session implements ISession {
     private final ChannelHandlerContext channel;
 
     private String machineId = null;
-    private String ipAddress = null;
+
+    private String ipAddress;
+
+    private IHabbo habbo;
 
     public Session(int id, ChannelHandlerContext channel, String ipAddress) {
         this.id = id;
@@ -62,10 +66,30 @@ public class Session implements ISession {
     }
 
     @Override
+    public String getMachineId() {
+        return this.machineId;
+    }
+
+    @Override
+    public String getIpAddress() {
+        return this.ipAddress;
+    }
+
+    @Override
+    public void setHabbo(IHabbo habbo) {
+        this.habbo = habbo;
+    }
+
+    @Override
+    public IHabbo getHabbo() {
+        return this.habbo;
+    }
+
+    @Override
     public ISession send(IMessageComposer composer) {
         if(!this.channel.channel().isOpen()) return this;
 
-        this.logger.info(STR."Composing [\{composer.getId()}] \{composer.getClass().getName()}");
+        this.logger.debug(STR."Composing [\{composer.getId()}] \{composer.getClass().getName()}");
 
         this.channel.writeAndFlush(composer);
 
@@ -77,7 +101,7 @@ public class Session implements ISession {
         if(!this.channel.channel().isOpen()) return this;
 
         for (final IMessageComposer composer : composers) {
-            this.logger.info(STR."Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
+            this.logger.debug(STR."Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
             this.channel.write(composer);
         }
@@ -92,6 +116,8 @@ public class Session implements ISession {
         if(!this.channel.channel().isOpen()) return this;
 
         for (final IMessageComposer composer : composers) {
+            this.logger.debug(STR."Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
+
             this.channel.write(composer);
         }
 

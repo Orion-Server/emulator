@@ -1,6 +1,7 @@
 package Orion.Boot.Utils;
 
 import com.google.inject.Singleton;
+import org.fusesource.jansi.Ansi;
 
 @Singleton
 public class EmulatorVersioning {

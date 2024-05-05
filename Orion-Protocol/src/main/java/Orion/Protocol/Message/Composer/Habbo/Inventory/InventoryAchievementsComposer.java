@@ -7,6 +7,7 @@ public class InventoryAchievementsComposer extends MessageComposer {
     public InventoryAchievementsComposer() {
         super(ComposerHeaders.InventoryAchievementsComposer);
 
+        // TODO: Implement
         appendInt(0);
     }
 }

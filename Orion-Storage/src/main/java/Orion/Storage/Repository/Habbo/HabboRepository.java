@@ -12,10 +12,12 @@ import org.apache.logging.log4j.Logger;
 public class HabboRepository extends DatabaseRepository implements IHabboRepository {
     protected Logger logger = LogManager.getLogger();
 
+    @Override
     public void getHabboIdByAuthTicket(final IConnectionResultConsumer consumer, String authTicket) {
         this.select(HabboQuery.GET_ID_BY_AUTH_TICKET.get(), consumer, authTicket);
     }
 
+    @Override
     public void getHabboDataByAuthTicket(final IConnectionResultConsumer consumer, String authTicket) {
         this.select(HabboQuery.GET_ALL_DATA_BY_AUTH_TICKET.get(), consumer, authTicket);
     }

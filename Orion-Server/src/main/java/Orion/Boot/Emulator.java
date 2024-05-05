@@ -20,9 +20,6 @@ public class Emulator implements IEmulator {
 
     private final IEmulatorContainer container;
 
-    @Inject
-    private EmulatorRuntimeVariables runtimeVariables;
-
     public Emulator() {
         this.container = new EmulatorContainer();
 
@@ -38,8 +35,6 @@ public class Emulator implements IEmulator {
     @Override
     public void start() {
         this.configureLogger();
-
-        this.runtimeVariables.startTime = System.currentTimeMillis();
 
         final EmulatorStartModule startProcess = new EmulatorStartModule();
 

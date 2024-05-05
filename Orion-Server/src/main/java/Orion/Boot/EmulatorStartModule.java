@@ -4,6 +4,7 @@ import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
 import Orion.Api.Server.Core.Configuration.IEmulatorEnvironmentSettings;
 import Orion.Api.Storage.Connector.IConnector;
 import Orion.Api.Storage.Repository.Emulator.IEmulatorRepository;
+import Orion.Boot.Utils.EmulatorRuntimeVariables;
 import Orion.Boot.Utils.EmulatorVersioning;
 import Orion.Networking.NetworkManager;
 import com.google.inject.Inject;
@@ -24,6 +25,9 @@ public class EmulatorStartModule {
     @Inject
     private IEmulatorDatabaseSettings emulatorDatabaseSettings;
 
+    @Inject
+    private EmulatorRuntimeVariables runtimeVariables;
+
     public void start() {
         this.versioning.showFullVersionWithWebsite();
 
@@ -35,6 +39,9 @@ public class EmulatorStartModule {
 
     private void initEmulatorInternal() {
         this.environmentSettings.initialize();
+
+        this.runtimeVariables.isDebugMode = this.environmentSettings.getString("debug.mode").equalsIgnoreCase("development");
+
         this.emulatorConnector.initialize(this.environmentSettings);
     }
 

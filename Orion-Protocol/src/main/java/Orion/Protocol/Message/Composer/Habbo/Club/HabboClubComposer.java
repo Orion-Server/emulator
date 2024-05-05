@@ -7,6 +7,7 @@ public class HabboClubComposer extends MessageComposer {
     public HabboClubComposer() {
         super(ComposerHeaders.HabboClubComposer);
 
+        // TODO: Implement
         appendString("HABBO_CLUB".toLowerCase());
         appendInt(0);
         appendInt(0);

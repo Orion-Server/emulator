@@ -1,6 +1,7 @@
 package Orion.Api.Networking.Session;
 
 import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Api.Server.Game.Habbo.IHabbo;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.List;
@@ -23,4 +24,12 @@ public interface ISession {
     ISession send(List<IMessageComposer> composers);
 
     void setMachineId(String machineId);
+
+    String getMachineId();
+
+    String getIpAddress();
+
+    void setHabbo(IHabbo habbo);
+
+    IHabbo getHabbo();
 }
