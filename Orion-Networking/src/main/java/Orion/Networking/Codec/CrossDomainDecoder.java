@@ -5,8 +5,8 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.util.CharsetUtil;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class CrossDomainDecoder extends ByteToMessageDecoder {
@@ -19,12 +19,12 @@ public class CrossDomainDecoder extends ByteToMessageDecoder {
         if (b == '<') {
             byteBuf.resetReaderIndex();
             channelHandlerContext.channel().writeAndFlush(Unpooled.copiedBuffer(
-                    "<?xml version=\"1.0\"?>\r\n"
-                            + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
-                            + "<cross-domain-policy>\r\n"
-                            + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
-                            + "</cross-domain-policy>\0"
-                    , StandardCharsets.UTF_8)).addListener(ChannelFutureListener.CLOSE);
+                    "<?xml version=\"1.0\"?>\n"
+                            + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\n"
+                            + "<cross-domain-policy>\n"
+                            + "<allow-access-from domain=\"*\" to-ports=\"1-31111\" />\n"
+                            + "</cross-domain-policy>" + (char) 0
+                    , CharsetUtil.UTF_8)).addListener(ChannelFutureListener.CLOSE);
             return;
         }
 

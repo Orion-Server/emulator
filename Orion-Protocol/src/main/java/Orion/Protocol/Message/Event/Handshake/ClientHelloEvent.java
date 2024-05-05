@@ -3,12 +3,14 @@ package Orion.Protocol.Message.Event.Handshake;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
 import Orion.Api.Protocol.Parser.IEventParser;
+import Orion.Protocol.Annotations.HandshakeEvent;
 import Orion.Protocol.Message.Event.EventHeaders;
 import Orion.Protocol.Parser.Hanshake.ClientHelloEventParser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
+@HandshakeEvent("ClientHelloEvent")
 public class ClientHelloEvent implements IMessageEventHandler {
     @Inject
     private ClientHelloEventParser parser;

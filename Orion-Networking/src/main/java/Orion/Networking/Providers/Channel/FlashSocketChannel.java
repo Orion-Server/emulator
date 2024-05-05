@@ -45,7 +45,7 @@ public class FlashSocketChannel extends ChannelInitializer<SocketChannel> {
         final IAddressAttempt addressAttempt = this.sessionManager.getConnectionAttempt(ip);
 
         if (addressAttempt != null && addressAttempt.shouldBlockConnection()) {
-            this.logger.warn(STR."Connection attempt from {} has been blocked.", ip);
+            this.logger.warn(STR."Connection attempt from \{ip} has been blocked.");
 
             socketChannel.disconnect();
             return;
@@ -57,8 +57,7 @@ public class FlashSocketChannel extends ChannelInitializer<SocketChannel> {
                 .addLast("crossDomainDecoder", new CrossDomainDecoder())
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                 .addLast("messageDecoder", new FlashMessageDecoder())
-                .addLast("messageEncoder", new FlashMessageEncoder());
-
-        socketChannel.pipeline().addLast(this.executorGroup, "sessionHandler", this.sessionHandler);
+                .addLast("messageEncoder", new FlashMessageEncoder())
+                .addLast(this.executorGroup, "sessionHandler", this.sessionHandler);
     }
 }

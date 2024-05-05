@@ -25,12 +25,12 @@ public class HikariConnector implements IConnector {
             this.config = config;
             this.initializeConnector();
         } catch (Exception e) {
-            // log error
+            this.logger.error(STR."Failed to establish database connection: \{e.getMessage()}");
         }
     }
 
     private void initializeConnector() {
-        HikariConfig databaseConfiguration = new HikariConfig();
+        final HikariConfig databaseConfiguration = new HikariConfig();
 
         databaseConfiguration.setMaximumPoolSize(this.config.getInteger("db.pool.maxsize"));
         databaseConfiguration.setMinimumIdle(this.config.getInteger("db.pool.minsize"));
@@ -59,9 +59,9 @@ public class HikariConnector implements IConnector {
         try {
             this.dataSource = new HikariDataSource(databaseConfiguration);
 
-            logger.info("Database connection established.");
+            this.logger.info("Database connection established.");
         } catch (Exception e) {
-            logger.error(STR."Failed to establish database connection: \{e.getMessage()}");
+            this.logger.error(STR."Failed to establish database connection: \{e.getMessage()}");
         }
     }
 

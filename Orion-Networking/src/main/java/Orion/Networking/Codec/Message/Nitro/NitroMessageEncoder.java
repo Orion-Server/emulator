@@ -14,7 +14,10 @@ public class NitroMessageEncoder extends MessageToMessageEncoder<IMessageCompose
         final ByteBuf buffer = !messageComposer.isFinished()
                 ? messageComposer.getBuffer()
                 : channelHandlerContext.alloc().buffer();
-
-        list.add(new BinaryWebSocketFrame(buffer).retain());
+        try {
+            list.add(new BinaryWebSocketFrame(buffer).retain());
+        } catch(Exception e) {
+            throw new IllegalStateException(STR."Failed to encode message. Reason: \{e.getMessage()}");
+        }
     }
 }

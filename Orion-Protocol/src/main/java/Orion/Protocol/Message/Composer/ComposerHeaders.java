@@ -22,4 +22,6 @@ public abstract class ComposerHeaders {
     public static int FurniListInvalidateComposer = 3151;
     public static int InventoryAchievementsComposer = 2501;
     public static int UserHomeRoomComposer = 2875;
+    public static int GameListComposer = 222;
+    public static int GameAccountStatusComposer = 2893;
 }

@@ -40,6 +40,8 @@ public class ServerMessageHandler implements IServerMessageHandler {
                 return;
             }
 
+            // TODO: Verify if the message is not a handshake event and the session is not authenticated
+
             final long startTime = System.currentTimeMillis();
 
             this.logger.info(STR."Handling Event [\{message.getId()}] \{messageEventHandler.getClass().getSimpleName()}");
