@@ -8,6 +8,7 @@ import Orion.Networking.Session.SessionManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.ChannelInputShutdownEvent;
+import io.netty.handler.timeout.IdleStateEvent;
 
 public class NitroMessageHandler extends SimpleChannelInboundHandler<MessageEvent> {
     private final ISessionManager sessionManager;
@@ -42,6 +43,14 @@ public class NitroMessageHandler extends SimpleChannelInboundHandler<MessageEven
         if(event instanceof ChannelInputShutdownEvent) {
             System.out.println(STR."Disconnected by ChannelInputShutdownEvent");
             channelHandlerContext.close();
+        }
+
+        final ISession session = channelHandlerContext.channel().attr(SessionManager.SESSION_KEY).get();
+
+        if(session == null) return;
+
+        if(event instanceof IdleStateEvent idleStateEvent) {
+            session.handleIdleStateEvent(idleStateEvent);
         }
     }
 

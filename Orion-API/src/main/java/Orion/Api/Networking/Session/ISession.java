@@ -3,6 +3,7 @@ package Orion.Api.Networking.Session;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.timeout.IdleStateEvent;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface ISession {
     void setClientVersion(String clientVersion);
 
     String getClientVersion();
+
+    void handleIdleStateEvent(IdleStateEvent event);
 
     ISession send(IMessageComposer composer);
 

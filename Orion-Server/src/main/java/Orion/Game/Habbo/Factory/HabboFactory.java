@@ -1,9 +1,7 @@
 package Orion.Game.Habbo.Factory;
 
-import Orion.Api.Server.Game.Enums.CurrencyType;
 import Orion.Api.Server.Game.Habbo.Data.*;
 import Orion.Api.Server.Game.Habbo.IHabbo;
-import Orion.Api.Storage.Repository.Habbo.IHabboCurrenciesRepository;
 import Orion.Api.Storage.Result.IConnectionResult;
 import Orion.Game.Habbo.Data.*;
 import Orion.Game.Habbo.Habbo;

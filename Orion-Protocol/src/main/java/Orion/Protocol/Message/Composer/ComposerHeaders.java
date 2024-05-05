@@ -24,4 +24,7 @@ public abstract class ComposerHeaders {
     public static int HabboHomeRoomComposer = 2875;
     public static int GameListComposer = 222;
     public static int GameAccountStatusComposer = 2893;
+    public static int HabboDataComposer = 2725;
+    public static int MeMenuSettingsComposer = 513;
+    public static int HabboPerksComposer = 2586;
 }

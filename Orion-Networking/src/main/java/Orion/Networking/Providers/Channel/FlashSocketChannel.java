@@ -11,6 +11,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.EventExecutorGroup;
 import org.apache.logging.log4j.LogManager;
@@ -58,6 +59,7 @@ public class FlashSocketChannel extends ChannelInitializer<SocketChannel> {
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                 .addLast("messageDecoder", new FlashMessageDecoder())
                 .addLast("messageEncoder", new FlashMessageEncoder())
+                .addLast("idleHandler", new IdleStateHandler(60, 30, 0))
                 .addLast(this.executorGroup, "sessionHandler", this.sessionHandler);
     }
 }

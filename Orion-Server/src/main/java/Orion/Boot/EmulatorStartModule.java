@@ -2,8 +2,8 @@ package Orion.Boot;
 
 import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
 import Orion.Api.Server.Core.Configuration.IEmulatorEnvironmentSettings;
+import Orion.Api.Server.Game.Permission.IPermissionManager;
 import Orion.Api.Storage.Connector.IConnector;
-import Orion.Api.Storage.Repository.Emulator.IEmulatorRepository;
 import Orion.Boot.Utils.EmulatorRuntimeVariables;
 import Orion.Boot.Utils.EmulatorVersioning;
 import Orion.Networking.NetworkManager;
@@ -28,10 +28,14 @@ public class EmulatorStartModule {
     @Inject
     private EmulatorRuntimeVariables runtimeVariables;
 
+    @Inject
+    private IPermissionManager permissionManager;
+
     public void start() {
         this.versioning.showFullVersionWithWebsite();
 
         this.initEmulatorInternal();
+
         this.initInitialEmulatorData();
 
         this.networkManager.dispatch();
@@ -47,5 +51,6 @@ public class EmulatorStartModule {
 
     private void initInitialEmulatorData() {
         this.emulatorDatabaseSettings.initialize();
+        this.permissionManager.initialize();
     }
 }

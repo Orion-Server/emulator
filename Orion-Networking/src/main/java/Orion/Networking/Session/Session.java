@@ -3,7 +3,9 @@ package Orion.Networking.Session;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Server.Game.Habbo.IHabbo;
+import Orion.Networking.Message.MessageComposer;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -83,6 +85,18 @@ public class Session implements ISession {
     @Override
     public IHabbo getHabbo() {
         return this.habbo;
+    }
+
+    @Override
+    public void handleIdleStateEvent(IdleStateEvent event) {
+        switch (event.state()) {
+            case READER_IDLE:
+                this.getChannel().close();
+                break;
+            case WRITER_IDLE:
+                this.getChannel().writeAndFlush(new MessageComposer(3928)); // TODO: Maybe have a way to solve the module cycles?
+                break;
+        }
     }
 
     @Override

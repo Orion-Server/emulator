@@ -9,6 +9,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.ChannelInputShutdownEvent;
+import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -69,6 +70,14 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
     public void userEventTriggered(ChannelHandlerContext channelHandlerContext, Object event) {
         if (event instanceof ChannelInputShutdownEvent) {
             channelHandlerContext.close();
+        }
+
+        final ISession session = channelHandlerContext.channel().attr(SessionManager.SESSION_KEY).get();
+
+        if(session == null) return;
+
+        if(event instanceof IdleStateEvent idleStateEvent) {
+            session.handleIdleStateEvent(idleStateEvent);
         }
     }
 

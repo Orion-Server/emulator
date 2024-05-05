@@ -23,7 +23,8 @@ public class EmulatorContainer implements IEmulatorContainer {
                 new NetworkingModule(),
                 new ProtocolModule(),
                 new HabboModule(),
-                new RoomModule()
+                new RoomModule(),
+                new PermissionModule()
         );
 
         this.inject(this.emulator);
