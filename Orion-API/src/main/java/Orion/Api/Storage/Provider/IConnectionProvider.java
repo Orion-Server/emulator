@@ -1,4 +1,4 @@
-package Orion.Api.Storage.Providers;
+package Orion.Api.Storage.Provider;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

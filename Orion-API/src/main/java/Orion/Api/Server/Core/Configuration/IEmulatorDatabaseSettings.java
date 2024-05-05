@@ -1,6 +1,8 @@
 package Orion.Api.Server.Core.Configuration;
 
-public interface IEmulatorDatabaseSettings {
+import Orion.Api.Util.Initializable;
+
+public interface IEmulatorDatabaseSettings extends Initializable {
     void forceReload();
 
     boolean getBooleanOrDefault(String key, boolean defaultValue);

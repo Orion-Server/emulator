@@ -21,8 +21,8 @@ public class ServerMessageHandler implements IServerMessageHandler {
 
     @Inject
     public ServerMessageHandler(
-            IMessageEventProvider messageEventProvider,
-            IEventParserProvider eventParserProvider
+            final IMessageEventProvider messageEventProvider,
+            final IEventParserProvider eventParserProvider
     ) {
         this.messageEventProvider = messageEventProvider;
         this.eventParserProvider = eventParserProvider;

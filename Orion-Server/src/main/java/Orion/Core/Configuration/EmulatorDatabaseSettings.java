@@ -2,26 +2,45 @@ package Orion.Core.Configuration;
 
 import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
 
+import Orion.Api.Storage.Repository.Emulator.IEmulatorRepository;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import gnu.trove.map.hash.THashMap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Singleton
 public class EmulatorDatabaseSettings implements IEmulatorDatabaseSettings {
+    private final Logger logger = LogManager.getLogger();
+
     private boolean isLoaded = false;
 
     private final THashMap<String, String> settings;
 
+    @Inject
+    private IEmulatorRepository repository;
+
     public EmulatorDatabaseSettings() {
         this.settings = new THashMap<>();
+    }
 
+    @Override
+    public void initialize() {
         this.loadEnvironmentSettings(false);
     }
 
     private void loadEnvironmentSettings(boolean forceReload) {
         if(this.isLoaded && !forceReload) return;
 
-        // Load settings from environment
+        this.repository.loadAllSettings(result -> {
+            if(result == null) return;
+
+            this.settings.putIfAbsent(result.getString("key"), result.getString("value"));
+        });
+
         this.isLoaded = true;
+
+        this.logger.debug(STR."[\{this.settings.size()}] database settings loaded successfully.");
     }
 
     public void forceReload() {
@@ -36,7 +55,7 @@ public class EmulatorDatabaseSettings implements IEmulatorDatabaseSettings {
         try {
             return Boolean.parseBoolean(this.getSetting(key));
         } catch (Exception e) {
-            // log error
+            this.logger.error(STR."Failed to parse boolean value for key: \{key}");
         }
 
         return defaultValue;
@@ -46,7 +65,7 @@ public class EmulatorDatabaseSettings implements IEmulatorDatabaseSettings {
         try {
             return Integer.parseInt(this.getSetting(key));
         } catch (Exception e) {
-            // log error
+            this.logger.error(STR."Failed to parse integer value for key: \{key}");
         }
 
         return defaultValue;
@@ -56,7 +75,7 @@ public class EmulatorDatabaseSettings implements IEmulatorDatabaseSettings {
         try {
             return Double.parseDouble(this.getSetting(key));
         } catch (Exception e) {
-            // log error
+            this.logger.error(STR."Failed to parse double value for key: \{key}");
         }
 
         return defaultValue;

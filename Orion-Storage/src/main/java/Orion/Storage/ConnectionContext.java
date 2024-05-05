@@ -1,7 +1,7 @@
 package Orion.Storage;
 
 import Orion.Api.Storage.IConnectionContext;
-import Orion.Api.Storage.Providers.IConnectionProvider;
+import Orion.Api.Storage.Provider.IConnectionProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
