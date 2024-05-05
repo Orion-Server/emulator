@@ -14,6 +14,7 @@ public class NitroMessageEncoder extends MessageToMessageEncoder<IMessageCompose
         final ByteBuf buffer = !messageComposer.isFinished()
                 ? messageComposer.getBuffer()
                 : channelHandlerContext.alloc().buffer();
+
         try {
             list.add(new BinaryWebSocketFrame(buffer).retain());
         } catch(Exception e) {
