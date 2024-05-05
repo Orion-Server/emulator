@@ -23,6 +23,7 @@
         <module>Orion-Server</module>
         <module>Orion-Storage</module>
         <module>Orion-Protocol</module>
+        <module>Orion-Writer</module>
     </modules>
 
     <dependencies>

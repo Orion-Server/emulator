@@ -44,7 +44,7 @@ public class ServerMessageHandler implements IServerMessageHandler {
 
             final long startTime = System.currentTimeMillis();
 
-            this.logger.debug(STR."Handling Event [\{message.getId()}] \{messageEventHandler.getClass().getSimpleName()}");
+            this.logger.debug(STR.">> Handling Event [\{message.getId()}] \{messageEventHandler.getClass().getSimpleName()}");
 
             if(messageEventHandler.getParser() != null) {
                 try {

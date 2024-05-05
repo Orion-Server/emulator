@@ -20,4 +20,6 @@ public interface IHabbo {
 
     IHabboCurrencies getCurrencies();
 
+    IHabboAchievements getAchievements();
+
 }

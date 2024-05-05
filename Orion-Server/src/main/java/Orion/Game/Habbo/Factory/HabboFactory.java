@@ -27,6 +27,9 @@ public class HabboFactory {
     @Inject
     private HabboNavigatorFactory habboNavigatorFactory;
 
+    @Inject
+    private HabboAchievementsFactory habboAchievementsFactory;
+
     public IHabbo createHabbo(IConnectionResult databaseData) {
         try {
             final int habboId = databaseData.getInt("id");
@@ -37,12 +40,13 @@ public class HabboFactory {
             final IHabboNavigator navigator = this.habboNavigatorFactory.create(databaseData);
             final IHabboCurrencies currencies = this.habboCurrenciesFactory.create(habboId);
             final IHabboRooms rooms = this.habboRoomsFactory.create(habboId);
+            final IHabboAchievements achievements = this.habboAchievementsFactory.create(habboId);
 
             this.injector.injectMembers(inventory);
             this.injector.injectMembers(navigator);
             this.injector.injectMembers(currencies);
 
-            return new Habbo(data, settings, inventory, navigator, rooms, currencies);
+            return new Habbo(data, settings, inventory, navigator, rooms, currencies, achievements);
         } catch (Exception e) {
             this.logger.error("Error creating Habbo: {}", e.getMessage());
         }

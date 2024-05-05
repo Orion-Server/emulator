@@ -2,6 +2,7 @@ package Orion.Boot;
 
 import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
 import Orion.Api.Server.Core.Configuration.IEmulatorEnvironmentSettings;
+import Orion.Api.Server.Game.Achievement.IAchievementManager;
 import Orion.Api.Server.Game.Permission.IPermissionManager;
 import Orion.Api.Storage.Connector.IConnector;
 import Orion.Boot.Utils.EmulatorRuntimeVariables;
@@ -31,6 +32,9 @@ public class EmulatorStartModule {
     @Inject
     private IPermissionManager permissionManager;
 
+    @Inject
+    private IAchievementManager achievementManager;
+
     public void start() {
         this.versioning.showFullVersionWithWebsite();
 
@@ -52,5 +56,6 @@ public class EmulatorStartModule {
     private void initInitialEmulatorData() {
         this.emulatorDatabaseSettings.initialize();
         this.permissionManager.initialize();
+        this.achievementManager.initialize();
     }
 }

@@ -13,6 +13,7 @@ public class Habbo implements IHabbo {
     private final IHabboNavigator navigator;
     private final IHabboRooms rooms;
     private final IHabboCurrencies currencies;
+    private final IHabboAchievements achievements;
 
     public Habbo(
             final IHabboData data,
@@ -20,7 +21,8 @@ public class Habbo implements IHabbo {
             final IHabboInventory inventory,
             final IHabboNavigator navigator,
             final IHabboRooms rooms,
-            final IHabboCurrencies currencies
+            final IHabboCurrencies currencies,
+            final IHabboAchievements achievements
     ) {
         this.data = data;
         this.settings = settings;
@@ -28,6 +30,7 @@ public class Habbo implements IHabbo {
         this.navigator = navigator;
         this.rooms = rooms;
         this.currencies = currencies;
+        this.achievements = achievements;
     }
 
     @Override
@@ -68,5 +71,10 @@ public class Habbo implements IHabbo {
     @Override
     public IHabboCurrencies getCurrencies() {
         return this.currencies;
+    }
+
+    @Override
+    public IHabboAchievements getAchievements() {
+        return this.achievements;
     }
 }
