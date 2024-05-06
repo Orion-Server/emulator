@@ -8,7 +8,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class HabboAchievementsRepository extends DatabaseRepository implements IHabboAchievementsRepository {
-    public void loadAllAchievementsByHabboId(IConnectionResultConsumer consumer, int habboId) {
+    public void loadAllAchievements(IConnectionResultConsumer consumer, int habboId) {
         this.select(HabboAchievementsQuery.LOAD_ALL_ACHIEVEMENTS.get(), consumer, habboId);
     }
 }

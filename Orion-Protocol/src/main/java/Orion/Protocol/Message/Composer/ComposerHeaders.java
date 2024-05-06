@@ -22,6 +22,9 @@ public abstract class ComposerHeaders {
     public static int UpdateInventoryComposer = 3151;
     public static int InventoryAchievementsComposer = 2501;
     public static int HabboHomeRoomComposer = 2875;
+    public static int InitializeMessengerComposer = 1605;
+    public static int MessengerFriendsComposer = 3130;
+    public static int MessengerFriendRequestsComposer = 280;
     public static int HabboProfileComposer = 3898;
     public static int GameListComposer = 222;
     public static int GameAccountStatusComposer = 2893;

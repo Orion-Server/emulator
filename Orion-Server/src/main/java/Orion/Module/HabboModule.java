@@ -18,5 +18,6 @@ public class HabboModule extends AbstractModule {
         bind(HabboCurrenciesFactory.class).asEagerSingleton();
         bind(HabboNavigatorFactory.class).asEagerSingleton();
         bind(HabboAchievementsFactory.class).asEagerSingleton();
+        bind(HabboMessengerFactory.class).asEagerSingleton();
     }
 }

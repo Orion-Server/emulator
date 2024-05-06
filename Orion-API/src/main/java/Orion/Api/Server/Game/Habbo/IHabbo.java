@@ -24,5 +24,7 @@ public interface IHabbo {
 
     IHabboPermission getPermission();
 
+    IHabboMessenger getMessenger();
+
     void onDisconnect();
 }

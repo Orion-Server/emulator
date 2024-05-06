@@ -37,6 +37,7 @@ public class ConnectionModule extends AbstractModule {
         bind(IHabboRoomsRepository.class).to(HabboRoomsRepository.class);
         bind(IHabboCurrenciesRepository.class).to(HabboCurrenciesRepository.class);
         bind(IHabboAchievementsRepository.class).to(HabboAchievementsRepository.class);
+        bind(IHabboMessengerRepository.class).to(HabboMessengerRepository.class);
 
         bind(IPermissionRepository.class).to(PermissionRepository.class);
 

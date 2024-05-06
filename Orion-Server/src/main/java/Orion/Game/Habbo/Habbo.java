@@ -19,6 +19,7 @@ public class Habbo implements IHabbo {
     private IHabboCurrencies currencies;
     private IHabboAchievements achievements;
     private IHabboPermission permission;
+    private IHabboMessenger messenger;
 
     public Habbo(
             final IHabboData data,
@@ -28,7 +29,8 @@ public class Habbo implements IHabbo {
             final IHabboRooms rooms,
             final IHabboCurrencies currencies,
             final IHabboAchievements achievements,
-            final IHabboPermission permission
+            final IHabboPermission permission,
+            final IHabboMessenger messenger
     ) {
         this.data = data;
         this.settings = settings;
@@ -38,6 +40,7 @@ public class Habbo implements IHabbo {
         this.currencies = currencies;
         this.achievements = achievements;
         this.permission = permission;
+        this.messenger = messenger;
 
         this.logger = LogManager.getLogger(STR."[Habbo: \{this.data.getUsername()}]");
     }
@@ -93,6 +96,11 @@ public class Habbo implements IHabbo {
     }
 
     @Override
+    public IHabboMessenger getMessenger() {
+        return this.messenger;
+    }
+
+    @Override
     public void onDisconnect() {
         this.logger.debug("Just left the game.");
 
@@ -116,5 +124,8 @@ public class Habbo implements IHabbo {
 
         this.achievements.dispose();
         this.achievements = null;
+
+        this.messenger.dispose();
+        this.messenger = null;
     }
 }

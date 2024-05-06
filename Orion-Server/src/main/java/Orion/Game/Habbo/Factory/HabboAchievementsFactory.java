@@ -12,8 +12,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import gnu.trove.map.hash.THashMap;
 
-import java.util.Optional;
-
 @Singleton
 public class HabboAchievementsFactory {
     @Inject
@@ -25,7 +23,7 @@ public class HabboAchievementsFactory {
     public IHabboAchievements create(int habboId) {
         final THashMap<String, IHabboAchievementProgress> achievementProgress = new THashMap<>();
 
-        this.repository.loadAllAchievementsByHabboId(result -> {
+        this.repository.loadAllAchievements(result -> {
             if(result == null) return;
 
             final String achievementName = result.getString("achievement_name");

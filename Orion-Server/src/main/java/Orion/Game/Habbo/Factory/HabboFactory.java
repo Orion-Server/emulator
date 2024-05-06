@@ -30,6 +30,9 @@ public class HabboFactory {
     @Inject
     private HabboAchievementsFactory habboAchievementsFactory;
 
+    @Inject
+    private HabboMessengerFactory habboMessengerFactory;
+
     public IHabbo create(IConnectionResult databaseData) {
         try {
             final int habboId = databaseData.getInt("id");
@@ -43,15 +46,17 @@ public class HabboFactory {
             final IHabboNavigator navigator = this.habboNavigatorFactory.create(databaseData);
             final IHabboAchievements achievements = this.habboAchievementsFactory.create(habboId);
             final IHabboPermission permission = new HabboPermission();
+            final IHabboMessenger messenger = this.habboMessengerFactory.create(habboId);
 
             this.injector.injectMembers(inventory);
             this.injector.injectMembers(navigator);
             this.injector.injectMembers(currencies);
             this.injector.injectMembers(permission);
 
-            final IHabbo habbo = new Habbo(data, settings, inventory, navigator, rooms, currencies, achievements, permission);
+            final IHabbo habbo = new Habbo(data, settings, inventory, navigator, rooms, currencies, achievements, permission, messenger);
 
             // Do things with the logged habbo instance before returning it
+
             permission.setHabbo(habbo);
 
             return habbo;
