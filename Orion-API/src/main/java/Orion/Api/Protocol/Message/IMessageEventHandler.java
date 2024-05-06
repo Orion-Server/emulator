@@ -6,7 +6,7 @@ import Orion.Api.Protocol.Parser.IEventParser;
 public interface IMessageEventHandler {
     int getId();
 
-    void handle(ISession session);
-
     IEventParser getParser();
+
+    void handle(ISession session);
 }

@@ -43,14 +43,22 @@ public class EmulatorDatabaseSettings implements IEmulatorDatabaseSettings {
         this.logger.debug(STR."[\{this.settings.size()}] database settings loaded successfully.");
     }
 
+    @Override
     public void forceReload() {
         this.loadEnvironmentSettings(true);
     }
 
+    @Override
     public String getSetting(String key) {
         return this.settings.get(key);
     }
 
+    @Override
+    public String getSettingOrDefault(String key, String defaultValue) {
+        return this.settings.getOrDefault(key, defaultValue);
+    }
+
+    @Override
     public boolean getBooleanOrDefault(String key, boolean defaultValue) {
         try {
             return Boolean.parseBoolean(this.getSetting(key));
@@ -61,6 +69,7 @@ public class EmulatorDatabaseSettings implements IEmulatorDatabaseSettings {
         return defaultValue;
     }
 
+    @Override
     public int getIntegerOrDefault(String key, int defaultValue) {
         try {
             return Integer.parseInt(this.getSetting(key));
@@ -71,6 +80,7 @@ public class EmulatorDatabaseSettings implements IEmulatorDatabaseSettings {
         return defaultValue;
     }
 
+    @Override
     public double getDoubleOrDefault(String key, double defaultValue) {
         try {
             return Double.parseDouble(this.getSetting(key));
