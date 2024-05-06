@@ -8,6 +8,7 @@ public abstract class EventHeaders {
 
     // Lifecycle
     public static final int PingEvent = 295;
+    public static final int PongEvent = 2596;
     public static final int MemoryPerformanceEvent = 3230;
 
     // Habbo

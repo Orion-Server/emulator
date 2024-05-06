@@ -1,4 +1,6 @@
 package Orion.Api.Server.Game.Habbo.Data;
 
-public interface IHabboInventory {
+import Orion.Api.Util.IDisposable;
+
+public interface IHabboInventory extends IDisposable {
 }

@@ -8,6 +8,7 @@ import Orion.Api.Server.Game.Achievement.IAchievementManager;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Habbo.IHabboManager;
 import Orion.Api.Server.Game.Habbo.Provider.IHabboLoginProvider;
+import Orion.Api.Server.Task.IThreadManager;
 import Orion.Api.Storage.Repository.Habbo.IHabboRepository;
 import Orion.Game.Habbo.Factory.HabboFactory;
 import Orion.Protocol.Message.Composer.Achievement.AchievementScoreComposer;
@@ -31,12 +32,16 @@ import Orion.Protocol.Message.Composer.MysteryBox.MysteryBoxKeysComposer;
 import Orion.Protocol.Message.Composer.Room.FavoriteRoomsComposer;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Singleton
 public class HabboLoginProvider implements IHabboLoginProvider {
+    private final Logger logger = LogManager.getLogger();
+
     @Inject
     private IHabboRepository repository;
 
@@ -47,13 +52,16 @@ public class HabboLoginProvider implements IHabboLoginProvider {
     private ISessionManager sessionManager;
 
     @Inject
-    private HabboFactory factory;
+    private HabboFactory habboFactory;
 
     @Inject
     private IEmulatorDatabaseSettings databaseSettings;
 
     @Inject
     private IAchievementManager achievementManager;
+
+    @Inject
+    private IThreadManager threadManager;
 
     @Override
     public boolean canLogin(final ISession session, String authTicket) {
@@ -78,13 +86,13 @@ public class HabboLoginProvider implements IHabboLoginProvider {
 
     @Override
     public void attemptLogin(final ISession session, String authTicket) {
-        this.repository.getHabboDataByAuthTicket(result -> {
+        this.threadManager.getHabboLoginExecutor().execute(() -> this.repository.getHabboDataByAuthTicket(result -> {
             if(result == null) {
                 this.sessionManager.disposeSession(session);
                 return;
             }
 
-            final IHabbo habbo = this.factory.createHabbo(result);
+            final IHabbo habbo = this.habboFactory.create(result);
 
             session.setHabbo(habbo);
             habbo.setSession(session);
@@ -92,7 +100,7 @@ public class HabboLoginProvider implements IHabboLoginProvider {
             this.habboManager.addHabbo(habbo);
 
             this.sendLoginComposers(habbo);
-        }, authTicket);
+        }, authTicket));
     }
 
     private void sendLoginComposers(final IHabbo habbo) {
@@ -119,5 +127,7 @@ public class HabboLoginProvider implements IHabboLoginProvider {
         composers.add(new HabboHomeRoomComposer(habbo));
 
         habbo.getSession().send(composers);
+
+        this.logger.info(STR."Habbo [\{habbo.getData().getUsername()}] has logged in.");
     }
 }
