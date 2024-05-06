@@ -12,6 +12,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import gnu.trove.map.hash.THashMap;
 
+import java.util.Optional;
+
 @Singleton
 public class HabboAchievementsFactory {
     @Inject
@@ -27,14 +29,14 @@ public class HabboAchievementsFactory {
             if(result == null) return;
 
             final String achievementName = result.getString("achievement_name");
-            final int progressValue = result.getInt("progress");
+            final int currentProgress = result.getInt("progress");
 
             final IAchievement achievement = this.achievementManager.getAchievement(achievementName);
 
-            final IAchievementLevel currentLevel = this.achievementManager.getCurrentLevel(achievement, progressValue);
-            final IAchievementLevel nextLevel = this.achievementManager.getNextLevel(achievement, progressValue);
+            final IAchievementLevel currentLevel = this.achievementManager.getCurrentLevel(achievement, currentProgress);
+            final IAchievementLevel nextLevel = this.achievementManager.getNextLevel(achievement, currentLevel == null ? 0 : currentLevel.getLevel());
 
-            achievementProgress.putIfAbsent(achievementName, new HabboAchievementProgress(progressValue, currentLevel, nextLevel));
+            achievementProgress.putIfAbsent(achievementName, new HabboAchievementProgress(currentProgress, currentLevel, nextLevel));
         }, habboId);
 
         return new HabboAchievements(achievementProgress);

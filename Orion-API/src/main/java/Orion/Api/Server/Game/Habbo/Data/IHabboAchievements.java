@@ -7,5 +7,5 @@ import gnu.trove.map.hash.THashMap;
 public interface IHabboAchievements {
     THashMap<String, IHabboAchievementProgress> getAchievementProgressions();
 
-    IHabboAchievementProgress getProgressByAchievementName(String achievementName);
+    IHabboAchievementProgress getProgressByAchievement(final IAchievement achievement);
 }

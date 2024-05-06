@@ -20,7 +20,11 @@ public class HabboAchievements implements IHabboAchievements {
     }
 
     @Override
-    public IHabboAchievementProgress getProgressByAchievementName(String achievementName) {
-        return this.achievementProgress.get(achievementName);
+    public IHabboAchievementProgress getProgressByAchievement(final IAchievement achievement) {
+        if(!this.achievementProgress.containsKey(achievement.getName())) {
+            return achievement.getFirstProgress();
+        }
+
+        return this.achievementProgress.get(achievement.getName());
     }
 }

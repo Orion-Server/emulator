@@ -5,6 +5,7 @@ import Orion.Api.Server.Game.Achievement.Data.IAchievementLevel;
 import Orion.Api.Server.Game.Achievement.Enum.AchievementCategory;
 import Orion.Api.Server.Game.Habbo.Data.Achievement.IHabboAchievementProgress;
 import Orion.Api.Storage.Result.IConnectionResult;
+import Orion.Game.Habbo.Data.Achievement.HabboAchievementProgress;
 import gnu.trove.map.hash.THashMap;
 
 public class Achievement implements IAchievement {
@@ -12,6 +13,8 @@ public class Achievement implements IAchievement {
     private String name;
     private AchievementCategory category;
     private final THashMap<Integer, IAchievementLevel> levels;
+
+    private final IHabboAchievementProgress firstProgress;
 
     public Achievement(final IConnectionResult data) {
         this.levels = new THashMap<>();
@@ -21,6 +24,8 @@ public class Achievement implements IAchievement {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        this.firstProgress = new HabboAchievementProgress(-1, null, this.getLevel(1));
     }
 
     @Override
@@ -75,9 +80,16 @@ public class Achievement implements IAchievement {
     }
 
     @Override
+    public IHabboAchievementProgress getFirstProgress() {
+        return this.firstProgress;
+    }
+
+    @Override
     public void fill(IConnectionResult data) throws Exception {
         this.id = data.getInt("id");
         this.name = data.getString("name");
         this.category = AchievementCategory.valueOf(data.getString("category").toUpperCase());
+
+        this.addLevel(new AchievementLevel(data));
     }
 }

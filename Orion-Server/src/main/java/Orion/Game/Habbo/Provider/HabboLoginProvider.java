@@ -3,6 +3,7 @@ package Orion.Game.Habbo.Provider;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
+import Orion.Api.Server.Game.Achievement.IAchievementManager;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Habbo.IHabboManager;
 import Orion.Api.Server.Game.Habbo.Provider.IHabboLoginProvider;
@@ -46,6 +47,9 @@ public class HabboLoginProvider implements IHabboLoginProvider {
 
     @Inject
     private IEmulatorDatabaseSettings databaseSettings;
+
+    @Inject
+    private IAchievementManager achievementManager;
 
     @Override
     public boolean canLogin(final ISession session, String authTicket) {
@@ -105,7 +109,7 @@ public class HabboLoginProvider implements IHabboLoginProvider {
         composers.add(new CampaignCalendarDataComposer());
         composers.add(new HabboClubComposer());
         composers.add(new UpdateInventoryComposer());
-        composers.add(new InventoryAchievementsComposer());
+        composers.add(new InventoryAchievementsComposer(this.achievementManager));
         composers.add(new HabboHomeRoomComposer(habbo));
 
         habbo.getSession().send(composers);

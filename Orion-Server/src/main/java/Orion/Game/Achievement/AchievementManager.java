@@ -8,7 +8,6 @@ import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Storage.Repository.Achievement.IAchievementRepository;
 import Orion.Game.Achievement.Data.Achievement;
 import Orion.Game.Achievement.Data.AchievementLevel;
-import Orion.Game.Habbo.Data.Achievement.HabboAchievementProgress;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import gnu.trove.map.hash.THashMap;
@@ -19,8 +18,6 @@ import org.apache.logging.log4j.Logger;
 public class AchievementManager implements IAchievementManager {
     private final Logger logger = LogManager.getLogger();
 
-    private final IHabboAchievementProgress emptyAchievementProgress;
-
     @Inject
     private IAchievementRepository repository;
 
@@ -28,8 +25,6 @@ public class AchievementManager implements IAchievementManager {
 
     public AchievementManager() {
         this.achievements = new THashMap<>();
-
-        this.emptyAchievementProgress = new HabboAchievementProgress(0, null, null);
     }
 
     @Override
@@ -48,11 +43,8 @@ public class AchievementManager implements IAchievementManager {
     }
 
     @Override
-    public boolean achievementCompleted(
-            final IHabbo habbo,
-            final IAchievement achievement
-    ) {
-        final IHabboAchievementProgress progress = habbo.getAchievements().getProgressByAchievementName(achievement.getName());
+    public boolean achievementCompleted(final IHabbo habbo, final IAchievement achievement) {
+        final IHabboAchievementProgress progress = habbo.getAchievements().getProgressByAchievement(achievement);
 
         if(progress == null || progress.getCurrentProgress() < 0) return false;
 
@@ -69,23 +61,28 @@ public class AchievementManager implements IAchievementManager {
     public IAchievementLevel getCurrentLevel(IAchievement achievement, int progress) {
         if(progress <= 0) return null;
 
-        return achievement.getLevels().values().stream()
-                .filter(achievementProgress -> achievementProgress.getLevel() >= progress)
-                .findFirst()
-                .orElse(null);
+        IAchievementLevel currentLevel = null;
+
+        for(final IAchievementLevel level : achievement.getLevels().values()) {
+            if(progress < level.getProgressNeeded()) continue;
+
+            if(currentLevel != null && currentLevel.getLevel() > level.getLevel()) continue;
+
+            currentLevel = level;
+        }
+
+        return currentLevel;
     }
 
     @Override
-    public IAchievementLevel getNextLevel(IAchievement achievement, int progress) {
-        return achievement.getLevels().values().stream()
-                .filter(achievementProgress -> achievementProgress.getLevel() == (progress + 1))
-                .findFirst()
-                .orElse(null);
-    }
+    public IAchievementLevel getNextLevel(IAchievement achievement, int currentProgress) {
+        for (final IAchievementLevel level : achievement.getLevels().values()) {
+            if (level.getLevel() != (currentProgress + 1)) continue;
 
-    @Override
-    public IHabboAchievementProgress getEmptyAchievementProgress() {
-        return this.emptyAchievementProgress;
+            return level;
+        }
+
+        return null;
     }
 
     private void loadAchievements() {

@@ -6,7 +6,7 @@ import Orion.Api.Server.Game.Habbo.Data.Achievement.IHabboAchievementProgress;
 public class HabboAchievementProgress implements IHabboAchievementProgress {
     private final int currentProgress;
     private final IAchievementLevel currentLevel;
-    private IAchievementLevel nextLevel;
+    private final IAchievementLevel nextLevel;
 
     public HabboAchievementProgress(
             final int currentProgress,
@@ -16,10 +16,6 @@ public class HabboAchievementProgress implements IHabboAchievementProgress {
         this.currentProgress = currentProgress;
         this.currentLevel = currentLevel;
         this.nextLevel = nextLevel;
-
-        if(this.nextLevel == null) {
-            this.nextLevel = this.currentLevel;
-        }
     }
 
     @Override

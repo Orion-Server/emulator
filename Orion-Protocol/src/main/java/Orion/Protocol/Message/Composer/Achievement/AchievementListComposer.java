@@ -17,11 +17,7 @@ public class AchievementListComposer extends MessageComposer {
         appendInt(achievementManager.getAchievements().size());
 
         for (final IAchievement achievement : achievementManager.getAchievements().values()) {
-            IHabboAchievementProgress progress = habbo.getAchievements().getProgressByAchievementName(achievement.getName());
-
-            if(progress == null) {
-                progress = achievementManager.getEmptyAchievementProgress();
-            }
+            final IHabboAchievementProgress progress = habbo.getAchievements().getProgressByAchievement(achievement);
 
             appendInt(achievement.getId());
             appendInt(progress.getCurrentLevel());
