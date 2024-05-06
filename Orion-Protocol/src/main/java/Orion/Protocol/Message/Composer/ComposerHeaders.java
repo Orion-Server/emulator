@@ -34,4 +34,5 @@ public abstract class ComposerHeaders {
     public static int AchievementListComposer = 305;
     public static int HabboCreditsComposer = 3475;
     public static int HabboCurrenciesComposer = 2018;
+    public static int CameraConfigurationComposer = 3878;
 }

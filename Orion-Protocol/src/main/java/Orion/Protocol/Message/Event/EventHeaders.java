@@ -22,4 +22,7 @@ public abstract class EventHeaders {
 
     // Achievement
     public static final int RequestAchievementsEvent = 219;
+
+    // Camera
+    public static final int RequestCameraConfigurationEvent = 796;
 }
