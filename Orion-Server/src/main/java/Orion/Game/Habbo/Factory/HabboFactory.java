@@ -35,11 +35,12 @@ public class HabboFactory {
             final int habboId = databaseData.getInt("id");
 
             final IHabboData data = new HabboData(databaseData);
-            final IHabboSettings settings = new HabboSettings(databaseData);
             final IHabboInventory inventory = new HabboInventory();
-            final IHabboNavigator navigator = this.habboNavigatorFactory.create(databaseData);
-            final IHabboCurrencies currencies = this.habboCurrenciesFactory.create(habboId);
+            final IHabboSettings settings = new HabboSettings(databaseData);
+
             final IHabboRooms rooms = this.habboRoomsFactory.create(habboId);
+            final IHabboCurrencies currencies = this.habboCurrenciesFactory.create(habboId);
+            final IHabboNavigator navigator = this.habboNavigatorFactory.create(databaseData);
             final IHabboAchievements achievements = this.habboAchievementsFactory.create(habboId);
 
             this.injector.injectMembers(inventory);

@@ -3,7 +3,9 @@ package Orion.Networking.Session;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Networking.Session.ISessionManager;
 import Orion.Api.Networking.Session.Throttle.IAddressAttempt;
+import Orion.Api.Server.Game.Habbo.IHabboManager;
 import Orion.Networking.Session.Throttle.AddressAttempt;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
@@ -25,10 +27,13 @@ public class SessionManager implements ISessionManager {
 
     private final AtomicInteger sessionId;
 
+    @Inject
+    private IHabboManager habboManager;
+
     public SessionManager() {
+        this.sessionId = new AtomicInteger();
         this.sessions = new ConcurrentHashMap<>();
         this.connectionAttempts = new ConcurrentHashMap<>();
-        this.sessionId = new AtomicInteger();
 
         this.channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     }
@@ -59,5 +64,16 @@ public class SessionManager implements ISessionManager {
     @Override
     public void removeSession(ISession session) {
         this.sessions.remove(session.getId());
+    }
+
+    @Override
+    public void disposeSession(ISession session) {
+        if(session.getHabbo() != null) {
+            this.habboManager.disposeHabbo(session.getHabbo());
+        }
+
+        session.disconnect();
+
+        this.removeSession(session);
     }
 }

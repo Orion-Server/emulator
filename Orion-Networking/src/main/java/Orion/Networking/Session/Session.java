@@ -22,7 +22,7 @@ public class Session implements ISession {
 
     private String machineId = null;
 
-    private String ipAddress;
+    private final String ipAddress;
 
     private IHabbo habbo;
 
@@ -44,12 +44,8 @@ public class Session implements ISession {
 
     @Override
     public void disconnect() {
-        this.onDisconnect();
+        this.setHabbo(null);
         this.getChannel().disconnect();
-    }
-
-    private void onDisconnect() {
-        // TODO: implement onDisconnect
     }
 
     @Override
@@ -94,7 +90,7 @@ public class Session implements ISession {
                 this.getChannel().close();
                 break;
             case WRITER_IDLE:
-                this.getChannel().writeAndFlush(new MessageComposer(3928)); // TODO: Maybe have a way to solve the module cycles?
+                this.getChannel().writeAndFlush(new MessageComposer(3928)); // TODO: Maybe have a way to solve the module cycles issue?
                 break;
         }
     }

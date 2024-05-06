@@ -12,6 +12,7 @@ public abstract class EventHeaders {
 
     // Habbo
     public static final int RequestHabboDataEvent = 357;
+    public static final int RequestHabboProfileEvent = 3265;
 
     // Achievement
     public static final int RequestAchievementsEvent = 219;

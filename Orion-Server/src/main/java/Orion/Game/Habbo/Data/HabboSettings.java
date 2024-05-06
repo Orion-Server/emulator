@@ -282,4 +282,9 @@ public class HabboSettings implements IHabboSettings {
         this.lastHCPayday = result.getInt("last_hc_payday");
         this.hcGiftsClaimed = result.getInt("hc_gifts_claimed");
     }
+
+    @Override
+    public void dispose() {
+        this.tags = null;
+    }
 }

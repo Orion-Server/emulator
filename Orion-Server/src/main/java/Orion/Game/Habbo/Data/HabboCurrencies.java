@@ -5,7 +5,7 @@ import Orion.Api.Server.Game.Habbo.Data.IHabboCurrencies;
 import gnu.trove.map.hash.THashMap;
 
 public class HabboCurrencies implements IHabboCurrencies {
-    private final THashMap<CurrencyType, Integer> currencies;
+    private THashMap<CurrencyType, Integer> currencies;
 
     public HabboCurrencies() {
         this.currencies = new THashMap<>();
@@ -34,5 +34,11 @@ public class HabboCurrencies implements IHabboCurrencies {
     @Override
     public THashMap<CurrencyType, Integer> getCurrencies() {
         return this.currencies;
+    }
+
+    @Override
+    public void dispose() {
+        this.currencies.clear();
+        this.currencies = null;
     }
 }

@@ -62,8 +62,7 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
             return;
         }
 
-        session.disconnect();
-        this.sessionManager.removeSession(session);
+        this.sessionManager.disposeSession(session);
     }
 
     @Override

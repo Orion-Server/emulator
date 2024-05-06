@@ -3,17 +3,21 @@ package Orion.Game.Habbo;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Server.Game.Habbo.Data.*;
 import Orion.Api.Server.Game.Habbo.IHabbo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Habbo implements IHabbo {
+    private final Logger logger;
+
     private ISession session;
 
-    private final IHabboData data;
-    private final IHabboSettings settings;
-    private final IHabboInventory inventory;
-    private final IHabboNavigator navigator;
-    private final IHabboRooms rooms;
-    private final IHabboCurrencies currencies;
-    private final IHabboAchievements achievements;
+    private IHabboData data;
+    private IHabboSettings settings;
+    private IHabboInventory inventory;
+    private IHabboNavigator navigator;
+    private IHabboRooms rooms;
+    private IHabboCurrencies currencies;
+    private IHabboAchievements achievements;
 
     public Habbo(
             final IHabboData data,
@@ -31,6 +35,8 @@ public class Habbo implements IHabbo {
         this.rooms = rooms;
         this.currencies = currencies;
         this.achievements = achievements;
+
+        this.logger = LogManager.getLogger(STR."[\{this.data.getUsername()}]");
     }
 
     @Override
@@ -76,5 +82,27 @@ public class Habbo implements IHabbo {
     @Override
     public IHabboAchievements getAchievements() {
         return this.achievements;
+    }
+
+    @Override
+    public void onDisconnect() {
+        this.logger.debug("Just left the game.");
+
+        this.data = null;
+
+        this.settings.dispose();
+        this.settings = null;
+
+        this.navigator.dispose();
+        this.navigator = null;
+
+        this.rooms.dispose();
+        this.rooms = null;
+
+        this.currencies.dispose();
+        this.currencies = null;
+
+        this.achievements.dispose();
+        this.achievements = null;
     }
 }

@@ -15,9 +15,6 @@ public class HabboData implements IHabboData {
     private String gender;
     private int rank;
     private int credits;
-    private int pixels;
-    private int diamonds;
-    private int seasonalPoints;
     private boolean isOnline;
     private String authTicket;
     private String registerIp;
@@ -89,21 +86,6 @@ public class HabboData implements IHabboData {
     }
 
     @Override
-    public int getPixels() {
-        return this.pixels;
-    }
-
-    @Override
-    public int getDiamonds() {
-        return this.diamonds;
-    }
-
-    @Override
-    public int getSeasonalPoints() {
-        return this.seasonalPoints;
-    }
-
-    @Override
     public boolean isOnline() {
         return this.isOnline;
     }
@@ -152,8 +134,5 @@ public class HabboData implements IHabboData {
         this.currentIp = result.getString("ip_current");
         this.machineId = result.getString("machine_id");
         this.homeRoom = result.getInt("home_room");
-        this.pixels = 0;
-        this.diamonds = 0;
-        this.seasonalPoints = 0;
     }
 }

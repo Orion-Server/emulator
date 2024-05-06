@@ -11,4 +11,6 @@ public interface ISessionManager {
     IAddressAttempt getConnectionAttempt(String address);
 
     void removeSession(ISession session);
+
+    void disposeSession(ISession session);
 }

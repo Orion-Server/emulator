@@ -12,11 +12,11 @@ import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
 
 public class HabboNavigator implements IHabboNavigator {
-    private final THashSet<IHabboNavigatorSearch> navigatorSearches;
+    private THashSet<IHabboNavigatorSearch> navigatorSearches;
 
-    private final IHabboNavigatorWindowSetting navigatorWindowSettings;
+    private IHabboNavigatorWindowSetting navigatorWindowSettings;
 
-    private final THashMap<String, IHabboNavigatorCategorySetting> navigatorCategoriesSettings;
+    private THashMap<String, IHabboNavigatorCategorySetting> navigatorCategoriesSettings;
 
     public HabboNavigator(IConnectionResult data) {
         this.navigatorSearches = new THashSet<>();
@@ -95,5 +95,15 @@ public class HabboNavigator implements IHabboNavigator {
         }
 
         return searches;
+    }
+
+    @Override
+    public void dispose() {
+        this.navigatorSearches.clear();
+        this.navigatorCategoriesSettings.clear();
+
+        this.navigatorSearches = null;
+        this.navigatorWindowSettings = null;
+        this.navigatorCategoriesSettings = null;
     }
 }

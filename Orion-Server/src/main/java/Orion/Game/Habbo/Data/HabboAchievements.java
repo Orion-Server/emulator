@@ -6,11 +6,9 @@ import Orion.Api.Server.Game.Habbo.Data.IHabboAchievements;
 import gnu.trove.map.hash.THashMap;
 
 public class HabboAchievements implements IHabboAchievements {
-    private final THashMap<String, IHabboAchievementProgress> achievementProgress;
+    private THashMap<String, IHabboAchievementProgress> achievementProgress;
 
-    public HabboAchievements(
-            final THashMap<String, IHabboAchievementProgress> achievementProgress
-    ) {
+    public HabboAchievements(final THashMap<String, IHabboAchievementProgress> achievementProgress) {
         this.achievementProgress = achievementProgress;
     }
 
@@ -26,5 +24,11 @@ public class HabboAchievements implements IHabboAchievements {
         }
 
         return this.achievementProgress.get(achievement.getName());
+    }
+
+    @Override
+    public void dispose() {
+        this.achievementProgress.clear();
+        this.achievementProgress = null;
     }
 }

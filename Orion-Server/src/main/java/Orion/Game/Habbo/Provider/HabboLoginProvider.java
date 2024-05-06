@@ -2,6 +2,7 @@ package Orion.Game.Habbo.Provider;
 
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Networking.Session.ISession;
+import Orion.Api.Networking.Session.ISessionManager;
 import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
 import Orion.Api.Server.Game.Achievement.IAchievementManager;
 import Orion.Api.Server.Game.Habbo.IHabbo;
@@ -40,7 +41,10 @@ public class HabboLoginProvider implements IHabboLoginProvider {
     private IHabboRepository repository;
 
     @Inject
-    private IHabboManager manager;
+    private IHabboManager habboManager;
+
+    @Inject
+    private ISessionManager sessionManager;
 
     @Inject
     private HabboFactory factory;
@@ -69,14 +73,14 @@ public class HabboLoginProvider implements IHabboLoginProvider {
             return false;
         }
 
-        return !this.manager.hasLoggedHabboById(habboId.get());
+        return !this.habboManager.hasLoggedHabboById(habboId.get());
     }
 
     @Override
     public void attemptLogin(final ISession session, String authTicket) {
         this.repository.getHabboDataByAuthTicket(result -> {
             if(result == null) {
-                session.disconnect();
+                this.sessionManager.disposeSession(session);
                 return;
             }
 
@@ -84,6 +88,8 @@ public class HabboLoginProvider implements IHabboLoginProvider {
 
             session.setHabbo(habbo);
             habbo.setSession(session);
+
+            this.habboManager.addHabbo(habbo);
 
             this.sendLoginComposers(habbo);
         }, authTicket);

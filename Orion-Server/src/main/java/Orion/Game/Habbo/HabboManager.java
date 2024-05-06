@@ -14,8 +14,26 @@ public class HabboManager implements IHabboManager {
         this.connectedHabbos = new ConcurrentHashMap<>();
     }
 
+    @Override
     public void addHabbo(IHabbo habbo) {
-//        this.connectedHabbos.putIfAbsent(habbo.getId(), habbo);
+        this.connectedHabbos.putIfAbsent(habbo.getData().getId(), habbo);
+    }
+
+    @Override
+    public void removeHabbo(IHabbo habbo) {
+        this.connectedHabbos.remove(habbo.getData().getId());
+    }
+
+    @Override
+    public void disposeHabbo(IHabbo habbo) {
+        this.removeHabbo(habbo);
+
+        habbo.onDisconnect();
+    }
+
+    @Override
+    public IHabbo getConnectedHabboById(int habboId) {
+        return this.connectedHabbos.get(habboId);
     }
 
     @Override

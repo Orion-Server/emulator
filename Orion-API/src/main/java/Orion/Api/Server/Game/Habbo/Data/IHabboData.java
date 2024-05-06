@@ -19,12 +19,6 @@ public interface IHabboData extends IFillable {
 
     int getCredits();
 
-    int getPixels();
-
-    int getDiamonds();
-
-    int getSeasonalPoints();
-
     String getAccountCreated();
 
     String getLastLogin();

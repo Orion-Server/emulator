@@ -22,4 +22,5 @@ public interface IHabbo {
 
     IHabboAchievements getAchievements();
 
+    void onDisconnect();
 }

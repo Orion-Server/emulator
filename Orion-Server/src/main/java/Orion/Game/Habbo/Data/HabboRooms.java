@@ -5,13 +5,13 @@ import Orion.Api.Server.Game.Room.IRoom;
 import gnu.trove.map.hash.THashMap;
 
 public class HabboRooms implements IHabboRooms {
-    private final THashMap<Integer, IRoom> ownRooms;
+    private THashMap<Integer, IRoom> ownRooms;
 
-    private final THashMap<Integer, IRoom> roomHistory;
+    private THashMap<Integer, IRoom> roomHistory;
 
-    private final THashMap<Integer, IRoom> favoriteRooms;
+    private THashMap<Integer, IRoom> favoriteRooms;
 
-    private final THashMap<Integer, IRoom> roomsWithRights;
+    private THashMap<Integer, IRoom> roomsWithRights;
 
     public HabboRooms() {
         this.ownRooms = new THashMap<>();
@@ -66,5 +66,18 @@ public class HabboRooms implements IHabboRooms {
     @Override
     public THashMap<Integer, IRoom> getRoomsWithRights() {
         return this.roomsWithRights;
+    }
+
+    @Override
+    public void dispose() {
+        this.ownRooms.clear();
+        this.roomHistory.clear();
+        this.favoriteRooms.clear();
+        this.roomsWithRights.clear();
+
+        this.ownRooms = null;
+        this.roomHistory = null;
+        this.favoriteRooms = null;
+        this.roomsWithRights = null;
     }
 }

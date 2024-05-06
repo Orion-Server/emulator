@@ -1,8 +1,9 @@
 package Orion.Api.Server.Game.Habbo.Data;
 
+import Orion.Api.Util.IDisposable;
 import Orion.Api.Util.IFillable;
 
-public interface IHabboSettings extends IFillable {
+public interface IHabboSettings extends IFillable, IDisposable {
     int getRespectPointsReceived();
 
     int getAchievementScore();

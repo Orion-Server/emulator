@@ -5,10 +5,11 @@ import Orion.Api.Server.Game.Habbo.Data.Navigator.IHabboNavigatorSearch;
 import Orion.Api.Server.Game.Habbo.Data.Navigator.IHabboNavigatorWindowSetting;
 import Orion.Api.Server.Game.Navigator.Enums.NavigatorDisplayMode;
 import Orion.Api.Server.Game.Navigator.Enums.NavigatorLayoutDisplay;
+import Orion.Api.Util.IDisposable;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
 
-public interface IHabboNavigator {
+public interface IHabboNavigator extends IDisposable {
     void setNavigatorSearches(THashSet<IHabboNavigatorSearch> navigatorSearches);
 
     void setNavigatorCategoriesSettings(THashMap<String, IHabboNavigatorCategorySetting> navigatorCategoriesSettings);
