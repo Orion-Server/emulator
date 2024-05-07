@@ -4,7 +4,9 @@ import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
 import Orion.Api.Server.Core.Configuration.IEmulatorEnvironmentSettings;
 import Orion.Api.Server.Game.Achievement.IAchievementManager;
 import Orion.Api.Server.Game.HotelView.IHotelViewManager;
+import Orion.Api.Server.Game.Navigator.INavigatorManager;
 import Orion.Api.Server.Game.Permission.IPermissionManager;
+import Orion.Api.Server.Game.Room.IRoomManager;
 import Orion.Api.Server.Task.IThreadManager;
 import Orion.Api.Storage.Connector.IConnector;
 import Orion.Boot.Utils.EmulatorRuntimeVariables;
@@ -43,6 +45,12 @@ public class EmulatorStartModule {
     @Inject
     private IHotelViewManager hotelViewManager;
 
+    @Inject
+    private INavigatorManager navigatorManager;
+
+    @Inject
+    private IRoomManager roomManager;
+
     public void start() {
         this.versioning.showFullVersionWithWebsite();
 
@@ -67,5 +75,7 @@ public class EmulatorStartModule {
         this.permissionManager.initialize();
         this.achievementManager.initialize();
         this.hotelViewManager.initialize();
+        this.roomManager.initialize();
+        this.navigatorManager.initialize();
     }
 }

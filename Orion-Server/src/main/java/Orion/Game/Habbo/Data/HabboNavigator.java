@@ -11,6 +11,9 @@ import Orion.Game.Habbo.Data.Navigator.HabboNavigatorWindowSetting;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HabboNavigator implements IHabboNavigator {
     private THashSet<IHabboNavigatorSearch> navigatorSearches;
 
@@ -85,8 +88,8 @@ public class HabboNavigator implements IHabboNavigator {
     }
 
     @Override
-    public THashSet<IHabboNavigatorSearch> getNavigatorSearchForTab(String tabName) {
-        final THashSet<IHabboNavigatorSearch> searches = new THashSet<>();
+    public List<IHabboNavigatorSearch> getNavigatorSearchForTab(String tabName) {
+        final List<IHabboNavigatorSearch> searches = new ArrayList<>();
 
         for (final IHabboNavigatorSearch search : this.navigatorSearches) {
             if(search.getSearchCode().equals(tabName)) {

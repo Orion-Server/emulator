@@ -39,4 +39,10 @@ public abstract class ComposerHeaders {
     public static int HallOfFameComposer = 3005;
     public static int HotelViewArticlesComposer = 286;
     public static int NavigatorSettingsComposer = 518;
+    public static int NavigatorLiftedRoomsComposer = 3104;
+    public static int NavigatorCollapsedCategoriesComposer = 1543;
+    public static int CanCreateRoomComposer = 378;
+    public static int NavigatorSearchResultsComposer = 2690;
+    public static int NavigatorMetaDataComposer = 3052;
+    public static int NavigatorEventCategoriesComposer = 3244;
 }

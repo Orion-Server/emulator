@@ -29,4 +29,9 @@ public abstract class EventHeaders {
 
     // HotelView
     public static final int RequestPromoArticlesEvent = 1827;
+
+    // Navigator
+    public static final int RequestNavigatorDataEvent = 2110;
+    public static final int RequestNavigatorRoomsEvent = 249;
+    public static final int RequestCanCreateRoomEvent = 2128;
 }

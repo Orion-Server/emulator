@@ -40,6 +40,12 @@
             <artifactId>Orion-Protocol</artifactId>
             <version>0.1-ALPHA</version>
         </dependency>
+
+        <dependency>
+            <groupId>Orion</groupId>
+            <artifactId>Orion-Writer</artifactId>
+            <version>0.1-ALPHA</version>
+        </dependency>
     </dependencies>
 
     <build>

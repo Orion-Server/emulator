@@ -1,7 +1,9 @@
 package Orion.Game.Habbo.Data.Navigator;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.Data.Navigator.IHabboNavigatorSearch;
 import Orion.Api.Storage.Result.IConnectionResult;
+import Orion.Writer.Habbo.Navigator.HabboNavigatorSearchWriter;
 
 public class HabboNavigatorSearch implements IHabboNavigatorSearch {
     private String searchCode;
@@ -29,6 +31,10 @@ public class HabboNavigatorSearch implements IHabboNavigatorSearch {
     @Override
     public int getId() {
         return this.id;
+    }
+
+    public void write(final IMessageComposer composer) {
+        HabboNavigatorSearchWriter.write(this, composer);
     }
 
     @Override

@@ -9,6 +9,8 @@ import Orion.Api.Util.IDisposable;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
 
+import java.util.List;
+
 public interface IHabboNavigator extends IDisposable {
     void setNavigatorSearches(THashSet<IHabboNavigatorSearch> navigatorSearches);
 
@@ -28,5 +30,5 @@ public interface IHabboNavigator extends IDisposable {
 
     NavigatorLayoutDisplay getLayoutDisplayForCategory(String name, NavigatorLayoutDisplay defaultLayout);
 
-    THashSet<IHabboNavigatorSearch> getNavigatorSearchForTab(String tabName);
+    List<IHabboNavigatorSearch> getNavigatorSearchForTab(String tabName);
 }
