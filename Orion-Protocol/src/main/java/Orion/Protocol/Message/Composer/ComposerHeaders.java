@@ -38,4 +38,5 @@ public abstract class ComposerHeaders {
     public static int HotelViewCampaignComposer = 1745;
     public static int HallOfFameComposer = 3005;
     public static int HotelViewArticlesComposer = 286;
+    public static int NavigatorSettingsComposer = 518;
 }

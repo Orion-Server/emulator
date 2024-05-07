@@ -35,4 +35,6 @@ public interface ISession {
     void setHabbo(IHabbo habbo);
 
     IHabbo getHabbo();
+
+    boolean isAuthenticated();
 }

@@ -15,6 +15,7 @@ public abstract class EventHeaders {
     public static final int RequestHabboDataEvent = 357;
     public static final int RequestHabboProfileEvent = 3265;
     public static final int RequestHabboCurrenciesEvent = 273;
+    public static final int RequestNavigatorSettingsEvent = 1782;
 
     // Messenger
     public static final int InitializeMessengerEvent = 2781;

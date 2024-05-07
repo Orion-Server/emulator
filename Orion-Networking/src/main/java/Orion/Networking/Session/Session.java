@@ -84,6 +84,11 @@ public class Session implements ISession {
     }
 
     @Override
+    public boolean isAuthenticated() {
+        return this.habbo != null && this.channel.channel().isOpen();
+    }
+
+    @Override
     public void handleIdleStateEvent(IdleStateEvent event) {
         switch (event.state()) {
             case READER_IDLE:

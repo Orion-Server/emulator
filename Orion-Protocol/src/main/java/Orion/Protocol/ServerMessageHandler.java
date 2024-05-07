@@ -2,10 +2,11 @@ package Orion.Protocol;
 
 import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
+import Orion.Api.Networking.Session.ISessionManager;
 import Orion.Api.Protocol.IServerMessageHandler;
 import Orion.Api.Protocol.Message.Event.IMessageEventProvider;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
-import Orion.Api.Protocol.Parser.IEventParserProvider;
+import Orion.Protocol.Annotations.HandshakeEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
@@ -17,15 +18,15 @@ public class ServerMessageHandler implements IServerMessageHandler {
 
     private final IMessageEventProvider messageEventProvider;
 
-    private final IEventParserProvider eventParserProvider;
+    private final ISessionManager sessionManager;
 
     @Inject
     public ServerMessageHandler(
             final IMessageEventProvider messageEventProvider,
-            final IEventParserProvider eventParserProvider
+            final ISessionManager sessionManager
     ) {
         this.messageEventProvider = messageEventProvider;
-        this.eventParserProvider = eventParserProvider;
+        this.sessionManager = sessionManager;
     }
 
     @Override
@@ -40,7 +41,11 @@ public class ServerMessageHandler implements IServerMessageHandler {
                 return;
             }
 
-            // TODO: Verify if the message is not a handshake event and the session is not authenticated
+            if(!session.isAuthenticated() && !messageEventHandler.getClass().isAnnotationPresent(HandshakeEvent.class)) {
+                this.logger.warn(STR."[\{headerId}] Received handshake event without being authenticated.");
+                this.sessionManager.disposeSession(session);
+                return;
+            }
 
             final long startTime = System.currentTimeMillis();
 
