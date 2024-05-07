@@ -26,7 +26,8 @@ public class EmulatorContainer implements IEmulatorContainer {
                 new RoomModule(),
                 new PermissionModule(),
                 new AchievementModule(),
-                new MessengerModule()
+                new MessengerModule(),
+                new HotelViewModule()
         );
 
         this.inject(this.emulator);

@@ -25,4 +25,7 @@ public abstract class EventHeaders {
 
     // Camera
     public static final int RequestCameraConfigurationEvent = 796;
+
+    // HotelView
+    public static final int RequestPromoArticlesEvent = 1827;
 }
