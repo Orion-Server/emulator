@@ -46,6 +46,8 @@ public class Pathfinder {
         if (object.getPosition().equals(endPosition)) {
             return paths;
         }
+
+        return paths;
     }
 
     public PathfinderNode findReversedPath(
@@ -71,5 +73,7 @@ public class Pathfinder {
 
         map[current.getPosition().getX()][current.getPosition().getY()] = current;
         openList.add(current);
+
+        return null;
     }
 }
