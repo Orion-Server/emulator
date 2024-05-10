@@ -10,7 +10,7 @@ import Orion.Game.Habbo.Data.Messenger.MessengerCategory;
 import Orion.Game.Habbo.Data.Messenger.MessengerFriend;
 import Orion.Game.Habbo.Data.Messenger.MessengerFriendRequest;
 import Orion.Game.Habbo.Data.Messenger.MessengerFriendsPage;
-import Orion.Game.Habbo.HabboMessenger;
+import Orion.Game.Habbo.Data.HabboMessenger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import gnu.trove.set.hash.THashSet;

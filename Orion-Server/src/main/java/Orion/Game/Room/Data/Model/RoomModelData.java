@@ -4,10 +4,10 @@ import Orion.Api.Server.Game.Room.Data.Model.IRoomModelData;
 import Orion.Api.Storage.Result.IConnectionResult;
 
 public class RoomModelData implements IRoomModelData {
-    private int doorX;
-    private int doorY;
     private String name;
     private String heightMap;
+    private int doorX;
+    private int doorY;
     private int doorDirection;
 
     public RoomModelData(IConnectionResult data) {
@@ -20,27 +20,32 @@ public class RoomModelData implements IRoomModelData {
 
     @Override
     public int getDoorX() {
-        return doorX;
+        return this.doorX;
     }
 
     @Override
     public int getDoorY() {
-        return doorY;
+        return this.doorY;
     }
 
     @Override
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public String getHeightMap() {
-        return heightMap;
+        return this.heightMap;
+    }
+
+    @Override
+    public String getRelativeHeightMap() {
+        return this.heightMap.replace("\r\n", "\r");
     }
 
     @Override
     public int getDoorDirection() {
-        return doorDirection;
+        return this.doorDirection;
     }
 
     @Override

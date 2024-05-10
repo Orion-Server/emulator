@@ -3,7 +3,7 @@ package Orion.Game.Habbo.Factory;
 import Orion.Api.Server.Game.Habbo.Data.IHabboRooms;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.IRoomManager;
-import Orion.Api.Server.Game.Utils.TimeUtil;
+import Orion.Api.Server.Game.Util.TimeUtil;
 import Orion.Api.Storage.Repository.Habbo.IHabboRoomsRepository;
 import Orion.Game.Habbo.Data.HabboRooms;
 import Orion.Game.Room.Factory.RoomFactory;

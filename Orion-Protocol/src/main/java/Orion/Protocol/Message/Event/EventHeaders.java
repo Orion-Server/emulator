@@ -34,4 +34,12 @@ public abstract class EventHeaders {
     public static final int RequestNavigatorDataEvent = 2110;
     public static final int RequestNavigatorRoomsEvent = 249;
     public static final int RequestCanCreateRoomEvent = 2128;
+
+    // Room
+    public static final int JoinRoomEvent = 685;
+    public static final int RequestRoomLoadEvent = 2312;
+    public static final int RequestRoomCategoriesEvent = 3027;
+    public static final int RequestRoomDataEvent = 2230;
+    public static final int RequestHeightmapEvent = 3898;
+    public static final int RequestRoomHeightmapEvent = 2300;
 }

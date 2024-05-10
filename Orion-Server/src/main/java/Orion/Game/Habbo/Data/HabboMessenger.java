@@ -1,4 +1,4 @@
-package Orion.Game.Habbo;
+package Orion.Game.Habbo.Data;
 
 import Orion.Api.Server.Game.Habbo.Data.IHabboMessenger;
 import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerCategory;

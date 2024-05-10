@@ -12,4 +12,6 @@ public interface IRoomModelData extends IFillable {
     String getHeightMap();
 
     int getDoorDirection();
+
+    String getRelativeHeightMap();
 }

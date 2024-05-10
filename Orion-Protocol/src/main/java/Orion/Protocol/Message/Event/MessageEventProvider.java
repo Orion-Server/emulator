@@ -40,18 +40,22 @@ public class MessageEventProvider implements IMessageEventProvider {
         }
     }
 
+    @Override
     public IMessageEventHandler getMessageEventByHeaderId(int headerId) {
         return this.messageEventList.get(headerId);
     }
 
+    @Override
     public THashMap<Integer, IMessageEventHandler> getMessageEventList() {
         return this.messageEventList;
     }
 
+    @Override
     public boolean containsMessageEvent(int headerId) {
         return this.messageEventList.containsKey(headerId);
     }
 
+    @Override
     public void reloadMessageEvents() {
         this.messageEventList.clear();
         this.loadMessageEvents();

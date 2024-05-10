@@ -38,6 +38,7 @@ public abstract class ComposerHeaders {
     public static int HotelViewCampaignComposer = 1745;
     public static int HallOfFameComposer = 3005;
     public static int HotelViewArticlesComposer = 286;
+    public static int GoToHotelViewMessageComposer = 122;
     public static int NavigatorSettingsComposer = 518;
     public static int NavigatorLiftedRoomsComposer = 3104;
     public static int NavigatorCollapsedCategoriesComposer = 1543;
@@ -45,4 +46,28 @@ public abstract class ComposerHeaders {
     public static int NavigatorSearchResultsComposer = 2690;
     public static int NavigatorMetaDataComposer = 3052;
     public static int NavigatorEventCategoriesComposer = 3244;
+    public static int RoomOpenComposer = 758;
+    public static int RoomModelComposer = 2031;
+    public static int RoomRelativeMapComposer = 2753;
+    public static int RoomHeightmapComposer = 1301;
+    public static int RoomCategoriesComposer = 1562;
+    public static int RoomDataComposer = 687;
+    public static int RemoveHabboEntityComposer = 2661;
+    public static int RequestRoomAccessComposer = 3783;
+    public static int RoomAccessErrorComposer = 899;
+    public static int GenericErrorComposer = 1600;
+    public static int RoomAccessDeniedComposer = 878;
+    public static int AddHabboToDoorbellComposer = 2309;
+    public static int RoomPaintComposer = 2454;
+    public static int RoomRightsComposer = 780;
+    public static int RoomScoreComposer = 482;
+    public static int RoomPromotionComposer = 1840;
+    public static int RoomEntitiesComposer = 374;
+    public static int RoomEntityStatusComposer = 1640;
+    public static int RoomPaneComposer = 749;
+    public static int RoomThicknessComposer = 3547;
+    public static int RoomWallObjectsComposer = 1369;
+    public static int RoomFloorObjectsComposer = 1778;
+    public static int RoomRightsListComposer = 1284;
+    public static int RoomOwnerComposer = 339;
 }

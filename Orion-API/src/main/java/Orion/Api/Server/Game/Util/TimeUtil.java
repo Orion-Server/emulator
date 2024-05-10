@@ -1,4 +1,4 @@
-package Orion.Api.Server.Game.Utils;
+package Orion.Api.Server.Game.Util;
 
 public abstract class TimeUtil {
     /**

@@ -9,8 +9,10 @@ import Orion.Api.Server.Game.Room.IRoomManager;
 import Orion.Api.Server.Game.Room.Utils.RoomEnvironmentVariables;
 import Orion.Api.Storage.Repository.Room.IRoomRepository;
 import Orion.Game.Room.Data.Model.RoomModel;
+import Orion.Game.Room.Data.Model.RoomModelData;
 import Orion.Game.Room.Data.RoomCategory;
 import Orion.Game.Room.Factory.RoomFactory;
+import Orion.Game.Room.Factory.RoomModelFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +48,9 @@ public class RoomManager implements IRoomManager {
     @Inject
     private RoomEnvironmentVariables roomEnvironmentVariables;
 
+    @Inject
+    private RoomModelFactory roomModelFactory;
+
     public RoomManager() {
         this.rooms = new ConcurrentHashMap<>();
         this.roomModels = new ConcurrentHashMap<>();
@@ -54,11 +59,11 @@ public class RoomManager implements IRoomManager {
 
     @Override
     public void initialize() {
+        this.loadRoomModels();
+        this.loadRoomCategories();
+
         this.loadPublicRooms();
         this.loadStaffPickedRooms();
-
-        this.loadRoomCategories();
-        this.loadRoomModels();
 
         this.roomEnvironmentVariables.initialize();
     }
@@ -130,7 +135,11 @@ public class RoomManager implements IRoomManager {
         this.roomRepository.loadRoomModels(result -> {
             if(result == null) return;
 
-            final IRoomModel roomModel = new RoomModel(result);
+            final IRoomModel roomModel = this.roomModelFactory.createAndParseModel(
+                    new RoomModelData(result)
+            );
+
+            if(roomModel == null) return;
 
             this.roomModels.put(roomModel.getData().getName(), roomModel);
         });
@@ -146,6 +155,18 @@ public class RoomManager implements IRoomManager {
     @Override
     public IRoom getRoomById(int roomId) {
         return this.rooms.get(roomId);
+    }
+
+    @Override
+    public IRoomModel getRoomModelByName(String modelName) {
+        final IRoomModel roomModel = this.roomModels.get(modelName);
+
+        if(roomModel == null) {
+            logger.error("Room model not found: {}", modelName);
+            return null;
+        }
+
+        return this.roomModelFactory.deepCloneFrom(roomModel);
     }
 
     @Override

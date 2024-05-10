@@ -3,8 +3,11 @@ package Orion.Game.Habbo;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Server.Game.Habbo.Data.*;
 import Orion.Api.Server.Game.Habbo.IHabbo;
+import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Habbo implements IHabbo {
     private final Logger logger;
@@ -20,6 +23,10 @@ public class Habbo implements IHabbo {
     private IHabboAchievements achievements;
     private IHabboPermission permission;
     private IHabboMessenger messenger;
+
+    private IHabboEntity entity;
+
+    private final ConcurrentHashMap<String, Object> status;
 
     public Habbo(
             final IHabboData data,
@@ -41,6 +48,8 @@ public class Habbo implements IHabbo {
         this.achievements = achievements;
         this.permission = permission;
         this.messenger = messenger;
+
+        this.status = new ConcurrentHashMap<>();
 
         this.logger = LogManager.getLogger(STR."[Habbo: \{this.data.getUsername()}]");
     }
@@ -98,6 +107,46 @@ public class Habbo implements IHabbo {
     @Override
     public IHabboMessenger getMessenger() {
         return this.messenger;
+    }
+
+    @Override
+    public IHabboEntity getEntity() {
+        return this.entity;
+    }
+
+    @Override
+    public void setEntity(IHabboEntity entity) {
+        this.entity = entity;
+    }
+
+    @Override
+    public void addStatus(String condition, Object value) {
+        this.status.put(condition, value);
+    }
+
+    @Override
+    public void removeStatus(String condition) {
+        this.status.remove(condition);
+    }
+
+    @Override
+    public void clearStatus() {
+        this.status.clear();
+    }
+
+    @Override
+    public boolean hasStatus(String condition) {
+        return this.status.containsKey(condition);
+    }
+
+    @Override
+    public Object getStatus(String condition) {
+        return this.status.get(condition);
+    }
+
+    @Override
+    public ConcurrentHashMap<String, Object> getStatus() {
+        return this.status;
     }
 
     @Override
