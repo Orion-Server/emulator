@@ -11,18 +11,13 @@ public class RoomMappingComponent implements IRoomMappingComponent {
 
     private IRoomTile[][] tiles;
 
-    public RoomMappingComponent(
-            final IRoom room
-    ) {
+    public RoomMappingComponent(final IRoom room) {
         this.room = room;
     }
 
     @Override
     public void initialize() {
-        if(this.room.getModel() == null) {
-            System.out.println("Room model is null");
-            return;
-        }
+        if(this.room.getModel() == null) return;
 
         final int sizeX = this.room.getModel().getMapSizeX();
         final int sizeY = this.room.getModel().getMapSizeY();
@@ -52,6 +47,11 @@ public class RoomMappingComponent implements IRoomMappingComponent {
     @Override
     public IRoomTile getTile(final int x, final int y) {
         return this.tiles[x][y];
+    }
+
+    @Override
+    public IRoomTile getDoorTile() {
+        return this.getTile(this.room.getModel().getData().getDoorX(), this.room.getModel().getData().getDoorY());
     }
 
     @Override

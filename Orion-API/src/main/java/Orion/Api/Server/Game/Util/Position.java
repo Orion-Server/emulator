@@ -122,6 +122,10 @@ public class Position {
         return Math.sqrt(Math.pow( (this.getX() - pos.getX()), 2) + Math.pow( (this.getY() - pos.getY()), 2));
     }
 
+    public boolean equals(Position o) {
+        return o.getX() == this.getX() && o.getY() == this.getY();
+    }
+
     public boolean isTouching(Position pos) {
         if (!(Math.abs(this.getX() - pos.getX()) > 1 || Math.abs(this.getY() - pos.getY()) > 1)) {
             return true;

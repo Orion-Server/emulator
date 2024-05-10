@@ -3,8 +3,10 @@ package Orion.Game.Room.Object.Entity;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Room.IRoom;
+import Orion.Api.Server.Game.Room.Object.Entity.Component.IEntityWalkComponent;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Server.Game.Util.Position;
+import Orion.Game.Room.Object.Entity.Component.EntityWalkComponent;
 import Orion.Writer.Room.Object.Entity.HabboEntityWriter;
 
 public class HabboEntity implements IHabboEntity {
@@ -19,11 +21,9 @@ public class HabboEntity implements IHabboEntity {
     private int headRotation;
     private int bodyRotation;
 
-    public HabboEntity(
-            final int virtualId,
-            final IHabbo habbo,
-            final IRoom room
-    ) {
+    private final IEntityWalkComponent walkComponent;
+
+    public HabboEntity(final int virtualId, final IHabbo habbo, final IRoom room) {
         this.virtualId = virtualId;
 
         this.habbo = habbo;
@@ -32,6 +32,8 @@ public class HabboEntity implements IHabboEntity {
 
         this.headRotation = room.getModel().getData().getDoorDirection();
         this.bodyRotation = room.getModel().getData().getDoorDirection();
+
+        this.walkComponent = new EntityWalkComponent();
     }
 
     @Override
@@ -82,6 +84,11 @@ public class HabboEntity implements IHabboEntity {
     @Override
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public IEntityWalkComponent getWalkComponent() {
+        return this.walkComponent;
     }
 
     @Override

@@ -9,4 +9,6 @@ public interface IRoomMappingComponent extends IDisposable, Initializable {
     IRoomTile getTile(final Position position);
 
     IRoomTile getTile(final int x, final int y);
+
+    IRoomTile getDoorTile();
 }
