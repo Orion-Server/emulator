@@ -1,6 +1,7 @@
 package Orion.Api.Server.Game.Room.Data;
 
 import Orion.Api.Server.Game.Room.Enums.RoomAccessState;
+import Orion.Api.Server.Game.Room.Enums.RoomDiagonalType;
 import Orion.Api.Util.IFillable;
 
 import java.util.List;
@@ -80,7 +81,7 @@ public interface IRoomData extends IFillable {
 
     int getTradeMode();
 
-    boolean canMoveDiagonally();
+    RoomDiagonalType getDiagonalType();
 
     boolean hasJukeboxActive();
 

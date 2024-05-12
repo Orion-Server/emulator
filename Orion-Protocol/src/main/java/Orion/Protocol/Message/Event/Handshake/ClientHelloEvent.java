@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-@HandshakeEvent("ClientHelloEvent")
+@HandshakeEvent
 public class ClientHelloEvent implements IMessageEventHandler {
     @Inject
     private ClientHelloEventParser parser;

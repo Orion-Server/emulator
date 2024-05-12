@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-@HandshakeEvent("MachineIDEvent")
+@HandshakeEvent
 public class MachineIDEvent implements IMessageEventHandler {
     private static final int hashLength = 64;
 

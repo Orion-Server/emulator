@@ -10,9 +10,7 @@ public class RoomProcess implements IRoomProcess {
 
     private final IRoom room;
 
-    public RoomProcess(
-            final IRoom room
-    ) {
+    public RoomProcess(final IRoom room) {
         this.room = room;
 
         this.logger = LogManager.getLogger(STR."[Room Process #\{this.room.getData().getId()}]");

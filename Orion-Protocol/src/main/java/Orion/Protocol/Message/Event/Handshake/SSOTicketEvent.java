@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-@HandshakeEvent("SSOTicketEvent")
+@HandshakeEvent
 public class SSOTicketEvent implements IMessageEventHandler {
     @Inject
     private SSOTicketEventParser parser;

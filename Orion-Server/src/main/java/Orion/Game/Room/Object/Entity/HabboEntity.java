@@ -23,7 +23,11 @@ public class HabboEntity implements IHabboEntity {
 
     private final IEntityWalkComponent walkComponent;
 
-    public HabboEntity(final int virtualId, final IHabbo habbo, final IRoom room) {
+    public HabboEntity(
+            final int virtualId,
+            final IHabbo habbo,
+            final IRoom room
+    ) {
         this.virtualId = virtualId;
 
         this.habbo = habbo;
@@ -33,7 +37,7 @@ public class HabboEntity implements IHabboEntity {
         this.headRotation = room.getModel().getData().getDoorDirection();
         this.bodyRotation = room.getModel().getData().getDoorDirection();
 
-        this.walkComponent = new EntityWalkComponent();
+        this.walkComponent = new EntityWalkComponent(this);
     }
 
     @Override

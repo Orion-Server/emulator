@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 @Singleton
 public class ThreadManager implements IThreadManager {
@@ -19,15 +20,42 @@ public class ThreadManager implements IThreadManager {
 
     private ExecutorService habboLoginExecutor;
 
+    private ExecutorService roomProcessingExecutor;
+
     @Override
     public void initialize() {
-        this.habboLoginExecutor = Executors.newFixedThreadPool(this.environmentSettings.getInteger("game.login_provider.threads"));
+        this.habboLoginExecutor = Executors.newFixedThreadPool(
+                this.environmentSettings.getInteger("game.login_provider.threads"),
+                this.getThreadFactory("HabboLoginProvider")
+        );
+        
+        this.roomProcessingExecutor = Executors.newScheduledThreadPool(
+                this.environmentSettings.getInteger("game.room_processing.threads"),
+                this.getThreadFactory("RoomProcess")
+        );
 
         this.logger.debug("Emulator thread manager initialized successfully.");
+    }
+
+    private ThreadFactory getThreadFactory(final String name) {
+        return r -> {
+            final Thread fixedThread = new Thread(r);
+            final Logger logger = LogManager.getLogger(STR."\{name}Thread");
+
+            fixedThread.setName("Orion-LoginProvider-Thread");
+            fixedThread.setUncaughtExceptionHandler((_, e) -> logger.error(STR."An error occurred in the \{name} thread.", e));
+
+            return fixedThread;
+        };
     }
 
     @Override
     public ExecutorService getHabboLoginExecutor() {
         return this.habboLoginExecutor;
+    }
+
+    @Override
+    public ExecutorService getRoomProcessingExecutor() {
+        return this.roomProcessingExecutor;
     }
 }

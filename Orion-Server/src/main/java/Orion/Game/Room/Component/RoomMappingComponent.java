@@ -3,6 +3,7 @@ package Orion.Game.Room.Component;
 import Orion.Api.Server.Game.Room.Component.IRoomMappingComponent;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomTile;
 import Orion.Api.Server.Game.Room.IRoom;
+import Orion.Api.Server.Game.Room.Object.IRoomObject;
 import Orion.Api.Server.Game.Util.Position;
 import Orion.Game.Room.Data.Model.RoomTile;
 
@@ -55,7 +56,19 @@ public class RoomMappingComponent implements IRoomMappingComponent {
     }
 
     @Override
-    public void dispose() {
+    public boolean isValidPosition(
+            final IRoomObject object,
+            final Position from,
+            final Position to,
+            final boolean isLastStep,
+            final boolean isRetry,
+            final boolean firstGeneration
+    ) {
+        return true;
+    }
 
+    @Override
+    public void dispose() {
+        this.tiles = null;
     }
 }

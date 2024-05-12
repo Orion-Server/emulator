@@ -6,6 +6,8 @@ import Orion.Api.Server.Game.Navigator.Enums.NavigatorLayoutDisplay;
 import Orion.Api.Server.Game.Room.Enums.RoomAccessState;
 import Orion.Api.Server.Game.Room.IRoom;
 
+import java.util.Collections;
+
 public abstract class NavigatorResultCategoryWriter {
     public static void write(
             final IMessageComposer composer,
@@ -23,7 +25,9 @@ public abstract class NavigatorResultCategoryWriter {
             }
 
             composer.appendInt(category.getRooms().size());
-//                Collections.sort(category.rooms);
+
+            Collections.sort(category.getRooms());
+
             for (final IRoom room : category.getRooms()) {
                 room.write(composer);
             }

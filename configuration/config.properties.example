@@ -32,3 +32,4 @@ networking.server.backlog=500
 
 game.login_provider.threads=4
 game.hotel.navigator_search.threads=2
+game.room_processing.threads=4

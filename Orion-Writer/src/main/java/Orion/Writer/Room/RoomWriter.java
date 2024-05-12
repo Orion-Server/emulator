@@ -15,7 +15,7 @@ public abstract class RoomWriter {
         composer.appendString(room.getData().isPublic() ? "" : room.getData().getOwnerName());
 
         composer.appendInt(room.getData().getAccessState().getState());
-        composer.appendInt(0);
+        composer.appendInt(room.getEntitiesComponent().getHabboEntitiesCount());
         composer.appendInt(room.getData().getMaxUsers());
         composer.appendString(room.getData().getDescription());
         composer.appendInt(room.getData().getTradeMode());

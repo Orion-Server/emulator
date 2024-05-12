@@ -6,8 +6,6 @@ import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Game.Room.Object.Entity.HabboEntity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomEntitiesComponent implements IRoomEntitiesComponent {
-    private final Logger logger = LogManager.getLogger();
-
     private final IRoom room;
 
     private final AtomicInteger virtualIdPointer;
@@ -51,6 +47,11 @@ public class RoomEntitiesComponent implements IRoomEntitiesComponent {
     @Override
     public List<IHabboEntity> getHabboEntities() {
         return this.habboEntities.values().stream().toList();
+    }
+
+    @Override
+    public int getHabboEntitiesCount() {
+        return this.habboEntities.size();
     }
 
     @Override

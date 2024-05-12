@@ -21,6 +21,8 @@ public interface IRoomEntitiesComponent extends IDisposable, Initializable {
 
     List<IHabboEntity> getHabboEntities();
 
+    int getHabboEntitiesCount();
+
     List<IRoomEntity> getRoomEntities();
 
     List<IHabboEntity> getHabbosWithRights();

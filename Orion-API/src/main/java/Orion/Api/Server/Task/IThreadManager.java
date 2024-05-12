@@ -6,4 +6,6 @@ import java.util.concurrent.ExecutorService;
 
 public interface IThreadManager extends Initializable {
     ExecutorService getHabboLoginExecutor();
+
+    ExecutorService getRoomProcessingExecutor();
 }

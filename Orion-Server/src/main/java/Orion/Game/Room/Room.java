@@ -30,10 +30,7 @@ public class Room implements IRoom {
     private final IRoomBansComponent roomBansComponent;
     private final IRoomVotesComponent roomVotesComponent;
 
-    public Room(
-            final IConnectionResult data,
-            final IRoomModel model
-    ) {
+    public Room(final IConnectionResult data, final IRoomModel model) {
         this.model = model;
         this.data = new RoomData(data);
 
@@ -138,7 +135,11 @@ public class Room implements IRoom {
 
     @Override
     public int compareTo(IRoom o) {
-        return 0;
+        if(o.getEntitiesComponent().getHabboEntitiesCount() != this.getEntitiesComponent().getHabboEntitiesCount()) {
+            return o.getEntitiesComponent().getHabboEntitiesCount() - this.getEntitiesComponent().getHabboEntitiesCount();
+        }
+
+        return o.getData().getId() - this.getData().getId();
     }
 
     @Override

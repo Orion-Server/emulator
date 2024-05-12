@@ -18,9 +18,9 @@ public class Position {
             NORTH_EAST, SOUTH_EAST, SOUTH_WEST, NORTH_WEST
     };
 
-    private int x;
-    private int y;
-    private double z;
+    private final int x;
+    private final int y;
+    private final double z;
 
     private int prevX;
     private int prevY;
@@ -124,6 +124,10 @@ public class Position {
 
     public boolean equals(Position o) {
         return o.getX() == this.getX() && o.getY() == this.getY();
+    }
+
+    public boolean equals(int x, int y) {
+        return x == this.getX() && y == this.getY();
     }
 
     public boolean isTouching(Position pos) {

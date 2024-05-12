@@ -2,6 +2,7 @@ package Orion.Game.Room.Data;
 
 import Orion.Api.Server.Game.Room.Data.IRoomData;
 import Orion.Api.Server.Game.Room.Enums.RoomAccessState;
+import Orion.Api.Server.Game.Room.Enums.RoomDiagonalType;
 import Orion.Api.Storage.Result.IConnectionResult;
 
 import java.util.Arrays;
@@ -48,7 +49,7 @@ public class RoomData implements IRoomData {
     private int rollerSpeed;
     private boolean isPromoted;
     private int tradeMode;
-    private boolean canMoveDiagonally;
+    private RoomDiagonalType diagonalType;
     private boolean hasJukeboxActive;
     private boolean hideWireds;
     private boolean isForSale;
@@ -217,8 +218,8 @@ public class RoomData implements IRoomData {
         return this.tradeMode;
     }
 
-    public boolean canMoveDiagonally() {
-        return this.canMoveDiagonally;
+    public RoomDiagonalType getDiagonalType() {
+        return this.diagonalType;
     }
 
     public boolean hasJukeboxActive() {
@@ -274,7 +275,7 @@ public class RoomData implements IRoomData {
         this.rollerSpeed = result.getInt("roller_speed");
         this.isPromoted = result.getBoolean("promoted");
         this.tradeMode = result.getInt("trade_mode");
-        this.canMoveDiagonally = result.getBoolean("move_diagonally");
+        this.diagonalType = result.getBoolean("move_diagonally") ? RoomDiagonalType.OFFICIAL : RoomDiagonalType.DISABLED;
         this.hasJukeboxActive = result.getBoolean("jukebox_active");
         this.hideWireds = result.getBoolean("hidewired");
         this.isForSale = result.getBoolean("is_forsale");
