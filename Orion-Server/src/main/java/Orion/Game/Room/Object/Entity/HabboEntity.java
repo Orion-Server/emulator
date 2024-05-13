@@ -4,10 +4,13 @@ import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Entity.Component.IEntityWalkComponent;
+import Orion.Api.Server.Game.Room.Object.Entity.Enum.RoomEntityStatus;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Server.Game.Util.Position;
 import Orion.Game.Room.Object.Entity.Component.EntityWalkComponent;
 import Orion.Writer.Room.Object.Entity.HabboEntityWriter;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HabboEntity implements IHabboEntity {
     private IHabbo habbo;
@@ -17,11 +20,14 @@ public class HabboEntity implements IHabboEntity {
     private final IRoom room;
 
     private Position position;
+    private Position nextPosition;
 
     private int headRotation;
     private int bodyRotation;
 
     private final IEntityWalkComponent walkComponent;
+
+    private final ConcurrentHashMap<RoomEntityStatus, String> status = new ConcurrentHashMap<>();
 
     public HabboEntity(
             final int virtualId,
@@ -91,8 +97,53 @@ public class HabboEntity implements IHabboEntity {
     }
 
     @Override
+    public Position getNextPosition() {
+        return this.nextPosition;
+    }
+
+    @Override
+    public void setNextPosition(Position position) {
+        this.nextPosition = position;
+    }
+
+    @Override
     public IEntityWalkComponent getWalkComponent() {
         return this.walkComponent;
+    }
+
+    @Override
+    public boolean isWalking() {
+        return !this.walkComponent.getProcessingPath().isEmpty();
+    }
+
+    @Override
+    public void setStatus(RoomEntityStatus status, String value) {
+        this.status.put(status, value);
+    }
+
+    @Override
+    public void removeStatus(RoomEntityStatus status) {
+        this.status.remove(status);
+    }
+
+    @Override
+    public boolean hasStatus(RoomEntityStatus status) {
+        return this.status.containsKey(status);
+    }
+
+    @Override
+    public String getStatus(RoomEntityStatus status) {
+        return this.status.get(status);
+    }
+
+    @Override
+    public void clearStatuses() {
+        this.status.clear();
+    }
+
+    @Override
+    public ConcurrentHashMap<RoomEntityStatus, String> getAllStatus() {
+        return this.status;
     }
 
     @Override

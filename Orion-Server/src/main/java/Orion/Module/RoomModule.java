@@ -11,6 +11,7 @@ import Orion.Api.Storage.Repository.Room.IRoomVotesRepository;
 import Orion.Game.Room.Factory.RoomFactory;
 import Orion.Game.Room.Factory.RoomModelFactory;
 import Orion.Game.Room.Handler.JoinRoomHandler;
+import Orion.Game.Room.Object.Entity.Factory.HabboEntityFactory;
 import Orion.Game.Room.Object.Pathfinder.Pathfinder;
 import Orion.Game.Room.RoomManager;
 import Orion.Storage.Repository.Room.RoomBansRepository;
@@ -27,6 +28,7 @@ public class RoomModule extends AbstractModule {
 
         bind(RoomFactory.class).asEagerSingleton();
         bind(RoomModelFactory.class).asEagerSingleton();
+        bind(HabboEntityFactory.class).asEagerSingleton();
 
         bind(IRoomRepository.class).to(RoomRepository.class);
         bind(IRoomRightsRepository.class).to(RoomRightsRepository.class);

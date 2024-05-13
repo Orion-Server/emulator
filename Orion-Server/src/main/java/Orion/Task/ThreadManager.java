@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 
 @Singleton
@@ -20,7 +21,7 @@ public class ThreadManager implements IThreadManager {
 
     private ExecutorService habboLoginExecutor;
 
-    private ExecutorService roomProcessingExecutor;
+    private ScheduledExecutorService roomProcessingExecutor;
 
     @Override
     public void initialize() {
@@ -55,7 +56,7 @@ public class ThreadManager implements IThreadManager {
     }
 
     @Override
-    public ExecutorService getRoomProcessingExecutor() {
+    public ScheduledExecutorService getRoomProcessingExecutor() {
         return this.roomProcessingExecutor;
     }
 }

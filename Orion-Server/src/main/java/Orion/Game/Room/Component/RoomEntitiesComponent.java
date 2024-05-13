@@ -1,11 +1,9 @@
 package Orion.Game.Room.Component;
 
-import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Room.Component.IRoomEntitiesComponent;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
-import Orion.Game.Room.Object.Entity.HabboEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,18 +71,12 @@ public class RoomEntitiesComponent implements IRoomEntitiesComponent {
     }
 
     @Override
-    public IHabboEntity createHabboEntity(final IHabbo habbo) {
-        final IHabboEntity entity = new HabboEntity(this.getNextVirtualId(), habbo, this.room);
-
-        this.roomEntities.put(entity.getVirtualId(), entity);
-        this.habboEntities.put(entity.getVirtualId(), entity);
-
-        return entity;
-    }
-
-    @Override
     public void addEntity(final IRoomEntity entity) {
         this.roomEntities.put(entity.getVirtualId(), entity);
+
+        if(entity instanceof IHabboEntity) {
+            this.habboEntities.put(entity.getVirtualId(), (IHabboEntity) entity);
+        }
     }
 
     @Override

@@ -12,6 +12,7 @@ import Orion.Api.Storage.Result.IConnectionResult;
 import Orion.Game.Room.Data.Bans.RoomBan;
 import Orion.Game.Room.Room;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +36,9 @@ public class RoomFactory {
     @Inject
     private IRoomVotesRepository votesRepository;
 
+    @Inject
+    private Injector injector;
+
     public IRoom create(IConnectionResult data) {
         try {
             final IRoomModel model = roomManager.getRoomModelByName(data.getString("model"));
@@ -47,6 +51,8 @@ public class RoomFactory {
 
             room.getRightsComponent().setUsersWithRights(this.loadUsersWithRights(room.getData().getId()));
             room.getBansComponent().setBans(this.loadValidRoomBans(room.getData().getId()));
+
+            this.injector.injectMembers(room.getProcess());
 
             this.roomManager.addRoom(room);
 

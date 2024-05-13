@@ -1,6 +1,5 @@
 package Orion.Api.Server.Game.Room.Component;
 
-import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Util.IDisposable;
@@ -14,8 +13,6 @@ public interface IRoomEntitiesComponent extends IDisposable, Initializable {
     int getNextVirtualId();
 
     void addEntity(IRoomEntity entity);;
-
-    IHabboEntity createHabboEntity(IHabbo habbo);
 
     void removeEntity(IRoomEntity entity);
 

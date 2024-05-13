@@ -6,9 +6,19 @@ import Orion.Api.Server.Game.Util.Position;
 import java.util.List;
 
 public interface IEntityWalkComponent {
+    void setProcessingPath(final List<Position> processingPath);
+
     List<Position> getProcessingPath();
+
+    void clearProcessingPath();
+
+    void setWalkingPath(final List<Position> walkingPath);
 
     List<Position> getWalkingPath();
 
-    void walkToPosition(final IPathfinder pathfinder, int x, int y);
+    void clearWalkingPath();
+
+    void walkToPosition(int x, int y);
+
+    void setPathfinder(final IPathfinder pathfinder);
 }

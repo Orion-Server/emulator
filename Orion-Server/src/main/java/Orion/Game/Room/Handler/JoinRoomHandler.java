@@ -8,6 +8,7 @@ import Orion.Api.Server.Game.Room.Handler.IJoinRoomHandler;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Server.Game.Util.Alert.GenericErrorType;
+import Orion.Game.Room.Object.Entity.Factory.HabboEntityFactory;
 import Orion.Protocol.Message.Composer.Alerts.GenericErrorComposer;
 import Orion.Protocol.Message.Composer.HotelView.GoToHotelViewComposer;
 import Orion.Protocol.Message.Composer.Room.Access.AddHabboToDoorbellComposer;
@@ -27,6 +28,7 @@ import Orion.Protocol.Message.Composer.Room.RoomPaneComposer;
 import Orion.Protocol.Message.Composer.Room.RoomPromotionComposer;
 import Orion.Protocol.Message.Composer.Room.RoomThicknessComposer;
 import Orion.Protocol.Message.Composer.Room.Score.RoomScoreComposer;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
@@ -35,6 +37,9 @@ import java.util.List;
 @Singleton
 public class JoinRoomHandler implements IJoinRoomHandler {
     private final String[] roomPrivilegesPermissions = new String[]{"anyroomowner", "anyroomrights"};
+
+    @Inject
+    private HabboEntityFactory habboEntityFactory;
 
     @Override
     public void prepareRoom(IRoom room, IHabbo habbo, String password) {
@@ -146,8 +151,7 @@ public class JoinRoomHandler implements IJoinRoomHandler {
         habbo.removeStatus("room_doorbell");
         habbo.getSession().send(new RequestRoomAccessComposer(""));
 
-        final IHabboEntity entity = room.getEntitiesComponent().createHabboEntity(habbo);
-        habbo.setEntity(entity);
+        final IHabboEntity entity = habboEntityFactory.create(room, habbo);
 
         // TODO: set entity position to door position
 

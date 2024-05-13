@@ -13,14 +13,14 @@ import java.util.List;
 
 @Singleton
 public class Pathfinder implements IPathfinder {
-    public static final Position[] movePoints = {
+    public static final Position[] defaultMoveTargets = {
             new Position(0, -1),
             new Position(1, 0),
             new Position(0, 1),
             new Position(-1, 0)
     };
 
-    public static final Position[] diagonalMovePoints = {
+    public static final Position[] moveTargetsWithDiagonal = {
             new Position(-1, -1),
             new Position(0, -1),
             new Position(1, 1),
@@ -132,10 +132,10 @@ public class Pathfinder implements IPathfinder {
     }
 
     private int getMovePointsCount(RoomDiagonalType diagonalType) {
-        return diagonalType == RoomDiagonalType.DISABLED ? Pathfinder.movePoints.length : Pathfinder.diagonalMovePoints.length;
+        return diagonalType == RoomDiagonalType.DISABLED ? Pathfinder.defaultMoveTargets.length : Pathfinder.moveTargetsWithDiagonal.length;
     }
 
     private Position getMovePoint(RoomDiagonalType diagonalType, int index) {
-        return diagonalType == RoomDiagonalType.DISABLED ? Pathfinder.movePoints[index] : Pathfinder.diagonalMovePoints[index];
+        return diagonalType == RoomDiagonalType.DISABLED ? Pathfinder.defaultMoveTargets[index] : Pathfinder.moveTargetsWithDiagonal[index];
     }
 }

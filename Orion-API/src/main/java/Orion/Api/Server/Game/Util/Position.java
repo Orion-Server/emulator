@@ -38,16 +38,32 @@ public class Position {
     }
 
     public static int calculateRotation(int x, int y, int newX, int newY, boolean isReverse) {
-        int deltaX = newX - x;
-        int deltaY = newY - y;
+        int rotation = 0;
 
-        int rotation = (int) (Math.atan2(deltaY, deltaX) / (Math.PI / 4));
+        if (x > newX && y > newY)
+            rotation = 7;
+        else if (x < newX && y < newY)
+            rotation = 3;
+        else if (x > newX && y < newY)
+            rotation = 5;
+        else if (x < newX && y > newY)
+            rotation = 1;
+        else if (x > newX)
+            rotation = 6;
+        else if (x < newX)
+            rotation = 2;
+        else if (y < newY)
+            rotation = 4;
 
         if (isReverse) {
-            rotation = (rotation + 4) % 8;
+            rotation = rotation > 3 ? rotation - 4 : rotation + 4;
         }
 
         return rotation;
+    }
+
+    public static int calculateRotation(Position oldPosition, Position newPosition, boolean isReverse) {
+        return calculateRotation(oldPosition.getX(), oldPosition.getY(), newPosition.getX(), newPosition.getY(), isReverse);
     }
 
     public static int getInvertedRotation(int currentRotation) {
@@ -136,6 +152,10 @@ public class Position {
         }
 
         return this.getX() == pos.getX() && this.getY() == pos.getY();
+    }
+
+    public Position copy() {
+        return new Position(this.x, this.y, this.z);
     }
 
     public int getX() {
