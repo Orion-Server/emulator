@@ -7,14 +7,7 @@ import Orion.Protocol.Message.Composer.ComposerHeaders;
 import java.util.List;
 
 public class RoomEntitiesComposer extends MessageComposer {
-    public RoomEntitiesComposer(IRoomEntity entities) {
-        super(ComposerHeaders.RoomEntitiesComposer);
-
-        appendInt(1);
-        entities.write(this);
-    }
-
-    public RoomEntitiesComposer(final List<IRoomEntity> entities) {
+    public RoomEntitiesComposer(List<IRoomEntity> entities) {
         super(ComposerHeaders.RoomEntitiesComposer);
 
         appendInt(entities.size());
@@ -22,5 +15,9 @@ public class RoomEntitiesComposer extends MessageComposer {
         for(final IRoomEntity entity : entities) {
             entity.write(this);
         }
+    }
+
+    public RoomEntitiesComposer(IRoomEntity entity) {
+        this(List.of(entity));
     }
 }

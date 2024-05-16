@@ -19,9 +19,9 @@ public abstract class HabboEntityWriter {
         composer.appendInt(entity.getBodyRotation());
         composer.appendInt(1);
         composer.appendString(entity.getHabbo().getData().getGender().toUpperCase());
-        composer.appendInt(-1);
-        composer.appendInt(-1);
-        composer.appendString("");
+        composer.appendInt(-1); // TODO: group id
+        composer.appendInt(-1); // TODO: group id
+        composer.appendString(""); // TODO: group name
         composer.appendString("");
         composer.appendInt(entity.getHabbo().getSettings().getAchievementScore());
         composer.appendBoolean(true);

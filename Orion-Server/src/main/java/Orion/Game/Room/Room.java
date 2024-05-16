@@ -122,7 +122,7 @@ public class Room implements IRoom {
     }
 
     @Override
-    public void broadcastMessages(IMessageComposer... composers) {
+    public void broadcastMessages(final IMessageComposer... composers) {
         for (final IHabboEntity habboEntity : this.getEntitiesComponent().getHabboEntities()) {
             habboEntity.getHabbo().getSession().send(composers);
         }

@@ -8,7 +8,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import java.util.List;
 
 public interface ISession {
-    ChannelHandlerContext getChannel();
+    ChannelHandlerContext getContext();
 
     void disconnect();
 

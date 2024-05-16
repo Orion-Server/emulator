@@ -9,8 +9,7 @@ import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Server.Game.Util.Position;
 import Orion.Game.Room.Object.Entity.Component.EntityWalkComponent;
 import Orion.Writer.Room.Object.Entity.HabboEntityWriter;
-
-import java.util.concurrent.ConcurrentHashMap;
+import gnu.trove.map.hash.THashMap;
 
 public class HabboEntity implements IHabboEntity {
     private IHabbo habbo;
@@ -27,13 +26,11 @@ public class HabboEntity implements IHabboEntity {
 
     private final IEntityWalkComponent walkComponent;
 
-    private final ConcurrentHashMap<RoomEntityStatus, String> status = new ConcurrentHashMap<>();
+    private final THashMap<RoomEntityStatus, String> status;
 
-    public HabboEntity(
-            final int virtualId,
-            final IHabbo habbo,
-            final IRoom room
-    ) {
+    public HabboEntity(final int virtualId, final IHabbo habbo, final IRoom room) {
+        this.status = new THashMap<>();
+
         this.virtualId = virtualId;
 
         this.habbo = habbo;
@@ -142,12 +139,23 @@ public class HabboEntity implements IHabboEntity {
     }
 
     @Override
-    public ConcurrentHashMap<RoomEntityStatus, String> getAllStatus() {
+    public THashMap<RoomEntityStatus, String> getAllStatus() {
         return this.status;
     }
 
     @Override
     public void write(IMessageComposer composer) {
         HabboEntityWriter.write(this, composer);
+    }
+
+    @Override
+    public void dispose() {
+        this.room.onEntityRemoved(this);
+
+        this.position = null;
+        this.nextPosition = null;
+
+        this.habbo = null;
+        this.status.clear();
     }
 }

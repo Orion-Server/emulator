@@ -150,8 +150,18 @@ public class Habbo implements IHabbo {
     }
 
     @Override
+    public boolean isInRoom() {
+        return this.entity != null && this.entity.getRoom() != null;
+    }
+
+    @Override
     public void onDisconnect() {
         this.logger.debug("Just left the game.");
+
+        if(this.entity != null) {
+            this.entity.dispose();
+            this.entity = null;
+        }
 
         this.data = null;
         this.permission = null;

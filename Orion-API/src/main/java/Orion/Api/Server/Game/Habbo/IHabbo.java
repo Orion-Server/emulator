@@ -33,4 +33,6 @@ public interface IHabbo extends IStatusable {
     IHabboEntity getEntity();
 
     void setEntity(IHabboEntity entity);
+
+    boolean isInRoom();
 }

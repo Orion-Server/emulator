@@ -4,8 +4,10 @@ import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Room.Enums.RoomAccessError;
 import Orion.Api.Server.Game.Room.Enums.RoomAccessState;
+import Orion.Api.Server.Game.Room.Enums.RoomRightLevel;
 import Orion.Api.Server.Game.Room.Handler.IJoinRoomHandler;
 import Orion.Api.Server.Game.Room.IRoom;
+import Orion.Api.Server.Game.Room.Object.Entity.Enum.RoomEntityStatus;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Server.Game.Util.Alert.GenericErrorType;
 import Orion.Game.Room.Object.Entity.Factory.HabboEntityFactory;
@@ -60,7 +62,7 @@ public class JoinRoomHandler implements IJoinRoomHandler {
         final boolean habboHasHighRoomPrivileges = room.habboIsOwner(habbo)
                 || habbo.getPermission().hasAccountPermissions(this.roomPrivilegesPermissions);
 
-        if(room.getData().getMaxUsers() >= room.getEntitiesComponent().getHabboEntities().size() && !habboHasHighRoomPrivileges) {
+        if(room.getEntitiesComponent().getHabboEntities().size() >= room.getData().getMaxUsers() && !habboHasHighRoomPrivileges) {
             habbo.getSession().send(new GoToHotelViewComposer());
             return;
         }
@@ -69,6 +71,7 @@ public class JoinRoomHandler implements IJoinRoomHandler {
             habbo.getSession().send(new RoomAccessErrorComposer(RoomAccessError.ROOM_BANNED));
             return;
         }
+
         // TODO: Check queue
 
         // TODO: Check guilds
@@ -151,9 +154,7 @@ public class JoinRoomHandler implements IJoinRoomHandler {
         habbo.removeStatus("room_doorbell");
         habbo.getSession().send(new RequestRoomAccessComposer(""));
 
-        final IHabboEntity entity = habboEntityFactory.create(room, habbo);
-
-        // TODO: set entity position to door position
+        habboEntityFactory.create(room, habbo);
 
         // TODO: update messenger
 
@@ -169,12 +170,7 @@ public class JoinRoomHandler implements IJoinRoomHandler {
 
         composers.add(new RoomPaintComposer("wallpaper", room.getData().getPaperLandscape()));
 
-        // TODO: Refresh habbo rights
-
-        composers.add(new RoomRightsComposer(room.getRightsComponent().getRightLevelFor(habbo)));
-        composers.add(new RoomRightsListComposer(room));
-
-        // ----
+        this.resolveRoomRightsForHabbo(composers, room, habbo);
 
         composers.add(new RoomScoreComposer(room.getData().getScore(), !room.getVotesComponent().habboHasVote(habbo)));
 
@@ -185,14 +181,36 @@ public class JoinRoomHandler implements IJoinRoomHandler {
         habbo.getSession().send(composers);
     }
 
+    private void resolveRoomRightsForHabbo(List<IMessageComposer> composers, IRoom room, IHabbo habbo) {
+        RoomRightLevel flatCtrl = RoomRightLevel.None;
+
+        // TODO: check renting space
+
+        if(room.habboIsOwner(habbo) || habbo.getPermission().hasAccountPermission(this.roomPrivilegesPermissions[0])) {
+            flatCtrl = RoomRightLevel.Moderator;
+
+            composers.add(new RoomRightsComposer(room.getRightsComponent().getRightLevelFor(habbo)));
+            composers.add(new RoomRightsListComposer(room));
+        }
+
+        if(room.getRightsComponent().hasRights(habbo) && room.getData().getGuildId() == 0) {
+            flatCtrl = RoomRightLevel.Rights;
+        }
+
+        // TODO: Check group rights
+
+        habbo.getEntity().setStatus(RoomEntityStatus.FLATCTRL, String.valueOf(flatCtrl.ordinal()));
+    }
+
     @Override
     public void finalizeRoomEnter(IRoom room, IHabbo habbo) {
-        if(habbo.getEntity() == null || habbo.getEntity().getRoom() == null) {
+        if(!habbo.isInRoom()) {
             habbo.setEntity(null);
         }
 
         if(habbo.getEntity().getRoom().getData().getId() != room.getData().getId()) {
             habbo.getEntity().getRoom().getEntitiesComponent().removeEntity(habbo.getEntity());
+            habbo.setEntity(null);
         }
 
         if(habbo.getEntity() == null) {
@@ -202,16 +220,15 @@ public class JoinRoomHandler implements IJoinRoomHandler {
 
         final List<IMessageComposer> composers = new ArrayList<>();
 
-        composers.add(new RoomOwnerComposer());
+        if(room.habboIsOwner(habbo)) {
+            composers.add(new RoomOwnerComposer());
+        }
 
         // TODO: Send handItem
 
         room.initialize();
 
-        room.broadcastMessages(
-                new RoomEntitiesComposer(habbo.getEntity()),
-                new RoomEntityStatusComposer(habbo.getEntity())
-        );
+        room.broadcastMessages(new RoomEntitiesComposer(habbo.getEntity()));
 
         composers.add(new RoomEntitiesComposer(room.getEntitiesComponent().getRoomEntities()));
         composers.add(new RoomEntityStatusComposer(room.getEntitiesComponent().getRoomEntities()));

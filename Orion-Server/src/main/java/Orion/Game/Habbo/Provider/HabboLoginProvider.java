@@ -8,7 +8,6 @@ import Orion.Api.Server.Game.Achievement.IAchievementManager;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Habbo.IHabboManager;
 import Orion.Api.Server.Game.Habbo.Provider.IHabboLoginProvider;
-import Orion.Api.Server.Task.IThreadManager;
 import Orion.Api.Storage.Repository.Habbo.IHabboRepository;
 import Orion.Game.Habbo.Factory.HabboFactory;
 import Orion.Protocol.Message.Composer.Achievement.AchievementScoreComposer;
@@ -60,9 +59,6 @@ public class HabboLoginProvider implements IHabboLoginProvider {
     @Inject
     private IAchievementManager achievementManager;
 
-    @Inject
-    private IThreadManager threadManager;
-
     @Override
     public boolean canLogin(final ISession session, String authTicket) {
         if(authTicket.isEmpty()) {
@@ -71,10 +67,10 @@ public class HabboLoginProvider implements IHabboLoginProvider {
 
         final AtomicInteger habboId = new AtomicInteger(-1);
 
-        this.repository.getHabboIdByAuthTicket(consumer -> {
-            if(consumer == null) return;
+        this.repository.getHabboIdByAuthTicket(result -> {
+            if(result == null) return;
 
-            habboId.set(consumer.getInt("id"));
+            habboId.set(result.getInt("id"));
         }, authTicket);
 
         if(habboId.get() <= 0) {
@@ -86,7 +82,7 @@ public class HabboLoginProvider implements IHabboLoginProvider {
 
     @Override
     public void attemptLogin(final ISession session, String authTicket) {
-        this.threadManager.getHabboLoginExecutor().execute(() -> this.repository.getHabboDataByAuthTicket(result -> {
+        this.repository.getHabboDataByAuthTicket(result -> {
             if(result == null) {
                 this.sessionManager.disposeSession(session);
                 return;
@@ -100,7 +96,7 @@ public class HabboLoginProvider implements IHabboLoginProvider {
             this.habboManager.addHabbo(habbo);
 
             this.sendLoginComposers(habbo);
-        }, authTicket));
+        }, authTicket);
     }
 
     private void sendLoginComposers(final IHabbo habbo) {

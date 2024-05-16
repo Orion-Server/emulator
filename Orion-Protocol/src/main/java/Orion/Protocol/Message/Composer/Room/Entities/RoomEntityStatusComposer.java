@@ -47,10 +47,10 @@ public class RoomEntityStatusComposer extends MessageComposer {
         appendInt(entity.getHeadRotation());
         appendInt(entity.getBodyRotation());
 
-        StringBuilder status = new StringBuilder("/");
+        final StringBuilder status = new StringBuilder("/");
 
         for (final Map.Entry<RoomEntityStatus, String> entry : entity.getAllStatus().entrySet()) {
-            status.append(STR."\{entry.getKey().get()} \{entry.getValue()}/");
+            status.append(status.append(entry.getKey().get()).append(" ").append(entry.getValue()).append("/"));
         }
 
         appendString(status.toString());

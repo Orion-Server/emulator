@@ -18,7 +18,7 @@ public class Session implements ISession {
 
     private String clientVersion;
 
-    private final ChannelHandlerContext channel;
+    private final ChannelHandlerContext context;
 
     private String machineId = null;
 
@@ -26,15 +26,15 @@ public class Session implements ISession {
 
     private IHabbo habbo;
 
-    public Session(int id, ChannelHandlerContext channel, String ipAddress) {
+    public Session(int id, ChannelHandlerContext context, String ipAddress) {
         this.id = id;
-        this.channel = channel;
+        this.context = context;
         this.ipAddress = ipAddress;
     }
 
     @Override
-    public ChannelHandlerContext getChannel() {
-        return this.channel;
+    public ChannelHandlerContext getContext() {
+        return this.context;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Session implements ISession {
     @Override
     public void disconnect() {
         this.setHabbo(null);
-        this.getChannel().disconnect();
+        this.getContext().disconnect();
     }
 
     @Override
@@ -85,58 +85,58 @@ public class Session implements ISession {
 
     @Override
     public boolean isAuthenticated() {
-        return this.habbo != null && this.channel.channel().isOpen();
+        return this.habbo != null && this.context.channel().isOpen();
     }
 
     @Override
     public void handleIdleStateEvent(IdleStateEvent event) {
         switch (event.state()) {
             case READER_IDLE:
-                this.getChannel().close();
+                this.getContext().close();
                 break;
             case WRITER_IDLE:
-                this.getChannel().writeAndFlush(new MessageComposer(3928)); // TODO: Maybe have a way to solve the module cycles issue?
+                this.getContext().writeAndFlush(new MessageComposer(3928)); // TODO: Maybe have a way to solve the module cycles issue?
                 break;
         }
     }
 
     @Override
     public ISession send(IMessageComposer composer) {
-        if(!this.channel.channel().isOpen()) return this;
+        if(!this.context.channel().isOpen()) return this;
 
         this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getName()}");
 
-        this.channel.writeAndFlush(composer);
+        this.context.channel().writeAndFlush(composer, this.context.channel().voidPromise());
 
         return this;
     }
 
     @Override
     public ISession send(IMessageComposer... composers) {
-        if(!this.channel.channel().isOpen()) return this;
+        if(!this.context.channel().isOpen()) return this;
 
         for (final IMessageComposer composer : composers) {
             this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
-            this.channel.write(composer);
+            this.context.channel().write(composer);
         }
 
-        this.channel.flush();
+        this.context.channel().flush();
 
         return this;
     }
 
     @Override
     public ISession send(List<IMessageComposer> composers) {
-        if(!this.channel.channel().isOpen()) return this;
+        if(!this.context.channel().isOpen()) return this;
 
         for (final IMessageComposer composer : composers) {
             this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
-            this.channel.write(composer);
+            this.context.channel().write(composer);
         }
 
-        this.channel.flush();
+        this.context.channel().flush();
 
         return this;
     }

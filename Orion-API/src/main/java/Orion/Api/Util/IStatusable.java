@@ -1,8 +1,7 @@
 package Orion.Api.Util;
 
 import Orion.Api.Server.Game.Room.Object.Entity.Enum.RoomEntityStatus;
-
-import java.util.concurrent.ConcurrentHashMap;
+import gnu.trove.map.hash.THashMap;
 
 public interface IStatusable {
     void setStatus(RoomEntityStatus status, final String value);
@@ -15,5 +14,5 @@ public interface IStatusable {
 
     void clearStatuses();
 
-    ConcurrentHashMap<RoomEntityStatus, String> getAllStatus();
+    THashMap<RoomEntityStatus, String> getAllStatus();
 }

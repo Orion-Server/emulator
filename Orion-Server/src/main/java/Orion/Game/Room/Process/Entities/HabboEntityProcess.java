@@ -1,5 +1,6 @@
 package Orion.Game.Room.Process.Entities;
 
+import Orion.Api.Server.Game.Room.Data.Model.IRoomTile;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Entity.Enum.RoomEntityStatus;
 import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
@@ -45,8 +46,15 @@ public class HabboEntityProcess {
         for(final IRoomEntity entity : this.entitiesToUpdate) {
             if(entity.getNextPosition() == null) continue;
 
-            entity.setPosition(entity.getNextPosition().copy());
+            final Position nextPosition = entity.getNextPosition().copy();
+            IRoomTile tile = this.room.getMappingComponent().getTile(nextPosition.getX(), nextPosition.getY());
+
+            if(tile == null) continue;
+
+            entity.setPosition(nextPosition);
             entity.setNextPosition(null);
+
+            tile.onEntityEnter(entity);
         }
 
         this.entitiesToUpdate.clear();
@@ -54,6 +62,9 @@ public class HabboEntityProcess {
 
     private void processHabboEntityWalk(final IHabboEntity entity) {
         final Position nextPosition = entity.getWalkComponent().getProcessingPath().getFirst();
+        final IRoomTile tile = this.room.getMappingComponent().getTile(entity.getPosition().getX(), entity.getPosition().getY());
+
+        if(tile == null) return;
 
         entity.setBodyRotation(Position.calculateRotation(entity.getPosition(), nextPosition, false));
         entity.setHeadRotation(entity.getBodyRotation());
@@ -63,7 +74,7 @@ public class HabboEntityProcess {
         entity.removeStatus(RoomEntityStatus.LAY);
         entity.removeStatus(RoomEntityStatus.SIT);
 
-        entity.setNextPosition(nextPosition);
+        entity.setNextPosition(nextPosition.copy());
 
         entity.getWalkComponent().getProcessingPath().removeFirst();
 
@@ -73,5 +84,7 @@ public class HabboEntityProcess {
             entity.getWalkComponent().clearWalkingPath();
             entity.getWalkComponent().clearProcessingPath();
         }
+
+        tile.onEntityLeave(entity);
     }
 }

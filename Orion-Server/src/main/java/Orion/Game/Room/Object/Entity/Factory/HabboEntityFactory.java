@@ -14,10 +14,8 @@ public class HabboEntityFactory {
     private IPathfinder pathfinder;
 
     public IHabboEntity create(final IRoom room, final IHabbo habbo) {
-        final IHabboEntity entity = new HabboEntity(
-                room.getEntitiesComponent().getNextVirtualId(),
-                habbo,
-                room
+        final IHabboEntity entity = new HabboEntity(room.getEntitiesComponent().getNextVirtualId(),
+                habbo, room
         );
 
         entity.getWalkComponent().setPathfinder(this.pathfinder);

@@ -4,6 +4,7 @@ import Orion.Api.Server.Game.Room.Component.IRoomEntitiesComponent;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
+import Orion.Game.Room.Object.Entity.HabboEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class RoomEntitiesComponent implements IRoomEntitiesComponent {
         this.roomEntities.put(entity.getVirtualId(), entity);
 
         if(entity instanceof IHabboEntity) {
-            this.habboEntities.put(entity.getVirtualId(), (IHabboEntity) entity);
+            this.habboEntities.put(entity.getVirtualId(), (HabboEntity) entity);
         }
     }
 
