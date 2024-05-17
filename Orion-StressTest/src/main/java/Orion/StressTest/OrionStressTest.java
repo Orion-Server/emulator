@@ -55,6 +55,12 @@ public class OrionStressTest {
                     this.clientLoopGroup
             );
 
+            try {
+                Thread.sleep(60);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             clients.add(client);
         }
     }

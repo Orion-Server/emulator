@@ -1,5 +1,6 @@
 package Orion.StressTest;
 
+import Orion.StressTest.Composer.RequestHeightmapComposer;
 import Orion.StressTest.Composer.RequestRoomLoadComposer;
 import Orion.StressTest.Connection.OrionClientConnection;
 
@@ -23,13 +24,16 @@ public class CommandHandler {
                             if(!client.isOnline()) continue;
 
                             for(Map.Entry<Integer, AtomicInteger> room : test.getRooms().entrySet()) {
-                                if(room.getValue().get() > 300) continue;
-
                                 room.getValue().incrementAndGet();
 
                                 client.send(new RequestRoomLoadComposer(room.getKey(), ""));
+                                client.send(new RequestHeightmapComposer());
                                 client.setIsInRoom(true);
                             }
+                        }
+                    } else if(line.equalsIgnoreCase("walk")) {
+                        for(OrionClientConnection client : test.getClients()) {
+                            client.setIsWalk(!client.isWalk());
                         }
                     }
                 } catch (Exception e) {

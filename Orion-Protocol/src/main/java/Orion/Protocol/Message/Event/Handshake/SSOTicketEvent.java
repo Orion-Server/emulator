@@ -11,8 +11,6 @@ import Orion.Protocol.Parser.Hanshake.SSOTicketEventParser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 @Singleton
 @HandshakeEvent
 public class SSOTicketEvent implements IMessageEventHandler {
@@ -24,8 +22,6 @@ public class SSOTicketEvent implements IMessageEventHandler {
 
     @Inject
     private IThreadManager threadManager;
-
-    private ReentrantLock lock = new ReentrantLock();
 
     @Override
     public int getId() {

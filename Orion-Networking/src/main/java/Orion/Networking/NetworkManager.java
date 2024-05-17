@@ -40,7 +40,6 @@ public class NetworkManager implements Dispatchable {
     private void configureInternal() {
         InternalLoggerFactory.setDefaultFactory(Log4J2LoggerFactory.INSTANCE);
 
-        System.setProperty("io.netty.leakDetectionLevel", "disabled");
-        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
     }
 }
