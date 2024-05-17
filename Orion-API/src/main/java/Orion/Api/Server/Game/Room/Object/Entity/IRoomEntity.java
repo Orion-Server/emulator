@@ -18,4 +18,8 @@ public interface IRoomEntity extends IRoomObject, IWriteable, IStatusable, IDisp
     Position getNextPosition();
 
     void setNextPosition(Position position);
+
+    void setNeedsUpdate(boolean needsUpdate);
+
+    boolean needsUpdate();
 }

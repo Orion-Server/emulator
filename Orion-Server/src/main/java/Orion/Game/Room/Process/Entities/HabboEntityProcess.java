@@ -30,6 +30,12 @@ public class HabboEntityProcess {
 
     public void process() {
         for(final IHabboEntity entity : this.room.getEntitiesComponent().getHabboEntities()) {
+            if(entity.needsUpdate()) {
+                entity.setNeedsUpdate(false);
+
+                this.entitiesToUpdate.add(entity);
+            }
+
             if(entity.hasStatus(RoomEntityStatus.MOVE)) {
                 entity.removeStatus(RoomEntityStatus.MOVE);
                 entity.removeStatus(RoomEntityStatus.GESTURE);

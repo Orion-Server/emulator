@@ -9,7 +9,6 @@ import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Server.Game.Util.Position;
 import Orion.Game.Room.Object.Entity.Component.EntityWalkComponent;
 import Orion.Writer.Room.Object.Entity.HabboEntityWriter;
-import gnu.trove.map.hash.THashMap;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,6 +31,7 @@ public class HabboEntity implements IHabboEntity {
     private final Map<RoomEntityStatus, String> status;
 
     private boolean disposed = false;
+    private boolean needsUpdate = false;
 
     public HabboEntity(int virtualId, final IHabbo habbo, final IRoom room) {
         this.virtualId = virtualId;
@@ -152,6 +152,35 @@ public class HabboEntity implements IHabboEntity {
     @Override
     public Map<RoomEntityStatus, String> getAllStatus() {
         return this.status;
+    }
+
+    @Override
+    public void setNeedsUpdate(boolean needsUpdate) {
+        this.needsUpdate = needsUpdate;
+    }
+
+    @Override
+    public boolean needsUpdate() {
+        return this.needsUpdate;
+    }
+
+    @Override
+    public void lookAt(final int x, final int y) {
+        if(this.position.equals(x, y)) return;
+
+        if(this.hasStatus(RoomEntityStatus.LAY)) return;
+
+        final int rotation = Position.calculateRotation(this.position.getX(), this.position.getY(), x, y, false);
+
+        if(!this.hasStatus(RoomEntityStatus.SIT)) {
+            this.bodyRotation = rotation;
+        }
+
+        if(Math.abs(rotation - this.bodyRotation) <= 1) {
+            this.headRotation = rotation;
+        }
+
+        this.setNeedsUpdate(true);
     }
 
     @Override
