@@ -30,6 +30,8 @@ public class HabboEntity implements IHabboEntity {
 
     private final Map<RoomEntityStatus, String> status;
 
+    private int danceId;
+
     private boolean disposed = false;
     private boolean needsUpdate = false;
 
@@ -162,6 +164,28 @@ public class HabboEntity implements IHabboEntity {
     @Override
     public boolean needsUpdate() {
         return this.needsUpdate;
+    }
+
+    @Override
+    public void setDanceId(int id) {
+        this.danceId = id;
+    }
+
+    @Override
+    public int getDanceId() {
+        return this.danceId;
+    }
+
+    @Override
+    public void sit(double height) {
+        this.removeStatus(RoomEntityStatus.LAY);
+
+        this.setStatus(RoomEntityStatus.SIT, String.valueOf(height).replace(",", "."));
+
+        this.bodyRotation = Position.calculateSitRotation(this.bodyRotation);
+        this.headRotation = this.bodyRotation;
+
+        this.setNeedsUpdate(true);
     }
 
     @Override

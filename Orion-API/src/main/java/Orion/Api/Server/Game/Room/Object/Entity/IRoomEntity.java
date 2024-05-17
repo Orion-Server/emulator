@@ -22,4 +22,10 @@ public interface IRoomEntity extends IRoomObject, IWriteable, IStatusable, IDisp
     void setNeedsUpdate(boolean needsUpdate);
 
     boolean needsUpdate();
+
+    void setDanceId(int id);
+
+    int getDanceId();
+
+    void sit(double height);
 }

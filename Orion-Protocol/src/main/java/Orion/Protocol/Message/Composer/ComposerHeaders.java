@@ -71,4 +71,6 @@ public abstract class ComposerHeaders {
     public static int RoomRightsListComposer = 1284;
     public static int RoomOwnerComposer = 339;
     public static int HabboTypingComposer = 1717;
+    public static int EntityDanceComposer = 2233;
+    public static int EntityActionComposer = 1631;
 }

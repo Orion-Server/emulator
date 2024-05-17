@@ -118,6 +118,20 @@ public class Position {
 
         return new Position(x, y);
     }
+    
+    public static int calculateSitRotation(int rotation) {
+        switch (rotation) {
+            case 1:
+            case 3:
+            case 5:
+            case 7: {
+                rotation++;
+                break;
+            }
+        }
+
+        return rotation;
+    }
 
     public Position add(Position other) {
         return new Position(other.getX() + getX(), other.getY() + getY(), other.getZ() + getZ());
