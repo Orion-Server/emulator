@@ -5,7 +5,8 @@ public enum RoomEntityStatus {
     MOVE("mv"),
     GESTURE("gst"),
     SIT("sit"),
-    LAY("lay")
+    LAY("lay"),
+    SIGN("sign"),
 
     ;
 

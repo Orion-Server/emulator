@@ -1,6 +1,6 @@
-package Orion.Api.Server.Game.Habbo.Enums;
+package Orion.Api.Server.Game.Room.Object.Entity.Enum;
 
-public enum HabboActionType {
+public enum EntityActionType {
     NONE(0),
     WAVE(1),
     BLOW_KISS(2),
@@ -14,12 +14,12 @@ public enum HabboActionType {
 
     private final int value;
 
-    HabboActionType(int value) {
+    EntityActionType(int value) {
         this.value = value;
     }
 
-    public static HabboActionType fromValue(int value) {
-        for (final HabboActionType type : values()) {
+    public static EntityActionType fromValue(int value) {
+        for (final EntityActionType type : values()) {
             if (type.get() == value) {
                 return type;
             }
