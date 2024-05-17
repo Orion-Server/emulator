@@ -58,6 +58,10 @@ public class HabboEntityProcess {
         this.room.broadcastMessage(new RoomEntityStatusComposer(this.entitiesToUpdate));
 
         for(final IRoomEntity entity : this.entitiesToUpdate) {
+            if(entity.hasStatus(RoomEntityStatus.SIGN)) {
+                entity.removeStatus(RoomEntityStatus.SIGN);
+            }
+
             if(entity.getNextPosition() == null) continue;
 
             final Position nextPosition = entity.getNextPosition().copy();
