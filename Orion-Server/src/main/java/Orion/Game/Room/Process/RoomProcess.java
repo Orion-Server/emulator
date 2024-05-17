@@ -1,6 +1,7 @@
 package Orion.Game.Room.Process;
 
 import Orion.Api.Server.Game.Room.IRoom;
+import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Api.Server.Game.Room.Process.IRoomProcess;
 import Orion.Api.Server.Task.IThreadManager;
 import Orion.Game.Room.Process.Entities.HabboEntityProcess;
@@ -40,6 +41,11 @@ public class RoomProcess implements IRoomProcess {
         this.task = this.threadManager.getRoomProcessingExecutor().scheduleAtFixedRate(this, 500, 500, TimeUnit.MILLISECONDS);
 
         this.started = true;
+    }
+
+    @Override
+    public void onEntityRemoved(IRoomEntity entity) {
+        this.habboEntityProcess.onEntityRemoved(entity);
     }
 
     @Override

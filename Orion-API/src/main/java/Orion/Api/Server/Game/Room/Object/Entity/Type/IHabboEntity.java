@@ -12,4 +12,6 @@ public interface IHabboEntity extends IRoomEntity {
     IEntityWalkComponent getWalkComponent();
 
     boolean isWalking();
+
+    boolean isDisposed();
 }

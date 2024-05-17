@@ -111,6 +111,8 @@ public class Room implements IRoom {
 
     @Override
     public void onEntityRemoved(final IRoomEntity entity) {
+        this.process.onEntityRemoved(entity);
+
         this.broadcastMessage(new RemoveHabboEntityComposer(entity.getVirtualId()));
     }
 

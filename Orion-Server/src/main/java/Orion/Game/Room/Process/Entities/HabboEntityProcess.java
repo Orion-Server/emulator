@@ -22,6 +22,12 @@ public class HabboEntityProcess {
         this.entitiesToUpdate = new ArrayList<>();
     }
 
+    public void onEntityRemoved(final IRoomEntity entity) {
+        if(entity instanceof IHabboEntity) {
+            this.entitiesToUpdate.remove(entity);
+        }
+    }
+
     public void process() {
         for(final IHabboEntity entity : this.room.getEntitiesComponent().getHabboEntities()) {
             if(entity.hasStatus(RoomEntityStatus.MOVE)) {

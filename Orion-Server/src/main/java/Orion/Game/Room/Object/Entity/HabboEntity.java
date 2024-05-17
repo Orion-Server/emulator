@@ -31,6 +31,8 @@ public class HabboEntity implements IHabboEntity {
 
     private final Map<RoomEntityStatus, String> status;
 
+    private boolean disposed = false;
+
     public HabboEntity(int virtualId, final IHabbo habbo, final IRoom room) {
         this.virtualId = virtualId;
 
@@ -158,8 +160,15 @@ public class HabboEntity implements IHabboEntity {
     }
 
     @Override
+    public boolean isDisposed() {
+        return this.disposed;
+    }
+
+    @Override
     public void dispose() {
-        this.room.onEntityRemoved(this);
+        this.disposed = true;
+
+        this.room.getEntitiesComponent().removeEntity(this);
 
         this.position = null;
         this.nextPosition = null;
