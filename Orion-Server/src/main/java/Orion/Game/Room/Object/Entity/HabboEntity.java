@@ -11,6 +11,9 @@ import Orion.Game.Room.Object.Entity.Component.EntityWalkComponent;
 import Orion.Writer.Room.Object.Entity.HabboEntityWriter;
 import gnu.trove.map.hash.THashMap;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class HabboEntity implements IHabboEntity {
     private IHabbo habbo;
 
@@ -26,12 +29,12 @@ public class HabboEntity implements IHabboEntity {
 
     private final IEntityWalkComponent walkComponent;
 
-    private final THashMap<RoomEntityStatus, String> status;
+    private final Map<RoomEntityStatus, String> status;
 
-    public HabboEntity(final int virtualId, final IHabbo habbo, final IRoom room) {
-        this.status = new THashMap<>();
-
+    public HabboEntity(int virtualId, final IHabbo habbo, final IRoom room) {
         this.virtualId = virtualId;
+
+        this.status = new ConcurrentHashMap<>();
 
         this.habbo = habbo;
         this.room = room;
@@ -115,11 +118,17 @@ public class HabboEntity implements IHabboEntity {
 
     @Override
     public void setStatus(RoomEntityStatus status, String value) {
-        this.status.put(status, value);
+        if(this.status.containsKey(status)) {
+            this.status.replace(status, value);
+        } else {
+            this.status.put(status, value);
+        }
     }
 
     @Override
     public void removeStatus(RoomEntityStatus status) {
+        if(!this.status.containsKey(status)) return;
+
         this.status.remove(status);
     }
 
@@ -139,7 +148,7 @@ public class HabboEntity implements IHabboEntity {
     }
 
     @Override
-    public THashMap<RoomEntityStatus, String> getAllStatus() {
+    public Map<RoomEntityStatus, String> getAllStatus() {
         return this.status;
     }
 

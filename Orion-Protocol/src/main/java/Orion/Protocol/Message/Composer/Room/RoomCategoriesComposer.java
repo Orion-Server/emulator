@@ -19,6 +19,8 @@ public class RoomCategoriesComposer extends MessageComposer {
     public RoomCategoriesComposer() {
         super(ComposerHeaders.RoomCategoriesComposer);
 
+        appendInt(this.categories.length);
+
         for (int i = 0; i <= this.categories.length - 1; i++) {
             appendInt(i + 1);
             appendString(this.categories[i]);

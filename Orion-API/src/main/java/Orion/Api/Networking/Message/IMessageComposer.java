@@ -8,8 +8,6 @@ public interface IMessageComposer extends ByteBufHolder {
 
     void clear();
 
-    boolean isFinished();
-
     void appendString(Object object);
 
     void appendDouble(double doubleValue);

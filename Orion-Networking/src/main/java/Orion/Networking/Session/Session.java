@@ -106,7 +106,7 @@ public class Session implements ISession {
 
         this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getName()}");
 
-        this.context.channel().writeAndFlush(composer, this.context.channel().voidPromise());
+        this.context.writeAndFlush(composer, this.context.voidPromise());
 
         return this;
     }
@@ -118,10 +118,10 @@ public class Session implements ISession {
         for (final IMessageComposer composer : composers) {
             this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
-            this.context.channel().write(composer);
+            this.context.write(composer);
         }
 
-        this.context.channel().flush();
+        this.context.flush();
 
         return this;
     }
@@ -133,10 +133,10 @@ public class Session implements ISession {
         for (final IMessageComposer composer : composers) {
             this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
-            this.context.channel().write(composer);
+            this.context.write(composer);
         }
 
-        this.context.channel().flush();
+        this.context.flush();
 
         return this;
     }

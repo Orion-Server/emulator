@@ -2,7 +2,6 @@ package Orion.Networking.Message;
 
 import Orion.Api.Networking.Message.IMessageComposer;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufHolder;
 import io.netty.buffer.Unpooled;
 
 import java.nio.charset.StandardCharsets;
@@ -16,7 +15,7 @@ public class MessageComposer implements IMessageComposer {
         this.buffer = buffer;
 
         try {
-            this.buffer.writeInt(0);
+            this.buffer.writeInt(-1);
             this.buffer.writeShort(id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,22 +36,22 @@ public class MessageComposer implements IMessageComposer {
     }
 
     @Override
-    public ByteBufHolder copy() {
+    public IMessageComposer copy() {
         return new MessageComposer(this.id, this.buffer.copy());
     }
 
     @Override
-    public ByteBufHolder duplicate() {
+    public IMessageComposer duplicate() {
         return new MessageComposer(this.id, this.buffer.duplicate());
     }
 
     @Override
-    public ByteBufHolder retainedDuplicate() {
+    public IMessageComposer retainedDuplicate() {
         return new MessageComposer(this.id, this.buffer.retainedDuplicate());
     }
 
     @Override
-    public ByteBufHolder replace(ByteBuf byteBuf) {
+    public IMessageComposer replace(ByteBuf byteBuf) {
         return new MessageComposer(this.id, byteBuf);
     }
 
@@ -62,24 +61,24 @@ public class MessageComposer implements IMessageComposer {
     }
 
     @Override
-    public ByteBufHolder retain() {
+    public IMessageComposer retain() {
         return new MessageComposer(this.id, this.buffer.retain());
     }
 
     @Override
-    public ByteBufHolder retain(int i) {
+    public IMessageComposer retain(int i) {
         return new MessageComposer(this.id, this.buffer.retain(i));
     }
 
     @Override
-    public MessageComposer touch() {
+    public IMessageComposer touch() {
         this.buffer.touch();
 
         return this;
     }
 
     @Override
-    public MessageComposer touch(Object o) {
+    public IMessageComposer touch(Object o) {
         this.buffer.touch(o);
 
         return this;
@@ -87,7 +86,7 @@ public class MessageComposer implements IMessageComposer {
 
     @Override
     public boolean release() {
-        return this.buffer.release();
+        return this.buffer.copy().release();
     }
 
     @Override
@@ -101,14 +100,6 @@ public class MessageComposer implements IMessageComposer {
 
     public void clear() {
         this.buffer.clear();
-    }
-
-    public boolean hasLength() {
-        return this.buffer.getInt(0) > -1;
-    }
-
-    public boolean isFinished() {
-        return !this.hasLength();
     }
 
     public void appendString(Object object) {

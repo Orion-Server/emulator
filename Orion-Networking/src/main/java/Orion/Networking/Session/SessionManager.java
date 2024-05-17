@@ -39,14 +39,14 @@ public class SessionManager implements ISessionManager {
     }
 
     @Override
-    public boolean addChannel(ChannelHandlerContext channel, String ipAddress) {
+    public boolean addChannel(ChannelHandlerContext context, String ipAddress) {
         final int sessionId = this.sessionId.incrementAndGet();
-        final Session session = new Session(sessionId, channel, ipAddress);
+        final Session session = new Session(sessionId, context, ipAddress);
 
-        channel.channel().attr(SESSION_KEY).set(session);
-        channel.channel().attr(CHANNEL_KEY).set(sessionId);
+        context.channel().attr(SESSION_KEY).set(session);
+        context.channel().attr(CHANNEL_KEY).set(sessionId);
 
-        this.channelGroup.add(channel.channel());
+        this.channelGroup.add(context.channel());
 
         return this.sessions.putIfAbsent(sessionId, session) == null;
     }

@@ -22,7 +22,7 @@ public class RoomEntitiesComponent implements IRoomEntitiesComponent {
 
     public RoomEntitiesComponent(final IRoom room) {
         this.room = room;
-        this.virtualIdPointer = new AtomicInteger();
+        this.virtualIdPointer = new AtomicInteger(0);
 
         this.roomEntities = new ConcurrentHashMap<>();
         this.habboEntities = new ConcurrentHashMap<>();

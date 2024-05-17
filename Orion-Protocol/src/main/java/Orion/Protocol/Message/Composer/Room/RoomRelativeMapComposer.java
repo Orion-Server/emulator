@@ -7,9 +7,7 @@ import Orion.Networking.Message.MessageComposer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
 public class RoomRelativeMapComposer extends MessageComposer {
-    public RoomRelativeMapComposer(
-            final IRoom room
-    ) {
+    public RoomRelativeMapComposer(final IRoom room) {
         super(ComposerHeaders.RoomRelativeMapComposer);
 
         appendInt(room.getModel().getMapSize() / room.getModel().getMapSizeY());

@@ -1,7 +1,8 @@
 package Orion.Api.Util;
 
 import Orion.Api.Server.Game.Room.Object.Entity.Enum.RoomEntityStatus;
-import gnu.trove.map.hash.THashMap;
+
+import java.util.Map;
 
 public interface IStatusable {
     void setStatus(RoomEntityStatus status, final String value);
@@ -14,5 +15,5 @@ public interface IStatusable {
 
     void clearStatuses();
 
-    THashMap<RoomEntityStatus, String> getAllStatus();
+    Map<RoomEntityStatus, String> getAllStatus();
 }

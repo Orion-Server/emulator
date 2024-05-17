@@ -5,9 +5,7 @@ import Orion.Networking.Message.MessageComposer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
 public class RoomHeightmapComposer extends MessageComposer {
-    public RoomHeightmapComposer(
-            final IRoom room
-    ) {
+    public RoomHeightmapComposer(final IRoom room) {
         super(ComposerHeaders.RoomHeightmapComposer);
 
         appendBoolean(true);

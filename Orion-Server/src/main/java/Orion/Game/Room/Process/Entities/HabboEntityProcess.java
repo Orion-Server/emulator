@@ -7,17 +7,19 @@ import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Server.Game.Util.Position;
 import Orion.Protocol.Message.Composer.Room.Entities.RoomEntityStatusComposer;
-import gnu.trove.set.hash.THashSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HabboEntityProcess {
     private final IRoom room;
 
-    private final THashSet<IRoomEntity> entitiesToUpdate;
+    private final List<IRoomEntity> entitiesToUpdate;
 
     public HabboEntityProcess(final IRoom room) {
         this.room = room;
 
-        this.entitiesToUpdate = new THashSet<>(this.room.getData().getMaxUsers() + 10);
+        this.entitiesToUpdate = new ArrayList<>();
     }
 
     public void process() {
@@ -39,9 +41,9 @@ public class HabboEntityProcess {
             }
         }
 
-        if(!this.entitiesToUpdate.isEmpty()) {
-            this.room.broadcastMessage(new RoomEntityStatusComposer(this.entitiesToUpdate));
-        }
+        if(this.entitiesToUpdate.isEmpty()) return;
+
+        this.room.broadcastMessage(new RoomEntityStatusComposer(this.entitiesToUpdate));
 
         for(final IRoomEntity entity : this.entitiesToUpdate) {
             if(entity.getNextPosition() == null) continue;
