@@ -23,4 +23,6 @@ public interface IRoomItemData extends IFillable {
     ILimitedItemData getLimitedData();
 
     int getGroupId();
+
+    String getOwnerName();
 }

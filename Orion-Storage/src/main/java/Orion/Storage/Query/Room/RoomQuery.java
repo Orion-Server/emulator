@@ -9,6 +9,8 @@ public enum RoomQuery {
 
     SELECT_ALL_ROOM_MODELS("SELECT * FROM room_models"),
 
+    LOAD_CUSTOM_ROOM_MODEL("SELECT * FROM room_models_custom WHERE id = ?"),
+
     ;
 
     private final String query;

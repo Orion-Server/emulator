@@ -51,7 +51,7 @@ public class RoomItemManager implements IRoomItemManager {
     }
 
     @Override
-    public IItemDefinition getItemDefinition(int id) {
+    public IItemDefinition getItemDefinitionById(int id) {
         return this.itemDefinitions.get(id);
     }
 

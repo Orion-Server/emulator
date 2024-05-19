@@ -17,14 +17,14 @@ public enum ItemDefinitionType {
         this.type = type;
     }
 
-    public static boolean definitionTypeIsInvalid(String type) {
-        for (ItemDefinitionType itemDefinitionType : ItemDefinitionType.values()) {
+    public static ItemDefinitionType fromResult(String type) {
+        for (final ItemDefinitionType itemDefinitionType : ItemDefinitionType.values()) {
             if (itemDefinitionType.get().equals(type)) {
-                return false;
+                return itemDefinitionType;
             }
         }
 
-        return true;
+        return null;
     }
 
     public String get() {

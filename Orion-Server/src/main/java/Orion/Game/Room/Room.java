@@ -48,9 +48,9 @@ public class Room implements IRoom {
     public void initialize() {
         if(this.isFullyLoaded()) return;
 
+        this.roomItemsComponent.initialize();
         this.roomMappingComponent.initialize();
         this.roomEntitiesComponent.initialize();
-        this.roomItemsComponent.initialize();
 
         this.process.initialize();
 

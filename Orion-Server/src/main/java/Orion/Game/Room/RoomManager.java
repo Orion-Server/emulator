@@ -8,7 +8,6 @@ import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.IRoomManager;
 import Orion.Api.Server.Game.Room.Utils.RoomEnvironmentVariables;
 import Orion.Api.Storage.Repository.Room.IRoomRepository;
-import Orion.Game.Room.Data.Model.RoomModel;
 import Orion.Game.Room.Data.Model.RoomModelData;
 import Orion.Game.Room.Data.RoomCategory;
 import Orion.Game.Room.Factory.RoomFactory;

@@ -16,6 +16,11 @@ public class RoomTile implements IRoomTile {
     }
 
     @Override
+    public void initialize() {
+
+    }
+
+    @Override
     public Position getPosition() {
         return this.position;
     }

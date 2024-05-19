@@ -4,6 +4,7 @@ import Orion.Api.Server.Game.Room.Component.IRoomItemsComponent;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomFloorItem;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomItem;
+import Orion.Api.Server.Game.Room.Object.Item.IRoomWallItem;
 import Orion.Api.Server.Game.Room.Object.Item.ItemDefinitionType;
 import Orion.Api.Storage.Repository.Room.IRoomItemsRepository;
 import Orion.Game.Room.Object.Item.Factory.RoomItemFactory;
@@ -23,7 +24,7 @@ public class RoomItemsComponent implements IRoomItemsComponent {
 
     private final ConcurrentHashMap<Integer, IRoomFloorItem> floorItems;
 
-    private final ConcurrentHashMap<Integer, IRoomItem> wallItems;
+    private final ConcurrentHashMap<Integer, IRoomWallItem> wallItems;
 
     private final ConcurrentHashMap<Integer, String> ownerNames;
 
@@ -45,7 +46,7 @@ public class RoomItemsComponent implements IRoomItemsComponent {
     }
 
     @Override
-    public ConcurrentHashMap<Integer, IRoomItem> getWallItems() {
+    public ConcurrentHashMap<Integer, IRoomWallItem> getWallItems() {
         return this.wallItems;
     }
 
@@ -70,11 +71,11 @@ public class RoomItemsComponent implements IRoomItemsComponent {
             if(loadedItem.getDefinition().getType() == ItemDefinitionType.FLOOR) {
                 this.floorItems.put(loadedItem.getVirtualId(), (IRoomFloorItem) loadedItem);
             } else {
-                this.wallItems.put(loadedItem.getVirtualId(), loadedItem);
+                this.wallItems.put(loadedItem.getVirtualId(), (IRoomWallItem) loadedItem);
             }
 
             if(loadedItem.getData().getOwnerId() != 0) {
-                this.ownerNames.putIfAbsent(loadedItem.getData().getOwnerId(), "iNicollas");
+                this.ownerNames.putIfAbsent(loadedItem.getData().getOwnerId(), result.getString("owner_name"));
             }
         }, this.room.getData().getId());
     }

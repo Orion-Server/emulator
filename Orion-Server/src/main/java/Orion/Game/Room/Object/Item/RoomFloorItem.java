@@ -72,6 +72,11 @@ public class RoomFloorItem implements IRoomFloorItem {
     }
 
     @Override
+    public IRoomItemInteraction getInteraction() {
+        return this.interaction;
+    }
+
+    @Override
     public int getRotation() {
         return this.data.getRotation();
     }

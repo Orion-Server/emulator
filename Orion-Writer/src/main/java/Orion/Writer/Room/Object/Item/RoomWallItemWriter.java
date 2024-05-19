@@ -8,6 +8,14 @@ public abstract class RoomWallItemWriter {
             final IRoomWallItem item,
             final IMessageComposer composer
     ) {
+        composer.appendString(STR."\{item.getVirtualId()}");
+        composer.appendInt(item.getDefinition().getSpriteId());
+        composer.appendString(item.getData().getWallPosition());
 
+        composer.appendString(item.getData().getExtraData());
+        composer.appendInt(-1);
+
+        composer.appendInt(item.getDefinition().getInteractionModesCount() > 1 ? 1 : 0);
+        composer.appendInt(item.getRoom().getData().getOwnerId());
     }
 }

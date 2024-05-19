@@ -3,14 +3,28 @@ package Orion.Game.Room.Factory;
 import Orion.Api.Server.Game.Room.Data.Model.Enum.ModelTileState;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomModel;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomModelData;
+import Orion.Api.Server.Game.Room.IRoomManager;
+import Orion.Api.Storage.Repository.Room.IRoomRepository;
+import Orion.Api.Storage.Result.IConnectionResult;
+import Orion.Game.Room.Data.Model.CustomRoomModel;
 import Orion.Game.Room.Data.Model.RoomModel;
+import Orion.Game.Room.Data.Model.RoomModelData;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 @Singleton
 public class RoomModelFactory {
     private final Logger logger = LogManager.getLogger();
+
+    @Inject
+    private IRoomManager roomManager;
+
+    @Inject
+    private IRoomRepository roomRepository;
 
     public IRoomModel createAndParseModel(IRoomModelData roomModelData) {
         try {
@@ -34,7 +48,13 @@ public class RoomModelFactory {
             final int doorZ = tileHeights[roomModelData.getDoorX()][roomModelData.getDoorY()];
             final String map = concatenateHeightmap(heightmapRows);
 
-            return new RoomModel(roomModelData, mapSize, tileStates, map, tileHeights, doorZ);
+            if(!roomModelData.getName().startsWith("custom_")) {
+                return new RoomModel(roomModelData, mapSize, tileStates, map, tileHeights, doorZ);
+            }
+
+            // Do things with custom room models
+
+            return new CustomRoomModel(roomModelData, mapSize, tileStates, map, tileHeights, doorZ);
         } catch (Exception e) {
             this.logger.error(STR."Failed to create model: \{roomModelData.getName()}");
         }
@@ -54,13 +74,11 @@ public class RoomModelFactory {
 
         for (int x = 0; x < heightmapRow.length(); x++) {
             final char tile = heightmapRow.toCharArray()[x];
+            final boolean isDoor = x == roomModelData.getDoorX() && y == roomModelData.getDoorY();
 
-            if (String.valueOf(tile).equals("x")) {
-                tileStates[x][y] = (x == roomModelData.getDoorX() && y == roomModelData.getDoorY()) ? ModelTileState.VALID : ModelTileState.INVALID;
-                continue;
-            }
+            tileStates[x][y] = !String.valueOf(tile).equalsIgnoreCase("x") || isDoor
+                    ? ModelTileState.VALID : ModelTileState.INVALID;
 
-            tileStates[x][y] = ModelTileState.VALID;
             tileHeights[x][y] = this.getTileHeight(tile);
 
             mapSize++;
@@ -110,5 +128,26 @@ public class RoomModelFactory {
                 squareHeights,
                 roomModel.getDoorZ()
         );
+    }
+
+    public IRoomModel resolveRoomModelFromResult(final IConnectionResult data) throws Exception {
+        if(!data.getString("override_model").equals("1")) {
+            return this.roomManager.getRoomModelByName(data.getString("model"));
+        }
+
+        final AtomicReference<IRoomModelData> modelData = new AtomicReference<>();
+
+        this.roomRepository.loadCustomRoomModel(result -> {
+            if(result == null) return;
+
+            modelData.set(new RoomModelData(result));
+        }, data.getInt("id"));
+
+        if(modelData.get() == null) {
+            this.logger.error(STR."Failed to load custom room model for room: \{data.getInt("id")}");
+            return null;
+        }
+
+        return this.createAndParseModel(modelData.get());
     }
 }

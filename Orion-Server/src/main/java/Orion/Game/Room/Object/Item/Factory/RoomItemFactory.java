@@ -59,17 +59,13 @@ public class RoomItemFactory implements Initializable {
             final IRoom room
     ) {
         try {
-            final IItemDefinition definition = this.itemManager.getItemDefinition(data.getInt("item_id"));
+            final IItemDefinition definition = this.itemManager.getItemDefinitionById(data.getInt("item_id"));
 
             if(definition == null) return null;
 
             return switch (definition.getType()) {
-                case ItemDefinitionType.FLOOR -> this.createFloorItem(
-                        virtualId, data, room, definition
-                );
-                case ItemDefinitionType.WALL -> this.createWallItem(
-                        virtualId, data, room, definition
-                );
+                case ItemDefinitionType.FLOOR -> this.createFloorItem(virtualId, data, room, definition);
+                case ItemDefinitionType.WALL -> this.createWallItem(virtualId, data, room, definition);
                 default -> null;
             };
         } catch (final Exception e) {

@@ -183,7 +183,7 @@ public class ItemDefinition implements IItemDefinition {
         this.clothingOnWalk = data.getString("clothing_on_walk");
 
         try {
-            this.type = ItemDefinitionType.valueOf(data.getString("type"));
+            this.type = ItemDefinitionType.fromResult(data.getString("type"));
         } catch (IllegalArgumentException e) {
             this.type = ItemDefinitionType.FLOOR;
         }

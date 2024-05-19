@@ -18,7 +18,7 @@ public abstract class RoomFloorItemWriter {
         composer.appendInt(1); // TODO: Gift, song, etc
 
         composer.appendInt(0); // TODO: Implement extra data
-        composer.appendString(""); // TODO: Implement extra data
+        composer.appendString(item.getData().getExtraData()); // TODO: Implement extra data
 
         if(item.getData().getLimitedData() != null) {
             composer.appendInt(item.getData().getLimitedData().getLimitedEditionNumber());

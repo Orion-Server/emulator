@@ -10,4 +10,6 @@ public interface IRoomRepository {
     void loadFlatCategories(IConnectionResultConsumer consumer);
 
     void loadRoomModels(IConnectionResultConsumer consumer);
+
+    void loadCustomRoomModel(IConnectionResultConsumer consumer, int roomId);
 }

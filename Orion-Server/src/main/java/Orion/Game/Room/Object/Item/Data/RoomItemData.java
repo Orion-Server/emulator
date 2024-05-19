@@ -26,6 +26,8 @@ public class RoomItemData implements IRoomItemData {
 
     private int groupId;
 
+    private String ownerName;
+
     public RoomItemData(final IConnectionResult data) {
         try {
             this.fill(data);
@@ -85,6 +87,11 @@ public class RoomItemData implements IRoomItemData {
     }
 
     @Override
+    public String getOwnerName() {
+        return this.ownerName;
+    }
+
+    @Override
     public void fill(final IConnectionResult data) throws Exception {
         this.id = data.getInt("id");
         this.ownerId = data.getInt("user_id");
@@ -94,6 +101,7 @@ public class RoomItemData implements IRoomItemData {
         this.extraData = data.getString("extra_data");
         this.wiredData = data.getString("wired_data");
         this.groupId = data.getInt("guild_id");
+        this.ownerName = data.getString("owner_name");
 
         if(this.wallPosition.isEmpty()) {
             this.position = new Position(data.getInt("x"), data.getInt("y"), data.getDouble("z"));

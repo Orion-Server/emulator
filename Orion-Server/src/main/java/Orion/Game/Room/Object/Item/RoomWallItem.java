@@ -40,7 +40,7 @@ public class RoomWallItem implements IRoomWallItem {
 
     @Override
     public IRoom getRoom() {
-        return null;
+        return this.room;
     }
 
     @Override
@@ -56,6 +56,11 @@ public class RoomWallItem implements IRoomWallItem {
     @Override
     public IItemDefinition getDefinition() {
         return this.definition;
+    }
+
+    @Override
+    public IRoomItemInteraction getInteraction() {
+        return this.interaction;
     }
 
     @Override
