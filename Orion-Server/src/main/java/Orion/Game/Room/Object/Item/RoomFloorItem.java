@@ -12,6 +12,9 @@ import Orion.Game.Room.Object.Item.Data.RoomItemData;
 import Orion.Writer.Room.Object.Item.RoomFloorItemWriter;
 import gnu.trove.map.hash.THashMap;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RoomFloorItem implements IRoomFloorItem {
     private final IRoom room;
 
@@ -21,24 +24,34 @@ public class RoomFloorItem implements IRoomFloorItem {
 
     private final IRoomItemData data;
 
-    private final IRoomItemInteraction interaction;
+    private IRoomItemInteraction interaction;
 
     private final IItemDefinition definition;
+
+    private final List<Position> affectedPositions;
 
     public RoomFloorItem(
             final int virtualId,
             final IRoom room,
             final IConnectionResult data,
-            final IRoomItemInteraction interaction,
             final IItemDefinition definition
     ) {
         this.virtualId = virtualId;
 
         this.room = room;
         this.definition = definition;
-        this.interaction = interaction;
 
         this.data = new RoomItemData(data);
+
+        this.affectedPositions = new ArrayList<>();
+        this.affectedPositions.add(this.data.getPosition());
+    }
+
+    @Override
+    public void setInteraction(IRoomItemInteraction interaction) {
+        if(this.interaction != null) return;
+
+        this.interaction = interaction;
     }
 
     @Override
@@ -84,6 +97,17 @@ public class RoomFloorItem implements IRoomFloorItem {
     @Override
     public void setRotation(int rotation) {
         // Implement this
+    }
+
+    @Override
+    public void setAffectedPositions(List<Position> positions) {
+        this.affectedPositions.clear();
+        this.affectedPositions.addAll(positions);
+    }
+
+    @Override
+    public List<Position> getAffectedPositions() {
+        return this.affectedPositions;
     }
 
     @Override

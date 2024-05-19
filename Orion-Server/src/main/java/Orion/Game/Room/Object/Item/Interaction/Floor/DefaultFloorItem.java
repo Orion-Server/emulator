@@ -1,11 +1,14 @@
 package Orion.Game.Room.Object.Item.Interaction.Floor;
 
+import Orion.Api.Server.Game.Room.Object.Item.IRoomFloorItem;
 import Orion.Game.Room.Object.Item.Composition.InteractionName;
 import Orion.Game.Room.Object.Item.Interaction.RoomItemInteraction;
 
-@InteractionName("default_floor")
+@InteractionName("default")
 public class DefaultFloorItem extends RoomItemInteraction {
-    public DefaultFloorItem() {
+    private final IRoomFloorItem item;
 
+    public DefaultFloorItem(IRoomFloorItem item) {
+        this.item = item;
     }
 }

@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.reflections.Reflections;
 
+import java.lang.reflect.Constructor;
 import java.util.Set;
 
 @Singleton
@@ -53,11 +54,7 @@ public class RoomItemFactory implements Initializable {
         this.logger.debug("[{}] interactions loaded successfully.", this.interactions.size());
     }
 
-    public IRoomItem create(
-            int virtualId,
-            final IConnectionResult data,
-            final IRoom room
-    ) {
+    public IRoomItem create(int virtualId, final IConnectionResult data, final IRoom room) {
         try {
             final IItemDefinition definition = this.itemManager.getItemDefinitionById(data.getInt("item_id"));
 
@@ -82,9 +79,27 @@ public class RoomItemFactory implements Initializable {
             final IItemDefinition definition
     ) {
         try {
-            final IRoomItemInteraction interaction = this.interactions.get("default_floor").getConstructor().newInstance();
+            final IRoomFloorItem item = new RoomFloorItem(virtualId, room, data, definition);
+            String interactionType = definition.getInteractionType().toLowerCase();
 
-            return new RoomFloorItem(virtualId, room, data, interaction, definition);
+            if(!this.interactions.containsKey(definition.getInteractionType().toLowerCase())) {
+                this.logger.warn("Interaction [{}] not found for floor item {}", definition.getInteractionType(), definition.getItemName());
+
+                item.setInteraction(this.interactions.get("default").getConstructor(IRoomFloorItem.class).newInstance(item));
+
+                return item;
+            }
+
+            if(interactionType.equalsIgnoreCase("default") && definition.isAllowSit()) {
+                interactionType = "seat_floor";
+            }
+
+            final IRoomItemInteraction interaction = this.interactions.get(interactionType)
+                    .getConstructor(IRoomFloorItem.class).newInstance(item);
+
+            item.setInteraction(interaction);
+
+            return item;
         } catch (final Exception e) {
             this.logger.error("Failed to create floor item", e);
         }
@@ -99,9 +114,20 @@ public class RoomItemFactory implements Initializable {
             final IItemDefinition definition
     ) {
         try {
-            final IRoomItemInteraction interaction = this.interactions.get("default_wall").getConstructor().newInstance();
+            if(!this.interactions.containsKey(definition.getInteractionType().toLowerCase())) {
+                this.logger.warn("Interaction [{}] not found for wall item {}", definition.getInteractionType(), definition.getItemName());
+                return null;
+            }
 
-            return new RoomWallItem(virtualId, room, data, interaction, definition);
+            final IRoomWallItem item = new RoomWallItem(virtualId, room, data, definition);
+
+            final IRoomItemInteraction interaction = this.interactions.get(
+                    definition.getInteractionType().toLowerCase()
+            ).getConstructor(IRoomWallItem.class).newInstance(item);
+
+            item.setInteraction(interaction);
+
+            return item;
         } catch (final Exception e) {
             this.logger.error("Failed to create wall item", e);
         }

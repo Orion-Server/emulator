@@ -1,5 +1,8 @@
 package Orion.Api.Server.Game.Util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Position {
     public static final Position ZERO = new Position(0, 0, 0);
 
@@ -23,9 +26,6 @@ public class Position {
     private final int x;
     private final int y;
     private final double z;
-
-    private int prevX;
-    private int prevY;
 
     public Position(int x, int y, double z) {
         this.x = x;
@@ -135,12 +135,27 @@ public class Position {
         return rotation;
     }
 
-    public Position add(Position other) {
-        return new Position(other.getX() + getX(), other.getY() + getY(), other.getZ() + getZ());
+    public static List<Position> getAffectedPositions(int length, int width, int rotation, Position position) {
+        final List<Position> positions = new ArrayList<>();
+
+        for(int y = 0; y < length; y++) {
+            for(int x = 0; x < width; x++) {
+                if(rotation == 0 || rotation == 4) {
+                    positions.add(new Position(position.getX() + x, position.getY() + y));
+                    continue;
+                }
+
+                if(rotation == 2 || rotation == 6) {
+                    positions.add(new Position(position.getX() + y, position.getY() + x));
+                }
+            }
+        }
+
+        return positions;
     }
 
-    public Position subtract(Position other) {
-        return new Position(other.getX() - getX(), other.getY() - getY(), other.getZ() - getZ());
+    public Position add(Position other) {
+        return new Position(other.getX() + getX(), other.getY() + getY(), other.getZ() + getZ());
     }
 
     public int getDistanceSquared(Position point) {
@@ -148,10 +163,6 @@ public class Position {
         int dy = this.getY() - point.getY();
 
         return Math.abs(this.x - point.getX()) + Math.abs(this.y - point.getY());
-    }
-
-    public double distanceTo(Position pos) {
-        return Math.sqrt(Math.pow( (this.getX() - pos.getX()), 2) + Math.pow( (this.getY() - pos.getY()), 2));
     }
 
     public boolean equals(Position o) {
@@ -177,15 +188,9 @@ public class Position {
     public int getX() {
         return this.x;
     }
-    public int getPrevX() {
-        return this.prevX;
-    }
 
     public int getY() {
         return this.y;
-    }
-    public int getPrevY() {
-        return this.prevY;
     }
 
     public double getZ() {

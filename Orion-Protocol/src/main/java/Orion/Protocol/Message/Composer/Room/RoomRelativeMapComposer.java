@@ -1,6 +1,6 @@
 package Orion.Protocol.Message.Composer.Room;
 
-import Orion.Api.Server.Game.Room.Data.Model.Enum.ModelTileState;
+import Orion.Api.Server.Game.Room.Data.Model.Enum.RoomTileState;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomTile;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Networking.Message.MessageComposer;
@@ -22,7 +22,7 @@ public class RoomRelativeMapComposer extends MessageComposer {
                     return;
                 }
 
-                if(room.getModel().getSquareState()[x][y] == ModelTileState.INVALID) {
+                if(room.getModel().getSquareState()[x][y] == RoomTileState.INVALID) {
                     appendShort(0x3F3F);
                     continue;
                 }

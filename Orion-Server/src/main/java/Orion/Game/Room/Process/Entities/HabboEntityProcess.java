@@ -79,19 +79,21 @@ public class HabboEntityProcess {
 
     private void processHabboEntityWalk(final IHabboEntity entity) {
         final Position nextPosition = entity.getWalkComponent().getProcessingPath().getFirst();
-        final IRoomTile tile = this.room.getMappingComponent().getTile(entity.getPosition().getX(), entity.getPosition().getY());
 
-        if(tile == null) return;
+        final IRoomTile currentTile = this.room.getMappingComponent().getTile(entity.getPosition().getX(), entity.getPosition().getY());
+        final IRoomTile nextTile = this.room.getMappingComponent().getTile(nextPosition.getX(), nextPosition.getY());
+
+        if(currentTile == null) return;
 
         entity.setBodyRotation(Position.calculateRotation(entity.getPosition(), nextPosition, false));
         entity.setHeadRotation(entity.getBodyRotation());
 
-        entity.setStatus(RoomEntityStatus.MOVE, STR."\{nextPosition.getX()},\{nextPosition.getY()},\{nextPosition.getZ()}");
+        entity.setStatus(RoomEntityStatus.MOVE, STR."\{nextPosition.getX()},\{nextPosition.getY()},\{nextTile.getPosition().getZ()}");
 
         entity.removeStatus(RoomEntityStatus.LAY);
         entity.removeStatus(RoomEntityStatus.SIT);
 
-        entity.setNextPosition(nextPosition.copy());
+        entity.setNextPosition(nextTile.getPosition().copy());
 
         entity.getWalkComponent().getProcessingPath().removeFirst();
 
@@ -102,6 +104,6 @@ public class HabboEntityProcess {
             entity.getWalkComponent().clearProcessingPath();
         }
 
-        tile.onEntityLeave(entity);
+        currentTile.onEntityLeave(entity);
     }
 }

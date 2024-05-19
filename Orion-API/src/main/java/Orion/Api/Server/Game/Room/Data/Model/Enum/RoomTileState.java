@@ -1,5 +1,5 @@
 package Orion.Api.Server.Game.Room.Data.Model.Enum;
 
-public enum ModelTileState {
+public enum RoomTileState {
     VALID, INVALID
 }

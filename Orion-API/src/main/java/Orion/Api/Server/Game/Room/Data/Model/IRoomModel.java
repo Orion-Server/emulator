@@ -1,6 +1,6 @@
 package Orion.Api.Server.Game.Room.Data.Model;
 
-import Orion.Api.Server.Game.Room.Data.Model.Enum.ModelTileState;
+import Orion.Api.Server.Game.Room.Data.Model.Enum.RoomTileState;
 
 public interface IRoomModel {
     IRoomModelData getData();
@@ -13,7 +13,7 @@ public interface IRoomModel {
 
     int getMapSizeY();
 
-    ModelTileState[][] getSquareState();
+    RoomTileState[][] getSquareState();
 
     int[][] getSquareHeight();
 

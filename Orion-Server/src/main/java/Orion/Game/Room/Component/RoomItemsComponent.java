@@ -1,15 +1,20 @@
 package Orion.Game.Room.Component;
 
 import Orion.Api.Server.Game.Room.Component.IRoomItemsComponent;
+import Orion.Api.Server.Game.Room.Data.Model.IRoomTile;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomFloorItem;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomItem;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomWallItem;
 import Orion.Api.Server.Game.Room.Object.Item.ItemDefinitionType;
+import Orion.Api.Server.Game.Util.Position;
 import Orion.Api.Storage.Repository.Room.IRoomItemsRepository;
 import Orion.Game.Room.Object.Item.Factory.RoomItemFactory;
 import com.google.inject.Inject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -77,6 +82,26 @@ public class RoomItemsComponent implements IRoomItemsComponent {
             if(loadedItem.getData().getOwnerId() != 0) {
                 this.ownerNames.putIfAbsent(loadedItem.getData().getOwnerId(), result.getString("owner_name"));
             }
+
+            if(!loadedItem.getDefinition().getType().equals(ItemDefinitionType.FLOOR)) return;
+
+            if(loadedItem.getDefinition().getWidth() == 1 && loadedItem.getDefinition().getLength() == 1) {
+                this.room.getMappingComponent().getTile(loadedItem.getPosition()).addItem((IRoomFloorItem) loadedItem);
+                return;
+            }
+
+            final List<Position> affectedPositions = Position.getAffectedPositions(
+                    loadedItem.getDefinition().getLength(),
+                    loadedItem.getDefinition().getWidth(),
+                    loadedItem.getData().getRotation(),
+                    loadedItem.getPosition()
+            );
+
+            for (final Position position : affectedPositions) {
+                this.room.getMappingComponent().getTile(position).addItem((IRoomFloorItem) loadedItem);
+            }
+
+            ((IRoomFloorItem) loadedItem).setAffectedPositions(affectedPositions);
         }, this.room.getData().getId());
     }
 }

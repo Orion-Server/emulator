@@ -18,7 +18,7 @@ public class RoomWallItem implements IRoomWallItem {
 
     private final IRoomItemData data;
 
-    private final IRoomItemInteraction interaction;
+    private IRoomItemInteraction interaction;
 
     private IItemDefinition definition;
 
@@ -26,14 +26,12 @@ public class RoomWallItem implements IRoomWallItem {
             final int virtualId,
             final IRoom room,
             final IConnectionResult data,
-            final IRoomItemInteraction interaction,
             final IItemDefinition definition
     ) {
         this.virtualId = virtualId;
 
         this.room = room;
         this.definition = definition;
-        this.interaction = interaction;
 
         this.data = new RoomItemData(data);
     }
@@ -56,6 +54,13 @@ public class RoomWallItem implements IRoomWallItem {
     @Override
     public IItemDefinition getDefinition() {
         return this.definition;
+    }
+
+    @Override
+    public void setInteraction(IRoomItemInteraction interaction) {
+        if(this.interaction != null) return;
+
+        this.interaction = interaction;
     }
 
     @Override

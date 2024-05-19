@@ -1,6 +1,6 @@
 package Orion.Game.Room.Factory;
 
-import Orion.Api.Server.Game.Room.Data.Model.Enum.ModelTileState;
+import Orion.Api.Server.Game.Room.Data.Model.Enum.RoomTileState;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomModel;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomModelData;
 import Orion.Api.Server.Game.Room.IRoomManager;
@@ -39,7 +39,7 @@ public class RoomModelFactory {
             int mapSizeY = heightmapRows.length;
 
             final int[][] tileHeights = new int[mapSizeX][mapSizeY];
-            final ModelTileState[][] tileStates = new ModelTileState[mapSizeX][mapSizeY];
+            final RoomTileState[][] tileStates = new RoomTileState[mapSizeX][mapSizeY];
 
             for (int y = 0; y < mapSizeY; y++) {
                 this.parseHeightmapRow(heightmapRows[y], tileHeights, tileStates, roomModelData, y, mapSize);
@@ -65,7 +65,7 @@ public class RoomModelFactory {
     private void parseHeightmapRow(
             final String heightmapRow,
             final int[][] tileHeights,
-            final ModelTileState[][] tileStates,
+            final RoomTileState[][] tileStates,
             final IRoomModelData roomModelData,
             final int y,
             int mapSize
@@ -77,7 +77,7 @@ public class RoomModelFactory {
             final boolean isDoor = x == roomModelData.getDoorX() && y == roomModelData.getDoorY();
 
             tileStates[x][y] = !String.valueOf(tile).equalsIgnoreCase("x") || isDoor
-                    ? ModelTileState.VALID : ModelTileState.INVALID;
+                    ? RoomTileState.VALID : RoomTileState.INVALID;
 
             tileHeights[x][y] = this.getTileHeight(tile);
 
@@ -111,7 +111,7 @@ public class RoomModelFactory {
 
     public IRoomModel deepCloneFrom(IRoomModel roomModel) {
         final int[][] squareHeights = new int[roomModel.getMapSizeX()][roomModel.getMapSizeY()];
-        final ModelTileState[][] squareStates = new ModelTileState[roomModel.getMapSizeX()][roomModel.getMapSizeY()];
+        final RoomTileState[][] squareStates = new RoomTileState[roomModel.getMapSizeX()][roomModel.getMapSizeY()];
 
         for (int x = 0; x < roomModel.getMapSizeX(); x++) {
             for (int y = 0; y < roomModel.getMapSizeY(); y++) {

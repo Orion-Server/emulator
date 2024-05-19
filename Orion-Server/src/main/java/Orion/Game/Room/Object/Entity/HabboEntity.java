@@ -178,11 +178,16 @@ public class HabboEntity implements IHabboEntity {
 
     @Override
     public void sit(double height) {
+        this.sit(height, this.bodyRotation);
+    }
+
+    @Override
+    public void sit(double height, int rotation) {
         this.removeStatus(RoomEntityStatus.LAY);
 
         this.setStatus(RoomEntityStatus.SIT, String.valueOf(height).replace(",", "."));
 
-        this.bodyRotation = Position.calculateSitRotation(this.bodyRotation);
+        this.bodyRotation = Position.calculateSitRotation(rotation);
         this.headRotation = this.bodyRotation;
 
         this.setNeedsUpdate(true);

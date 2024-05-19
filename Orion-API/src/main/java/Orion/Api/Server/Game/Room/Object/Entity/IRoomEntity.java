@@ -28,4 +28,6 @@ public interface IRoomEntity extends IRoomObject, IWriteable, IStatusable, IDisp
     int getDanceId();
 
     void sit(double height);
+
+    void sit(double height, int rotation);
 }

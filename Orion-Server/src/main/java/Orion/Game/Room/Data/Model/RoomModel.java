@@ -1,13 +1,13 @@
 package Orion.Game.Room.Data.Model;
 
-import Orion.Api.Server.Game.Room.Data.Model.Enum.ModelTileState;
+import Orion.Api.Server.Game.Room.Data.Model.Enum.RoomTileState;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomModel;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomModelData;
 
 public class RoomModel implements IRoomModel {
     private final IRoomModelData data;
 
-    private final ModelTileState[][] squareStates;
+    private final RoomTileState[][] squareStates;
     private final int[][] squareHeights;
     private final String roomMap;
     private final int doorZ;
@@ -19,7 +19,7 @@ public class RoomModel implements IRoomModel {
     public RoomModel(
             final IRoomModelData data,
             int mapSize,
-            ModelTileState[][] tileStates,
+            RoomTileState[][] tileStates,
             String roomMap,
             int[][] tileHeights,
             int doorZ
@@ -60,7 +60,7 @@ public class RoomModel implements IRoomModel {
     }
 
     @Override
-    public ModelTileState[][] getSquareState() {
+    public RoomTileState[][] getSquareState() {
         return this.squareStates;
     }
 

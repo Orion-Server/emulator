@@ -13,6 +13,8 @@ public interface IRoomMappingComponent extends IDisposable, Initializable {
 
     IRoomTile getDoorTile();
 
+    void beforeInitialize();
+
     boolean isValidPosition(
             final IRoomObject object,
             final Position from,
@@ -21,4 +23,6 @@ public interface IRoomMappingComponent extends IDisposable, Initializable {
             final boolean isRetry,
             final boolean firstGeneration
     );
+
+    boolean isValidPosition(Position position);
 }
