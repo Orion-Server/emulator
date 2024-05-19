@@ -53,6 +53,7 @@ public class RoomFactory {
             room.getBansComponent().setBans(this.loadValidRoomBans(room.getData().getId()));
 
             this.injector.injectMembers(room.getProcess());
+            this.injector.injectMembers(room.getItemsComponent());
 
             this.roomManager.addRoom(room);
 

@@ -32,6 +32,8 @@ public interface IRoom extends Comparable<IRoom>, IWriteable, Initializable, IDi
 
     IRoomVotesComponent getVotesComponent();
 
+    IRoomItemsComponent getItemsComponent();
+
     void onEntityRemoved(final IRoomEntity entity);
 
     void broadcastMessage(final IMessageComposer composer);

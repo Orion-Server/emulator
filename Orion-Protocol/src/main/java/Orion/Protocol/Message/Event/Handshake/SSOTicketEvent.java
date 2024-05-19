@@ -35,7 +35,7 @@ public class SSOTicketEvent implements IMessageEventHandler {
 
     @Override
     public void handle(ISession session) {
-        this.threadManager.getHabboLoginExecutor().execute(() -> {
+        this.threadManager.getHabboLoginExecutor().submit(() -> {
             if(!this.loginProvider.canLogin(session, this.parser.ticket)) {
                 return;
             }

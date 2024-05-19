@@ -35,6 +35,11 @@ public abstract class DatabaseRepository implements IDatabaseRepository {
 
             selectResult = preparedStatement.executeQuery();
 
+            if(!selectResult.isBeforeFirst()) {
+                resultConsumer.accept(null);
+                return;
+            }
+
             final IConnectionResult connectionResult = new ConnectionResult(selectResult);
 
             while (selectResult.next()) {

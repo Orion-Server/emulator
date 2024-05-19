@@ -9,7 +9,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public class FlashMessageEncoder extends MessageToByteEncoder<IMessageComposer> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, IMessageComposer messageComposer, ByteBuf byteBuf) {
-        final ByteBufHolder buffer = messageComposer.copy();
+        final ByteBufHolder buffer = messageComposer.duplicate();
 
         try {
             buffer.content().setInt(0, buffer.content().writerIndex() - 4);

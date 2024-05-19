@@ -228,8 +228,10 @@ public class JoinRoomHandler implements IJoinRoomHandler {
 
         room.initialize();
 
-        room.broadcastMessage(new RoomEntitiesComposer(habbo.getEntity()));
-        room.broadcastMessage(new RoomEntityStatusComposer(habbo.getEntity()));
+        room.broadcastMessages(
+                new RoomEntitiesComposer(habbo.getEntity()),
+                new RoomEntityStatusComposer(habbo.getEntity())
+        );
 
         composers.add(new RoomEntitiesComposer(room.getEntitiesComponent().getRoomEntities()));
         composers.add(new RoomEntityStatusComposer(room.getEntitiesComponent().getRoomEntities()));

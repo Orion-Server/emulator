@@ -1,6 +1,8 @@
 package Orion.Api.Server.Game.Util;
 
 public class Position {
+    public static final Position ZERO = new Position(0, 0, 0);
+
     public static final int NORTH = 0;
     public static final int NORTH_EAST = 1;
     public static final int EAST = 2;

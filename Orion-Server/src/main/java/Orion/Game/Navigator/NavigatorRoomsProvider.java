@@ -8,6 +8,7 @@ import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.IRoomManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import gnu.trove.map.hash.THashMap;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -95,8 +96,8 @@ public class NavigatorRoomsProvider implements INavigatorRoomsProvider {
     }
 
     @Override
-    public HashMap<IRoomCategory, List<IRoom>> getRoomsFromCategories(IHabbo habbo) {
-        final HashMap<IRoomCategory, List<IRoom>> roomsByCategory = new HashMap<>();
+    public THashMap<IRoomCategory, List<IRoom>> getRoomsFromCategories(IHabbo habbo) {
+        final THashMap<IRoomCategory, List<IRoom>> roomsByCategory = new THashMap<>();
 
         for (final IRoomCategory category : this.roomManager.getRoomCategories().values()) {
             final List<IRoom> rooms = this.roomManager.getLoadedRoomsBy(room -> room.getData().getCategoryId() == category.getId());

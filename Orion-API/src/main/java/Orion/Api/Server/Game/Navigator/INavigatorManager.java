@@ -5,13 +5,12 @@ import Orion.Api.Server.Game.Navigator.Data.INavigatorFilterType;
 import Orion.Api.Server.Game.Navigator.Data.INavigatorPublicCategory;
 import Orion.Api.Server.Game.Navigator.Tabs.INavigatorTab;
 import Orion.Api.Util.Initializable;
-
-import java.util.HashMap;
+import gnu.trove.map.hash.THashMap;
 
 public interface INavigatorManager extends Initializable {
-    HashMap<Integer, INavigatorEventCategory> getEventCategories();
+    THashMap<Integer, INavigatorEventCategory> getEventCategories();
 
-    HashMap<Integer, INavigatorPublicCategory> getPublicCategories();
+    THashMap<Integer, INavigatorPublicCategory> getPublicCategories();
 
     INavigatorPublicCategory getPublicCategoryById(int id);
 

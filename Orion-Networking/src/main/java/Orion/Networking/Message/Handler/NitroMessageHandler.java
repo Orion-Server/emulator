@@ -38,30 +38,6 @@ public class NitroMessageHandler extends SimpleChannelInboundHandler<MessageEven
     }
 
     @Override
-    public void userEventTriggered(ChannelHandlerContext channelHandlerContext, Object event) {
-        if(event instanceof ChannelInputShutdownEvent) {
-            System.out.println(STR."Disconnected by ChannelInputShutdownEvent");
-            channelHandlerContext.close();
-        }
-
-        final ISession session = channelHandlerContext.channel().attr(SessionManager.SESSION_KEY).get();
-
-        if(session == null) return;
-
-        if(event instanceof IdleStateEvent idleStateEvent) {
-            session.handleIdleStateEvent(idleStateEvent);
-        }
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext channelHandlerContext, Throwable cause) {
-        if(!channelHandlerContext.channel().isActive()) return;
-
-        System.out.println(STR."Exception Caught: \{cause.getMessage()}");
-        channelHandlerContext.close();
-    }
-
-    @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageEvent messageEvent) {
         try {
             final ISession session = channelHandlerContext.channel().attr(SessionManager.SESSION_KEY).get();

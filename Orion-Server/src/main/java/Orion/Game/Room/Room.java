@@ -24,20 +24,22 @@ public class Room implements IRoom {
 
     private boolean isFullyLoaded = false;
 
+    private final IRoomBansComponent roomBansComponent;
+    private final IRoomItemsComponent roomItemsComponent;
+    private final IRoomVotesComponent roomVotesComponent;
+    private final IRoomRightsComponent roomRightsComponent;
     private final IRoomMappingComponent roomMappingComponent;
     private final IRoomEntitiesComponent roomEntitiesComponent;
-    private final IRoomRightsComponent roomRightsComponent;
-    private final IRoomBansComponent roomBansComponent;
-    private final IRoomVotesComponent roomVotesComponent;
 
     public Room(final IConnectionResult data, final IRoomModel model) {
         this.model = model;
         this.data = new RoomData(data);
 
         this.process = new RoomProcess(this);
+        this.roomItemsComponent = new RoomItemsComponent(this);
+        this.roomRightsComponent = new RoomRightsComponent(this);
         this.roomMappingComponent = new RoomMappingComponent(this);
         this.roomEntitiesComponent = new RoomEntitiesComponent(this);
-        this.roomRightsComponent = new RoomRightsComponent(this);
 
         this.roomBansComponent = new RoomBansComponent();
         this.roomVotesComponent = new RoomVotesComponent();
@@ -48,6 +50,7 @@ public class Room implements IRoom {
 
         this.roomMappingComponent.initialize();
         this.roomEntitiesComponent.initialize();
+        this.roomItemsComponent.initialize();
 
         this.process.initialize();
 
@@ -92,6 +95,11 @@ public class Room implements IRoom {
     @Override
     public IRoomVotesComponent getVotesComponent() {
         return this.roomVotesComponent;
+    }
+
+    @Override
+    public IRoomItemsComponent getItemsComponent() {
+        return this.roomItemsComponent;
     }
 
     @Override

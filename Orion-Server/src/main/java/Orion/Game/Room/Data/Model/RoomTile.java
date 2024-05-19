@@ -1,20 +1,17 @@
 package Orion.Game.Room.Data.Model;
 
-import Orion.Api.Server.Game.Room.Component.IRoomMappingComponent;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomTile;
+import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Api.Server.Game.Util.Position;
 
 public class RoomTile implements IRoomTile {
-    private final IRoomMappingComponent mappingComponent;
+    private final IRoom room;
 
     private final Position position;
 
-    public RoomTile(
-            IRoomMappingComponent mappingComponent,
-            final Position position
-    ) {
-        this.mappingComponent = mappingComponent;
+    public RoomTile(final IRoom room, final Position position) {
+        this.room = room;
         this.position = position;
     }
 
@@ -40,6 +37,12 @@ public class RoomTile implements IRoomTile {
 
     @Override
     public double getStackHeight() {
+        // TODO: Implement
+        return 0d;
+    }
+
+    @Override
+    public double getWalkHeight() {
         // TODO: Implement
         return 0d;
     }

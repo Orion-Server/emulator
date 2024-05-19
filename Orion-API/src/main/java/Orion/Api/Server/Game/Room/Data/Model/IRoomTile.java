@@ -9,4 +9,6 @@ public interface IRoomTile extends IPositionable {
     void onEntityLeave(IRoomEntity entity);
 
     void onEntityEnter(IRoomEntity entity);
+
+    double getWalkHeight();
 }

@@ -17,22 +17,21 @@ import Orion.Game.Navigator.Tab.NavigatorRecommendedTab;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import gnu.trove.map.hash.THashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.HashMap;
 
 @Singleton
 public class NavigatorManager implements INavigatorManager {
     private final Logger logger = LogManager.getLogger();
 
-    private final HashMap<String, INavigatorFilterType> filterTypes;
+    private final THashMap<String, INavigatorFilterType> filterTypes;
 
-    private final HashMap<Integer, INavigatorEventCategory> eventCategories;
+    private final THashMap<Integer, INavigatorEventCategory> eventCategories;
 
-    private final HashMap<String, INavigatorTab> tabs;
+    private final THashMap<String, INavigatorTab> tabs;
 
-    private final HashMap<Integer, INavigatorPublicCategory> publicCategories;
+    private final THashMap<Integer, INavigatorPublicCategory> publicCategories;
 
     @Inject
     private IEmulatorDatabaseSettings databaseSettings;
@@ -44,10 +43,10 @@ public class NavigatorManager implements INavigatorManager {
     private Injector injector;
 
     public NavigatorManager() {
-        this.tabs = new HashMap<>();
-        this.filterTypes = new HashMap<>();
-        this.eventCategories = new HashMap<>();
-        this.publicCategories = new HashMap<>();
+        this.tabs = new THashMap<>();
+        this.filterTypes = new THashMap<>();
+        this.eventCategories = new THashMap<>();
+        this.publicCategories = new THashMap<>();
     }
 
     @Override
@@ -56,17 +55,15 @@ public class NavigatorManager implements INavigatorManager {
         this.loadFilterTypes();
         this.loadEventCategories();
         this.registerTabs();
-
-        this.logger.debug("Navigator manager initialized successfully");
     }
 
     @Override
-    public HashMap<Integer, INavigatorEventCategory> getEventCategories() {
+    public THashMap<Integer, INavigatorEventCategory> getEventCategories() {
         return this.eventCategories;
     }
 
     @Override
-    public HashMap<Integer, INavigatorPublicCategory> getPublicCategories() {
+    public THashMap<Integer, INavigatorPublicCategory> getPublicCategories() {
         return this.publicCategories;
     }
 

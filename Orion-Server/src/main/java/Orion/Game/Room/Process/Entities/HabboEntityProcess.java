@@ -64,12 +64,11 @@ public class HabboEntityProcess {
 
             if(entity.getNextPosition() == null) continue;
 
-            final Position nextPosition = entity.getNextPosition().copy();
-            IRoomTile tile = this.room.getMappingComponent().getTile(nextPosition.getX(), nextPosition.getY());
+            IRoomTile tile = this.room.getMappingComponent().getTile(entity.getNextPosition().getX(), entity.getNextPosition().getY());
 
             if(tile == null) continue;
 
-            entity.setPosition(nextPosition);
+            entity.setPosition(new Position(entity.getNextPosition().getX(), entity.getNextPosition().getY(), tile.getPosition().getZ()));
             entity.setNextPosition(null);
 
             tile.onEntityEnter(entity);

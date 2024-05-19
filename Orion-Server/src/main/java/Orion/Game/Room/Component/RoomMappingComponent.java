@@ -29,7 +29,7 @@ public class RoomMappingComponent implements IRoomMappingComponent {
             final IRoomTile[] xRow = new RoomTile[sizeY];
 
             for(int y = 0; y < sizeY; y++) {
-                final IRoomTile tile = new RoomTile(this, new Position(x, y));
+                final IRoomTile tile = new RoomTile(this.room, new Position(x, y, this.room.getModel().getSquareHeight()[x][y]));
 
                 // TODO: init tile
 
