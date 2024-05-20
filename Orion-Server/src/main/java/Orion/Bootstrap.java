@@ -7,7 +7,7 @@ public class Bootstrap {
     public static IEmulator emulator;
 
     public static void main(String[] args) {
-        // args...
+        // TODO: args...
 
         emulator = new Emulator();
     }

@@ -61,8 +61,6 @@ public class ServerMessageHandler implements IServerMessageHandler {
             messageEventHandler.handle(session);
         } catch (Exception e) {
             this.logger.error(STR."Error handling message: \{message} with header: \{headerId}", e);
-        } finally {
-            message.getBuffer().release();
         }
     }
 }

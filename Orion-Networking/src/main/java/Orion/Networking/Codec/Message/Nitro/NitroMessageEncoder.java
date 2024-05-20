@@ -11,7 +11,7 @@ import java.util.List;
 public class NitroMessageEncoder extends MessageToMessageEncoder<IMessageComposer> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, IMessageComposer messageComposer, List<Object> list) {
-        final ByteBufHolder composer = messageComposer.duplicate();
+        final ByteBufHolder composer = messageComposer.copy();
 
         try {
             composer.content().setInt(0, composer.content().writerIndex() - 4);

@@ -16,17 +16,10 @@ public class NetworkManager implements Dispatchable {
 
     private final FlashNetworkingServer flashServer;
 
-    private final ISessionManager sessionManager;
-
     @Inject
-    public NetworkManager(
-            final NitroNetworkingServer nitroServer,
-            final FlashNetworkingServer flashServer,
-            final ISessionManager sessionManager
-    ) {
+    public NetworkManager(final NitroNetworkingServer nitroServer, final FlashNetworkingServer flashServer) {
         this.nitroServer = nitroServer;
         this.flashServer = flashServer;
-        this.sessionManager = sessionManager;
 
         this.configureInternal();
     }
@@ -40,6 +33,6 @@ public class NetworkManager implements Dispatchable {
     private void configureInternal() {
         InternalLoggerFactory.setDefaultFactory(Log4J2LoggerFactory.INSTANCE);
 
-        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
     }
 }
