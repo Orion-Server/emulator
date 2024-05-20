@@ -6,9 +6,12 @@ import Orion.Api.Server.Game.Room.Enums.RoomTradeType;
 import Orion.Api.Server.Game.Room.Handler.ICreateRoomHandler;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.IRoomManager;
+import Orion.Api.Server.Game.Room.Object.Item.Enum.FurnitureMovementError;
 import Orion.Api.Server.Game.Room.Utils.RoomEnvironmentVariables;
+import Orion.Api.Server.Game.Util.Alert.MiddleAlertType;
 import Orion.Api.Storage.Repository.Room.IRoomRepository;
 import Orion.Game.Room.Factory.RoomFactory;
+import Orion.Protocol.Message.Composer.Alerts.MiddleAlertComposer;
 import Orion.Protocol.Message.Composer.Navigator.CanCreateRoomComposer;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -42,29 +45,28 @@ public class CreateRoomHandler implements ICreateRoomHandler {
         if(categoryId == null || tradeType == null) return null;
 
         if(!this.roomManager.roomModelExists(modelName)) {
-            System.out.println("model invalido");
-            // TODO: Log error. Possible script kiddie.
+            habbo.getSession().send(new MiddleAlertComposer(MiddleAlertType.ADMIN_PERSISTENT, "Room model not found."));
             return null;
         }
 
         if(!this.roomManager.roomCategoryExists(categoryId.getId())) {
-            System.out.println("categoria invalida");
+            habbo.getSession().send(new MiddleAlertComposer(MiddleAlertType.ADMIN_PERSISTENT, "Room category not found."));
             // TODO: Log error. Possible script kiddie.
             return null;
         }
 
         if(maxUsers > this.roomEnvironmentVariables.limitUsersPerRoom) {
-            System.out.println("maximo de usuarios excedido");
+            habbo.getSession().send(new MiddleAlertComposer(MiddleAlertType.ADMIN_PERSISTENT, "Max users limit exceeded."));
             return null;
         }
 
         if(name.length() < this.roomEnvironmentVariables.minRoomNameLength || name.length() > this.roomEnvironmentVariables.maxRoomNameLength) {
-            System.out.println("nome invalido");
+            habbo.getSession().send(new MiddleAlertComposer(MiddleAlertType.ADMIN_PERSISTENT, "Invalid room name."));
             return null;
         }
 
         if(description.length() < this.roomEnvironmentVariables.minRoomDescriptionLength || description.length() > this.roomEnvironmentVariables.maxRoomDescriptionLength) {
-            System.out.println("descricao invalida");
+            habbo.getSession().send(new MiddleAlertComposer(MiddleAlertType.ADMIN_PERSISTENT, "Invalid room description."));
             return null;
         }
 
