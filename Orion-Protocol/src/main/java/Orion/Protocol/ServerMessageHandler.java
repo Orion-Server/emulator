@@ -47,8 +47,6 @@ public class ServerMessageHandler implements IServerMessageHandler {
                 return;
             }
 
-            final long startTime = System.currentTimeMillis();
-
             this.logger.debug(STR.">> Handling Event [\{message.getId()}] \{messageEventHandler.getClass().getSimpleName()}");
 
             if(messageEventHandler.getParser() != null) {
@@ -61,20 +59,10 @@ public class ServerMessageHandler implements IServerMessageHandler {
             }
 
             messageEventHandler.handle(session);
-
-            final long endTime = System.currentTimeMillis();
-
-            this.logMessageHandling(message, startTime, endTime);
         } catch (Exception e) {
             this.logger.error(STR."Error handling message: \{message} with header: \{headerId}", e);
-        }
-    }
-
-    private void logMessageHandling(IMessageEvent message, long startTime, long endTime) {
-        final long timeTaken = endTime - startTime;
-
-        if(timeTaken >= 100) {
-            this.logger.warn(STR."[\{message.getId()}] \{message.getClass().getSimpleName()} - Packet took \{endTime - startTime}ms.");
+        } finally {
+            message.getBuffer().release();
         }
     }
 }

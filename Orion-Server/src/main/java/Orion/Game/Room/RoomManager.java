@@ -191,8 +191,9 @@ public class RoomManager implements IRoomManager {
         final List<IRoom> result = new ArrayList<>();
 
         for (var room : this.rooms.values()) {
-            if (predicate.test(room))
+            if (predicate.test(room)) {
                 result.add(room);
+            }
         }
 
         Collections.sort(result);

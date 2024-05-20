@@ -9,9 +9,12 @@ import Orion.Api.Server.Game.Room.Object.Item.IRoomItem;
 import Orion.Api.Server.Game.Room.Object.Pathfinder.RoomEntityMovementNode;
 import Orion.Api.Server.Game.Room.Object.Pathfinder.RoomTileStatusType;
 import Orion.Api.Server.Game.Util.Position;
+import io.netty.util.internal.ConcurrentSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RoomTile implements IRoomTile {
     private final IRoom room;
@@ -38,10 +41,13 @@ public class RoomTile implements IRoomTile {
 
     private double originalHeight;
 
+    private final Set<IRoomEntity> entities;
+
     public RoomTile(final IRoom room, final Position position) {
         this.room = room;
         this.position = position;
         this.floorItems = new ArrayList<>();
+        this.entities = ConcurrentHashMap.newKeySet();
     }
 
     @Override
@@ -49,7 +55,7 @@ public class RoomTile implements IRoomTile {
         final RoomTileState modelState = this.room.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()];
 
         this.state = modelState == null ? RoomTileState.INVALID : modelState;
-        this.canPlaceItems = modelState == null || modelState.equals(RoomTileState.VALID);
+        this.canPlaceItems = modelState != null && modelState.equals(RoomTileState.VALID);
         this.originalHeight = this.room.getModel().getSquareHeight()[this.getPosition().getX()][this.getPosition().getY()];
 
         double highestHeight = 0d;
@@ -113,8 +119,8 @@ public class RoomTile implements IRoomTile {
 
         this.stackHeight = highestHeight;
 
-        if(this.stackHeight == 0d) {
-            this.stackHeight = this.originalHeight;
+        if(this.originalHeight == 0d) {
+            this.originalHeight = this.stackHeight;
         }
     }
 
@@ -124,9 +130,7 @@ public class RoomTile implements IRoomTile {
     }
 
     @Override
-    public void setPosition(Position position) {
-
-    }
+    public void setPosition(Position position) {}
 
     @Override
     public void addItem(IRoomFloorItem item) {
@@ -135,11 +139,13 @@ public class RoomTile implements IRoomTile {
 
     @Override
     public void onEntityLeave(IRoomEntity entity) {
-
+        this.entities.remove(entity);
     }
 
     @Override
     public void onEntityEnter(IRoomEntity entity) {
+        this.entities.add(entity);
+
         if(this.topItem == null) return;
 
         this.topItem.getInteraction().onEntityEnter(entity);
@@ -166,5 +172,40 @@ public class RoomTile implements IRoomTile {
     @Override
     public RoomEntityMovementNode getMovementNode() {
         return this.movementNode;
+    }
+
+    @Override
+    public boolean canPlaceItems() {
+        return this.canPlaceItems;
+    }
+
+    @Override
+    public boolean canStack() {
+        return this.canStack;
+    }
+
+    @Override
+    public RoomTileStatusType getStatusType() {
+        return this.statusType;
+    }
+
+    @Override
+    public RoomTileState getState() {
+        return this.state;
+    }
+
+    @Override
+    public IRoomItem getTopItem() {
+        return this.topItem;
+    }
+
+    @Override
+    public Position getRedirectTo() {
+        return this.redirectTo;
+    }
+
+    @Override
+    public Set<IRoomEntity> getEntities() {
+        return this.entities;
     }
 }

@@ -3,6 +3,7 @@ package Orion.Game.Room.Component;
 import Orion.Api.Server.Game.Room.Component.IRoomItemsComponent;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomTile;
 import Orion.Api.Server.Game.Room.IRoom;
+import Orion.Api.Server.Game.Room.Object.Item.Enum.FurnitureMovementError;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomFloorItem;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomItem;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomWallItem;
@@ -12,9 +13,7 @@ import Orion.Api.Storage.Repository.Room.IRoomItemsRepository;
 import Orion.Game.Room.Object.Item.Factory.RoomItemFactory;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -63,6 +62,37 @@ public class RoomItemsComponent implements IRoomItemsComponent {
     @Override
     public ConcurrentHashMap<Integer, String> getOwnerNames() {
         return this.ownerNames;
+    }
+
+    @Override
+    public FurnitureMovementError moveFloorItem(final IRoomFloorItem item, Position position, int rotation) {
+        if(this.floorItems.size() + this.wallItems.size() >= 2500) {
+            return FurnitureMovementError.MAX_ITEMS;
+        }
+
+        if(position.equals(item.getPosition()) && rotation == item.getData().getRotation()) {
+            return FurnitureMovementError.NONE;
+        }
+
+        final IRoomTile tile = this.room.getMappingComponent().getTile(position);
+
+        if(tile == null) {
+            return FurnitureMovementError.INVALID_MOVE;
+        }
+
+        if(!tile.canPlaceItems()) {
+            return FurnitureMovementError.CANT_STACK;
+        }
+
+        if(!tile.getEntities().isEmpty()) {
+            return FurnitureMovementError.TILE_HAS_HABBOS;
+        }
+
+        if(tile.getTopItem() != null && !tile.getTopItem().getDefinition().isAllowStack()) {
+            return FurnitureMovementError.CANT_STACK;
+        }
+
+        return FurnitureMovementError.NONE;
     }
 
     private void loadRoomItems() {

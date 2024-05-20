@@ -4,10 +4,7 @@ import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomFloorItem;
 
 public abstract class RoomFloorItemWriter {
-    public static void write(
-            final IRoomFloorItem item,
-            final IMessageComposer composer
-    ) {
+    public static void write(final IRoomFloorItem item, final IMessageComposer composer) {
         composer.appendInt(item.getVirtualId());
         composer.appendInt(item.getDefinition().getSpriteId());
         composer.appendInt(item.getPosition().getX());

@@ -114,12 +114,16 @@ public class RoomItemFactory implements Initializable {
             final IItemDefinition definition
     ) {
         try {
+            final IRoomWallItem item = new RoomWallItem(virtualId, room, data, definition);
+            String interactionType = definition.getInteractionType().toLowerCase();
+
             if(!this.interactions.containsKey(definition.getInteractionType().toLowerCase())) {
                 this.logger.warn("Interaction [{}] not found for wall item {}", definition.getInteractionType(), definition.getItemName());
-                return null;
-            }
 
-            final IRoomWallItem item = new RoomWallItem(virtualId, room, data, definition);
+                item.setInteraction(this.interactions.get("default_wall").getConstructor(IRoomWallItem.class).newInstance(item));
+
+                return item;
+            }
 
             final IRoomItemInteraction interaction = this.interactions.get(
                     definition.getInteractionType().toLowerCase()

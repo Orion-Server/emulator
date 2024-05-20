@@ -22,13 +22,13 @@ public class RoomDataComposer extends MessageComposer {
         appendBoolean(roomForward);
         appendBoolean(room.getData().isStaffPicked());
         appendBoolean(false); // TODO: Check if habbo is member of room guild
-        appendBoolean(false); // TODO: is muted
+        appendBoolean(room.isMuted());
 
         appendInt(room.getData().getWhoCanMute());
         appendInt(room.getData().getWhoCanKick());
         appendInt(room.getData().getWhoCanBan());
 
-        appendBoolean(false); // TODO: Permissions: mute all button
+        appendBoolean(room.getRightsComponent().hasRights(habbo));
 
         appendInt(room.getData().getChatMode());
         appendInt(room.getData().getChatWeight());

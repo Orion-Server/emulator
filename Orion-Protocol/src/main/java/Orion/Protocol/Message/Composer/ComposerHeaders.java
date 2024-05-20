@@ -73,4 +73,5 @@ public abstract class ComposerHeaders {
     public static int HabboTypingComposer = 1717;
     public static int EntityDanceComposer = 2233;
     public static int EntityActionComposer = 1631;
+    public static int MiddleAlertComposer = 1992;
 }

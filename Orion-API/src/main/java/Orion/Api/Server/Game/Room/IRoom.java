@@ -41,4 +41,6 @@ public interface IRoom extends Comparable<IRoom>, IWriteable, Initializable, IDi
     void broadcastMessages(IMessageComposer... composers);
 
     boolean habboIsOwner(final IHabbo habbo);
+
+    boolean isMuted();
 }

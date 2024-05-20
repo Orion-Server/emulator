@@ -37,10 +37,10 @@ public class NavigatorSearchService implements INavigatorSearchService {
 
     @Inject
     public NavigatorSearchService(
-            IEmulatorEnvironmentSettings environmentSettings,
-            INavigatorManager navigatorManager,
-            INavigatorRoomsProvider navigatorRoomsProvider,
-            IRoomManager roomManager
+            final IEmulatorEnvironmentSettings environmentSettings,
+            final INavigatorManager navigatorManager,
+            final INavigatorRoomsProvider navigatorRoomsProvider,
+            final IRoomManager roomManager
     ) {
         this.roomManager = roomManager;
         this.navigatorManager = navigatorManager;

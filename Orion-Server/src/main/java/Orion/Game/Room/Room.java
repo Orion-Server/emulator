@@ -22,6 +22,7 @@ public class Room implements IRoom {
     private final IRoomModel model;
     private final IRoomProcess process;
 
+    private boolean isMuted = false;
     private boolean isFullyLoaded = false;
 
     private final IRoomBansComponent roomBansComponent;
@@ -117,6 +118,11 @@ public class Room implements IRoom {
     @Override
     public boolean habboIsOwner(final IHabbo habbo) {
         return this.getData().getOwnerId() == habbo.getData().getId();
+    }
+
+    @Override
+    public boolean isMuted() {
+        return this.isMuted;
     }
 
     @Override
