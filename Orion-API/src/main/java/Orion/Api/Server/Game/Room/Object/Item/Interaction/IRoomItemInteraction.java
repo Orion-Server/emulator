@@ -16,4 +16,6 @@ public interface IRoomItemInteraction {
     void onInteract(IRoomEntity entity);
 
     void onEntityEnter(IRoomEntity entity);
+
+    void onEntityLeave(IRoomEntity entity);
 }

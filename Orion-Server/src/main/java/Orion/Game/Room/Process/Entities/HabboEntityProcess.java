@@ -29,6 +29,11 @@ public class HabboEntityProcess {
     }
 
     public void process() {
+        this.preProcess();
+        this.postProcess();
+    }
+
+    private void preProcess() {
         for(final IHabboEntity entity : this.room.getEntitiesComponent().getHabboEntities()) {
             if(entity.needsUpdate()) {
                 entity.setNeedsUpdate(false);
@@ -52,7 +57,9 @@ public class HabboEntityProcess {
                 this.processHabboEntityWalk(entity);
             }
         }
+    }
 
+    private void postProcess() {
         if(this.entitiesToUpdate.isEmpty()) return;
 
         this.room.broadcastMessage(new RoomEntityStatusComposer(this.entitiesToUpdate));
@@ -83,8 +90,6 @@ public class HabboEntityProcess {
         final IRoomTile currentTile = this.room.getMappingComponent().getTile(entity.getPosition().getX(), entity.getPosition().getY());
         final IRoomTile nextTile = this.room.getMappingComponent().getTile(nextPosition.getX(), nextPosition.getY());
 
-        if(currentTile == null) return;
-
         entity.setBodyRotation(Position.calculateRotation(entity.getPosition(), nextPosition, false));
         entity.setHeadRotation(entity.getBodyRotation());
 
@@ -104,6 +109,8 @@ public class HabboEntityProcess {
             entity.getWalkComponent().clearProcessingPath();
         }
 
-        currentTile.onEntityLeave(entity);
+        if(currentTile != null) {
+            currentTile.onEntityLeave(entity);
+        }
     }
 }

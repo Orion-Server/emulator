@@ -38,4 +38,9 @@ public class RoomItemInteraction implements IRoomItemInteraction {
     public void onEntityEnter(IRoomEntity entity) {
         // Override this method to add custom logic
     }
+
+    @Override
+    public void onEntityLeave(IRoomEntity entity) {
+        // Override this method to add custom logic
+    }
 }

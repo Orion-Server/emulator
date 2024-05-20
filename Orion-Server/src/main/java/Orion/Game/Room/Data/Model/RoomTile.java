@@ -140,6 +140,10 @@ public class RoomTile implements IRoomTile {
     @Override
     public void onEntityLeave(IRoomEntity entity) {
         this.entities.remove(entity);
+
+        if(this.topItem == null) return;
+
+        this.topItem.getInteraction().onEntityLeave(entity);
     }
 
     @Override

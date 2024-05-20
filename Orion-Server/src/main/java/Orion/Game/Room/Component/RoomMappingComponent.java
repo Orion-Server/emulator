@@ -90,6 +90,8 @@ public class RoomMappingComponent implements IRoomMappingComponent {
 
         if(tile == null) return false;
 
+        if(!tile.getEntities().isEmpty() && (!room.getData().allowWalkthrough() || isLastStep)) return false;
+
         if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !isLastStep)) return false;
 
         return true;
