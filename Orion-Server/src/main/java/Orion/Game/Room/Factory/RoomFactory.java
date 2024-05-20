@@ -2,17 +2,14 @@ package Orion.Game.Room.Factory;
 
 import Orion.Api.Server.Game.Room.Data.Ban.IRoomBan;
 import Orion.Api.Server.Game.Room.Data.Model.IRoomModel;
-import Orion.Api.Server.Game.Room.Data.Model.IRoomModelData;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.IRoomManager;
 import Orion.Api.Server.Game.Util.TimeUtil;
 import Orion.Api.Storage.Repository.Room.IRoomBansRepository;
-import Orion.Api.Storage.Repository.Room.IRoomRepository;
 import Orion.Api.Storage.Repository.Room.IRoomRightsRepository;
 import Orion.Api.Storage.Repository.Room.IRoomVotesRepository;
 import Orion.Api.Storage.Result.IConnectionResult;
 import Orion.Game.Room.Data.Bans.RoomBan;
-import Orion.Game.Room.Data.Model.RoomModelData;
 import Orion.Game.Room.Room;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -22,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Singleton
 public class RoomFactory {

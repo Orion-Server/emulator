@@ -16,6 +16,8 @@ public interface IHabboRooms extends Initializable, IDisposable {
 
     THashMap<Integer, IRoom> getOwnRooms();
 
+    void addOwnRoom(IRoom room);
+
     THashMap<Integer, IRoom> getFavoriteRooms();
 
     THashMap<Integer, IRoom> getRoomHistory();

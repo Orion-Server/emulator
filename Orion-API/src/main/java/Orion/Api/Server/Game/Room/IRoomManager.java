@@ -22,5 +22,9 @@ public interface IRoomManager extends Initializable {
 
     IRoomCategory getCategoryFromTab(String tabName);
 
+    boolean roomCategoryExists(int categoryId);
+
     List<IRoom> getLoadedRoomsBy(Predicate<IRoom> predicate);
+
+    boolean roomModelExists(String modelName);
 }

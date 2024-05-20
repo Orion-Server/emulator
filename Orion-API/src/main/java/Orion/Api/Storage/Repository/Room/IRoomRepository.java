@@ -12,4 +12,8 @@ public interface IRoomRepository {
     void loadRoomModels(IConnectionResultConsumer consumer);
 
     void loadCustomRoomModel(IConnectionResultConsumer consumer, int roomId);
+
+    void createRoom(IConnectionResultConsumer consumer, int ownerId, String ownerName, String name, String description, String modelName, int categoryId, int maxUsers, int tradeType);
+
+    void loadRoomById(IConnectionResultConsumer consumer, int roomId);
 }

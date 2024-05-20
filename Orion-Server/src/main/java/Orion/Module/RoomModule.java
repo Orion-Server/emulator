@@ -1,5 +1,6 @@
 package Orion.Module;
 
+import Orion.Api.Server.Game.Room.Handler.ICreateRoomHandler;
 import Orion.Api.Server.Game.Room.Handler.IJoinRoomHandler;
 import Orion.Api.Server.Game.Room.IRoomManager;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomItemManager;
@@ -8,6 +9,7 @@ import Orion.Api.Server.Game.Room.Utils.RoomEnvironmentVariables;
 import Orion.Api.Storage.Repository.Room.*;
 import Orion.Game.Room.Factory.RoomFactory;
 import Orion.Game.Room.Factory.RoomModelFactory;
+import Orion.Game.Room.Handler.CreateRoomHandler;
 import Orion.Game.Room.Handler.JoinRoomHandler;
 import Orion.Game.Room.Object.Entity.Factory.HabboEntityFactory;
 import Orion.Game.Room.Object.Item.Factory.RoomItemFactory;
@@ -40,6 +42,7 @@ public class RoomModule extends AbstractModule {
         bind(IRoomItemsRepository.class).to(RoomItemsRepository.class);
 
         bind(IJoinRoomHandler.class).to(JoinRoomHandler.class);
+        bind(ICreateRoomHandler.class).to(CreateRoomHandler.class);
 
         bind(IPathfinder.class).to(Pathfinder.class);
     }

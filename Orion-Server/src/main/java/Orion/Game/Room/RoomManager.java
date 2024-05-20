@@ -169,6 +169,11 @@ public class RoomManager implements IRoomManager {
     }
 
     @Override
+    public boolean roomModelExists(String modelName) {
+        return this.roomModels.containsKey(modelName);
+    }
+
+    @Override
     public ConcurrentHashMap<Integer, IRoom> getLoadedRooms() {
         return this.rooms;
     }
@@ -184,6 +189,11 @@ public class RoomManager implements IRoomManager {
                 .filter(category -> category.getCaptionSave().equalsIgnoreCase(tabName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public boolean roomCategoryExists(int categoryId) {
+        return this.roomCategories.containsKey(categoryId);
     }
 
     @Override

@@ -31,6 +31,11 @@ public class HabboRooms implements IHabboRooms {
     }
 
     @Override
+    public void addOwnRoom(IRoom room) {
+        this.ownRooms.putIfAbsent(room.getData().getId(), room);
+    }
+
+    @Override
     public void setFavoriteRooms(THashMap<Integer, IRoom> favoriteRooms) {
         this.favoriteRooms.clear();
         this.favoriteRooms.putAll(favoriteRooms);

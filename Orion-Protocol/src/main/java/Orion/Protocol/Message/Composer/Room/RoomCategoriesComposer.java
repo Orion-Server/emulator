@@ -1,32 +1,21 @@
 package Orion.Protocol.Message.Composer.Room;
 
+import Orion.Api.Server.Game.Room.Enums.RoomCategoryType;
 import Orion.Networking.Message.MessageComposer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
 public class RoomCategoriesComposer extends MessageComposer {
-    private final String[] categories = new String[] {
-            "${navigator.flatcategory.global.BC}",
-            "${navigator.flatcategory.global.BUILDING}",
-            "${navigator.flatcategory.global.CHAT}",
-            "${navigator.flatcategory.global.FANSITE}",
-            "${navigator.flatcategory.global.GAMES}",
-            "${navigator.flatcategory.global.HELP}",
-            "${navigator.flatcategory.global.LIFE}",
-            "${navigator.flatcategory.global.OFFICIAL}",
-            "${navigator.flatcategory.global.PARTY}"
-    };
-
     public RoomCategoriesComposer() {
         super(ComposerHeaders.RoomCategoriesComposer);
 
-        appendInt(this.categories.length);
+        appendInt(RoomCategoryType.values().length);
 
-        for (int i = 0; i <= this.categories.length - 1; i++) {
-            appendInt(i + 1);
-            appendString(this.categories[i]);
+        for(RoomCategoryType category : RoomCategoryType.values()) {
+            appendInt(category.ordinal() + 1);
+            appendString(category.get());
             appendBoolean(true);
             appendBoolean(false);
-            appendString(this.categories[i]);
+            appendString(category.get());
             appendString("");
             appendBoolean(false);
         }

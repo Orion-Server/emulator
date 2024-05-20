@@ -32,5 +32,15 @@ public class RoomRepository extends DatabaseRepository implements IRoomRepositor
     public void loadCustomRoomModel(IConnectionResultConsumer consumer, int roomId) {
         this.select(RoomQuery.LOAD_CUSTOM_ROOM_MODEL.get(), consumer, roomId);
     }
+
+    @Override
+    public void createRoom(IConnectionResultConsumer consumer, int ownerId, String ownerName, String name, String description, String modelName, int categoryId, int maxUsers, int tradeType) {
+        this.insert(RoomQuery.CREATE_ROOM.get(), consumer, ownerId, ownerName, name, description, modelName, categoryId, maxUsers, tradeType);
+    }
+
+    @Override
+    public void loadRoomById(IConnectionResultConsumer consumer, int roomId) {
+        this.select(RoomQuery.SELECT_ROOM_BY_ID.get(), consumer, roomId);
+    }
 }
 
