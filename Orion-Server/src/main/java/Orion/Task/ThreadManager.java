@@ -26,8 +26,7 @@ public class ThreadManager implements IThreadManager {
     @Override
     public void initialize() {
         this.habboLoginExecutor = Executors.newFixedThreadPool(
-                this.environmentSettings.getInteger("game.login_provider.threads"),
-                this.getThreadFactory("HabboLoginProvider")
+                this.environmentSettings.getInteger("game.login_provider.threads")
         );
         
         this.roomProcessingExecutor = Executors.newScheduledThreadPool(

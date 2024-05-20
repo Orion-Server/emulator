@@ -12,6 +12,7 @@ import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
+import io.netty.util.ReferenceCountUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +37,7 @@ public class NitroSessionHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext channelHandlerContext, Object message) {
         if(!(message instanceof FullHttpRequest httpRequest)) {
             this.logger.error(STR."[NitroSessionHandler] Received an invalid message type: \{message.getClass().getSimpleName()}");
+            ReferenceCountUtil.release(message);
             return;
         }
 

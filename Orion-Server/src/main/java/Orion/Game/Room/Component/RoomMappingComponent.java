@@ -54,12 +54,16 @@ public class RoomMappingComponent implements IRoomMappingComponent {
 
     @Override
     public IRoomTile getTile(final Position position) {
-        return this.tiles[position.getX()][position.getY()];
+        return this.getTile(position.getX(), position.getY());
     }
 
     @Override
     public IRoomTile getTile(final int x, final int y) {
-        return this.tiles[x][y];
+        try {
+            return this.tiles[x][y];
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

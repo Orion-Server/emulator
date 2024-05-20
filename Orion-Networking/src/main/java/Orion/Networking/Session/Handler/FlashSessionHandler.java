@@ -10,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.ChannelInputShutdownEvent;
 import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.util.ReferenceCountUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +36,7 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
     public void channelActive(ChannelHandlerContext channelHandlerContext) {
         final boolean session = this.sessionManager.addChannel(channelHandlerContext, null);
 
-        if(session) return;
+        if (session) return;
 
         this.logger.warn(STR."[NitroSessionHandler] Failed to create a session for the channel.");
 
@@ -57,7 +58,7 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
     public void channelInactive(ChannelHandlerContext channelHandlerContext) {
         final ISession session = channelHandlerContext.channel().attr(SessionManager.SESSION_KEY).get();
 
-        if(session == null) {
+        if (session == null) {
             channelHandlerContext.disconnect();
             return;
         }
@@ -73,9 +74,9 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
 
         final ISession session = channelHandlerContext.channel().attr(SessionManager.SESSION_KEY).get();
 
-        if(session == null) return;
+        if (session == null) return;
 
-        if(event instanceof IdleStateEvent idleStateEvent) {
+        if (event instanceof IdleStateEvent idleStateEvent) {
             session.handleIdleStateEvent(idleStateEvent);
         }
     }
@@ -85,12 +86,17 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
         try {
             final ISession session = channelHandlerContext.channel().attr(SessionManager.SESSION_KEY).get();
 
-            if(session == null) {
+            if (session == null) {
                 channelHandlerContext.disconnect();
                 return;
             }
 
-            this.serverMessageHandler.handle(session, messageEvent);
+            try {
+                this.serverMessageHandler.handle(session, messageEvent);
+            } finally {
+                messageEvent.getBuffer().release();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
