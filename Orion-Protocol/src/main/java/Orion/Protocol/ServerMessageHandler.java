@@ -42,7 +42,7 @@ public class ServerMessageHandler implements IServerMessageHandler {
             }
 
             if(!session.isAuthenticated() && !messageEventHandler.getClass().isAnnotationPresent(HandshakeEvent.class)) {
-                this.logger.warn(STR."[\{headerId}] Received handshake event without being authenticated from [\{session.getIpAddress()}] address.");
+                //this.logger.warn(STR."[\{headerId}] Received handshake event without being authenticated from [\{session.getIpAddress()}] address.");
                 this.sessionManager.disposeSession(session);
                 return;
             }

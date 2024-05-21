@@ -5,11 +5,12 @@ import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Networking.Message.MessageComposer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class RoomEntityStatusComposer extends MessageComposer {
-    public RoomEntityStatusComposer(final List<IRoomEntity> entities) {
+    public RoomEntityStatusComposer(final Collection<IRoomEntity> entities) {
         super(ComposerHeaders.RoomEntityStatusComposer);
 
         appendInt(entities.size());

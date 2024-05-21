@@ -7,6 +7,7 @@ import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Game.Room.Object.Entity.HabboEntity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,8 +45,8 @@ public class RoomEntitiesComponent implements IRoomEntitiesComponent {
     }
 
     @Override
-    public List<IHabboEntity> getHabboEntities() {
-        return this.habboEntities.values().stream().toList();
+    public Collection<IHabboEntity> getHabboEntities() {
+        return this.habboEntities.values();
     }
 
     @Override
@@ -67,8 +68,8 @@ public class RoomEntitiesComponent implements IRoomEntitiesComponent {
     }
 
     @Override
-    public List<IRoomEntity> getRoomEntities() {
-        return this.roomEntities.values().stream().toList();
+    public Collection<IRoomEntity> getRoomEntities() {
+        return this.roomEntities.values();
     }
 
     @Override

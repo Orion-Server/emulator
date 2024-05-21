@@ -5,6 +5,7 @@ import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Util.IDisposable;
 import Orion.Api.Util.Initializable;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface IRoomEntitiesComponent extends IDisposable, Initializable {
@@ -16,11 +17,11 @@ public interface IRoomEntitiesComponent extends IDisposable, Initializable {
 
     void removeEntity(IRoomEntity entity);
 
-    List<IHabboEntity> getHabboEntities();
+    Collection<IHabboEntity> getHabboEntities();
 
     int getHabboEntitiesCount();
 
-    List<IRoomEntity> getRoomEntities();
+    Collection<IRoomEntity> getRoomEntities();
 
     List<IHabboEntity> getHabbosWithRights();
 }

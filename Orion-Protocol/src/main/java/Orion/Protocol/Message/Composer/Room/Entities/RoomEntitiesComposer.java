@@ -4,10 +4,11 @@ import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Networking.Message.MessageComposer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
+import java.util.Collection;
 import java.util.List;
 
 public class RoomEntitiesComposer extends MessageComposer {
-    public RoomEntitiesComposer(List<IRoomEntity> entities) {
+    public RoomEntitiesComposer(Collection<IRoomEntity> entities) {
         super(ComposerHeaders.RoomEntitiesComposer);
 
         appendInt(entities.size());
