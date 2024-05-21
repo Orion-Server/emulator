@@ -2,7 +2,6 @@ package Orion.Networking.Codec.Message.Flash;
 
 import Orion.Networking.Message.MessageEvent;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
@@ -25,7 +24,7 @@ public class FlashMessageDecoder extends ByteToMessageDecoder {
 
             if (length < 0) return;
 
-            list.add(new MessageEvent(length, Unpooled.copiedBuffer(byteBuf.readBytes(length))));
+            list.add(new MessageEvent(length, byteBuf.readBytes(length)));
         } catch (Exception e) {
             e.printStackTrace();
         }

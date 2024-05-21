@@ -24,8 +24,8 @@ public class NitroSessionHandler extends ChannelInboundHandlerAdapter {
     private final IServerMessageHandler serverMessageHandler;
 
     public NitroSessionHandler(
-            ISessionManager sessionManager,
-            IServerMessageHandler serverMessageHandler
+            final ISessionManager sessionManager,
+            final IServerMessageHandler serverMessageHandler
     ) {
         super();
 
@@ -35,24 +35,27 @@ public class NitroSessionHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext channelHandlerContext, Object message) {
-        if(!(message instanceof FullHttpRequest httpRequest)) {
-            this.logger.error(STR."[NitroSessionHandler] Received an invalid message type: \{message.getClass().getSimpleName()}");
+        try {
+            if(!(message instanceof FullHttpRequest httpRequest)) {
+                this.logger.error(STR."[NitroSessionHandler] Received an invalid message type: \{message.getClass().getSimpleName()}");
+                return;
+            }
+
+            final HttpHeaders headers = httpRequest.headers();
+
+            if(headers.isEmpty()) {
+                this.logger.error(STR."[NitroSessionHandler] Received an empty header.");
+                return;
+            }
+
+            final String connectionHeader = headers.get(HttpHeaderNames.CONNECTION.toString());
+            final String upgradeHeader = headers.get(HttpHeaderNames.UPGRADE.toString());
+
+            if("Upgrade".equalsIgnoreCase(connectionHeader) || "websocket".equalsIgnoreCase(upgradeHeader)) {
+                this.handleWebSocketRequest(channelHandlerContext, httpRequest, headers);
+            }
+        } finally {
             ReferenceCountUtil.release(message);
-            return;
-        }
-
-        final HttpHeaders headers = httpRequest.headers();
-
-        if(headers.isEmpty()) {
-            this.logger.error(STR."[NitroSessionHandler] Received an empty header.");
-            return;
-        }
-
-        final String connectionHeader = headers.get(HttpHeaderNames.CONNECTION.toString());
-        final String upgradeHeader = headers.get(HttpHeaderNames.UPGRADE.toString());
-
-        if("Upgrade".equalsIgnoreCase(connectionHeader) || "websocket".equalsIgnoreCase(upgradeHeader)) {
-            this.handleWebSocketRequest(channelHandlerContext, httpRequest, headers);
         }
     }
 

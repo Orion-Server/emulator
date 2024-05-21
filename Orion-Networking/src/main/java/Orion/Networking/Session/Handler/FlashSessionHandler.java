@@ -34,9 +34,9 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
 
     @Override
     public void channelActive(ChannelHandlerContext channelHandlerContext) {
-        final boolean session = this.sessionManager.addChannel(channelHandlerContext, null);
+        final boolean sessionWasCreated = this.sessionManager.addChannel(channelHandlerContext, null);
 
-        if (session) return;
+        if (sessionWasCreated) return;
 
         this.logger.warn(STR."[NitroSessionHandler] Failed to create a session for the channel.");
 
@@ -51,7 +51,8 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
 
         if (cause instanceof IOException) return;
 
-        this.logger.error("Disconnected by ExceptionCaught", cause);
+        this.logger.error("[FlashSessionHandler - ERROR] Disconnected by ExceptionCaught");
+        cause.printStackTrace();
     }
 
     @Override
@@ -68,16 +69,20 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
 
     @Override
     public void userEventTriggered(ChannelHandlerContext channelHandlerContext, Object event) {
-        if (event instanceof ChannelInputShutdownEvent) {
-            channelHandlerContext.close();
-        }
+        try {
+            if (event instanceof ChannelInputShutdownEvent) {
+                channelHandlerContext.close();
+            }
 
-        final ISession session = channelHandlerContext.channel().attr(SessionManager.SESSION_KEY).get();
+            final ISession session = channelHandlerContext.channel().attr(SessionManager.SESSION_KEY).get();
 
-        if (session == null) return;
+            if (session == null) return;
 
-        if (event instanceof IdleStateEvent idleStateEvent) {
-            session.handleIdleStateEvent(idleStateEvent);
+            if (event instanceof IdleStateEvent idleStateEvent) {
+                session.handleIdleStateEvent(idleStateEvent);
+            }
+        } finally {
+            ReferenceCountUtil.release(event);
         }
     }
 
@@ -91,12 +96,7 @@ public class FlashSessionHandler extends SimpleChannelInboundHandler<MessageEven
                 return;
             }
 
-            try {
-                this.serverMessageHandler.handle(session, messageEvent);
-            } finally {
-                messageEvent.getBuffer().release();
-            }
-
+            this.serverMessageHandler.handle(session, messageEvent);
         } catch (Exception e) {
             e.printStackTrace();
         }

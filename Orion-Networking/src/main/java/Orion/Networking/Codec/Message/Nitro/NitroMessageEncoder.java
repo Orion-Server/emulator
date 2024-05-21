@@ -19,8 +19,6 @@ public class NitroMessageEncoder extends MessageToMessageEncoder<IMessageCompose
             list.add(new BinaryWebSocketFrame(composer.content()));
         } catch(Exception e) {
             throw new IllegalStateException(STR."Failed to encode message. Reason: \{e.getMessage()}");
-        } finally {
-            composer.release();
         }
     }
 }

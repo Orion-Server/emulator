@@ -179,6 +179,8 @@ public class JoinRoomHandler implements IJoinRoomHandler {
         composers.add(new RoomPromotionComposer());
 
         habbo.getSession().send(composers);
+
+        composers.clear();
     }
 
     private void resolveRoomRightsForHabbo(List<IMessageComposer> composers, IRoom room, IHabbo habbo) {
@@ -253,5 +255,7 @@ public class JoinRoomHandler implements IJoinRoomHandler {
         // TODO: Send pool
 
         habbo.getSession().send(composers);
+
+        composers.clear();
     }
 }

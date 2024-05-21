@@ -13,24 +13,31 @@ public class MessageEvent implements IMessageEvent {
 
     public MessageEvent(int length, ByteBuf buffer) {
         this.length = length;
-        this.buffer = buffer == null || buffer.readableBytes() <= 0 ? Unpooled.EMPTY_BUFFER : buffer;
+
+        if(buffer == null || buffer.readableBytes() <= 0) {
+            this.buffer = Unpooled.EMPTY_BUFFER;
+
+            if(buffer != null) buffer.release();
+        } else {
+            this.buffer = buffer;
+        }
 
         this.id = this.buffer.readableBytes() >= 2 ? this.readShort() : 0;
     }
 
     @Override
     public short getId() {
-        return id;
+        return this.id;
     }
 
     @Override
     public int getLength() {
-        return length;
+        return this.length;
     }
 
     @Override
     public ByteBuf getBuffer() {
-        return buffer;
+        return this.buffer;
     }
 
     @Override
@@ -46,8 +53,13 @@ public class MessageEvent implements IMessageEvent {
     @Override
     public String readString() {
         final int length = this.readShort();
+        final ByteBuf buffer = this.buffer.readBytes(length);
 
-        return new String(this.readBytes(length), StandardCharsets.UTF_8);
+        try {
+            return buffer.toString(StandardCharsets.UTF_8);
+        } finally {
+            buffer.release();
+        }
     }
 
     @Override

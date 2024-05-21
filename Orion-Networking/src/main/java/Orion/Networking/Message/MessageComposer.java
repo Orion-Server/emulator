@@ -86,7 +86,9 @@ public class MessageComposer implements IMessageComposer {
 
     @Override
     public boolean release() {
-        return this.buffer.copy().release();
+        if(this.buffer.refCnt() <= 1) return false;
+
+        return this.buffer.release();
     }
 
     @Override

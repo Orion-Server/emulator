@@ -12,22 +12,22 @@ public class NitroMessageDecoder extends MessageToMessageDecoder<WebSocketFrame>
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, WebSocketFrame webSocketFrame, List<Object> list) {
         try {
-            final ByteBuf buffer = webSocketFrame.content();
+            final ByteBuf wsBuffer = webSocketFrame.content();
 
-            if (buffer.readableBytes() < 4) return;
+            if (wsBuffer.readableBytes() < 4) return;
 
-            buffer.markReaderIndex();
+            wsBuffer.markReaderIndex();
 
-            final int length = buffer.readInt();
+            final int length = wsBuffer.readInt();
 
-            if (buffer.readableBytes() < length) {
-                buffer.resetReaderIndex();
+            if (wsBuffer.readableBytes() < length) {
+                wsBuffer.resetReaderIndex();
                 return;
             }
 
             if(length < 0) return;
 
-            list.add(new MessageEvent(length, buffer.readBytes(length)));
+            list.add(new MessageEvent(length, wsBuffer.readBytes(length)));
         } catch (Exception e) {
             e.printStackTrace();
         }
