@@ -3,6 +3,8 @@ package Orion.Protocol.Message.Event.Room.Chat;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
 import Orion.Api.Protocol.Parser.IEventParser;
+import Orion.Api.Server.Game.Util.Alert.MiddleAlertType;
+import Orion.Protocol.Message.Composer.Alerts.MiddleAlertComposer;
 import Orion.Protocol.Message.Event.EventHeaders;
 import Orion.Protocol.Parser.Room.Chat.HabboChatMessageEventParser;
 import com.google.inject.Inject;
@@ -35,13 +37,14 @@ public class HabboChatMessageEvent implements IMessageEventHandler {
         }
 
         if(this.parser.message.equalsIgnoreCase(":memory")) {
-            System.out.println("---------------");
             final long allocatedMemory = (Runtime.getRuntime().totalMemory() / 1024) / 1024;
 
-            System.out.println(STR."Allocated Memory: \{allocatedMemory}MB");
-            System.out.println(STR."Memory: \{(allocatedMemory - (Runtime.getRuntime().freeMemory() / 1024) / 1024)}MB");
-            System.out.println(STR."CPU Cores: \{Runtime.getRuntime().availableProcessors()} cores");
-            System.out.println("---------------");
+            session.send(new MiddleAlertComposer(MiddleAlertType.ADMIN_PERSISTENT, STR."""
+                    ---------------
+                    "Allocated Memory: \{allocatedMemory}MB"
+                    Memory: \{(allocatedMemory - (Runtime.getRuntime().freeMemory() / 1024) / 1024)}MB
+                    CPU Cores: \{Runtime.getRuntime().availableProcessors()} cores
+                    """));
             return;
         }
 
