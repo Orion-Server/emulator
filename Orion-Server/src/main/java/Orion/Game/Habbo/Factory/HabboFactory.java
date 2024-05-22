@@ -41,7 +41,7 @@ public class HabboFactory {
             final int habboId = habboData.getInt("id");
 
             final IHabboData data = new HabboData(habboData);
-            final IHabboInventory inventory = this.habboInventoryFactory.create(habboId);
+            final IHabboInventory inventory = this.habboInventoryFactory.create();
             final IHabboSettings settings = new HabboSettings(habboData);
 
             final IHabboRooms rooms = this.habboRoomsFactory.create(habboId);

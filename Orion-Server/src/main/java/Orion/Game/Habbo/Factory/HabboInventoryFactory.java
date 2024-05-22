@@ -3,6 +3,8 @@ package Orion.Game.Habbo.Factory;
 import Orion.Api.Server.Game.Habbo.Data.IHabboInventory;
 import Orion.Api.Server.Game.Habbo.Data.Inventory.Components.IInventoryItemsComponent;
 import Orion.Api.Server.Game.Habbo.Data.Inventory.IHabboInventoryItem;
+import Orion.Api.Server.Game.Habbo.Factory.IHabboInventoryFactory;
+import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Room.Object.Item.Base.IItemDefinition;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomItemManager;
 import Orion.Api.Storage.Repository.Habbo.IHabboInventoryRepository;
@@ -17,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
-public class HabboInventoryFactory {
+public class HabboInventoryFactory implements IHabboInventoryFactory {
     private final Logger logger = LogManager.getLogger();
 
     @Inject
@@ -26,25 +28,27 @@ public class HabboInventoryFactory {
     @Inject
     private IRoomItemManager roomItemManager;
 
-    public IHabboInventory create(int habboId) {
-        final IInventoryItemsComponent itemsComponent = new InventoryItemsComponent(
-            this.loadAllHabboInventory(habboId)
-        );
+    public IHabboInventory create() {
+        final IInventoryItemsComponent itemsComponent = new InventoryItemsComponent(new ConcurrentHashMap<>());
 
         return new HabboInventory(itemsComponent);
     }
+    @Override
+    public void loadAllHabboInventory(final IHabbo habbo) {
+        this.loadHabboItems(habbo);
+    }
 
-    private ConcurrentHashMap<Long, IHabboInventoryItem> loadAllHabboInventory(int habboId) {
+    private void loadHabboItems(final IHabbo habbo) {
         final ConcurrentHashMap<Long, IHabboInventoryItem> items = new ConcurrentHashMap<>();
 
-        this.repository.loadAllHabboInventory(result -> {
+        this.repository.loadAllHabboItems(result -> {
             if(result == null) return;
 
             try {
                 final IItemDefinition itemDefinition = this.roomItemManager.getItemDefinitionById(result.getInt("item_id"));
 
                 if(itemDefinition == null) {
-                    this.logger.warn(STR."Item definition not found for item id: \{result.getInt("item_id")} (habbo id: \{habboId})");
+                    this.logger.warn(STR."Item definition not found for item id: \{result.getInt("item_id")} (habbo id: \{habbo.getData().getId()})");
                     return;
                 }
 
@@ -54,8 +58,9 @@ public class HabboInventoryFactory {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, habboId);
+        }, habbo.getData().getId());
 
-        return items;
+        habbo.getInventory().getItemsComponent().setItems(items);
+        items.clear();
     }
 }

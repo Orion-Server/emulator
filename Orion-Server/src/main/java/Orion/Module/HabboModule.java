@@ -1,5 +1,6 @@
 package Orion.Module;
 
+import Orion.Api.Server.Game.Habbo.Factory.IHabboInventoryFactory;
 import Orion.Api.Server.Game.Habbo.IHabboManager;
 import Orion.Api.Server.Game.Habbo.Provider.IHabboLoginProvider;
 import Orion.Game.Habbo.Factory.*;
@@ -19,6 +20,6 @@ public class HabboModule extends AbstractModule {
         bind(HabboNavigatorFactory.class).asEagerSingleton();
         bind(HabboAchievementsFactory.class).asEagerSingleton();
         bind(HabboMessengerFactory.class).asEagerSingleton();
-        bind(HabboInventoryFactory.class).asEagerSingleton();
+        bind(IHabboInventoryFactory.class).to(HabboInventoryFactory.class);
     }
 }

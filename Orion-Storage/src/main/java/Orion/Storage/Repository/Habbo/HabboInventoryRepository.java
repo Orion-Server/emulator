@@ -13,7 +13,7 @@ public class HabboInventoryRepository extends DatabaseRepository implements IHab
     protected Logger logger = LogManager.getLogger();
 
     @Override
-    public void loadAllHabboInventory(IConnectionResultConsumer consumer, int habboId) {
-        this.select(HabboInventoryQuery.LOAD_ALL_HABBO_INVENTORY.get(), consumer, habboId);
+    public void loadAllHabboItems(IConnectionResultConsumer consumer, int habboId) {
+        this.select(HabboInventoryQuery.LOAD_ALL_HABBO_ITEMS.get(), consumer, habboId);
     }
 }

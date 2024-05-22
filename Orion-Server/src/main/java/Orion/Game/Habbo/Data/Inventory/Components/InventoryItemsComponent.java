@@ -17,4 +17,9 @@ public class InventoryItemsComponent implements IInventoryItemsComponent {
     public Collection<IHabboInventoryItem> getItems() {
         return this.items.values();
     }
+
+    @Override
+    public void setItems(ConcurrentHashMap<Long, IHabboInventoryItem> items) {
+        this.items.putAll(items);
+    }
 }
