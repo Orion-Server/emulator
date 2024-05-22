@@ -50,5 +50,7 @@ public interface IItemDefinition extends IFillable {
 
     Integer[] getVendingIds();
 
+    Integer getRandomVendingId();
+
     Double[] getMultiHeights();
 }

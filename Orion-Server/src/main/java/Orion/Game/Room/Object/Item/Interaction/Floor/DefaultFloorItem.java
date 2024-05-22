@@ -8,7 +8,7 @@ import Orion.Game.Room.Object.Item.Interaction.RoomItemInteraction;
 public class DefaultFloorItem extends RoomItemInteraction {
     private final IRoomFloorItem item;
 
-    public DefaultFloorItem(IRoomFloorItem item) {
+    public DefaultFloorItem(final IRoomFloorItem item) {
         this.item = item;
     }
 }

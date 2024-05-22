@@ -1,4 +1,4 @@
-package Orion.Game.Room.Process.Entities;
+package Orion.Game.Room.Process.Entity;
 
 import Orion.Api.Server.Game.Room.Data.Model.IRoomTile;
 import Orion.Api.Server.Game.Room.IRoom;
@@ -25,6 +25,12 @@ public class HabboEntityProcess {
     public void onEntityRemoved(final IRoomEntity entity) {
         if(entity instanceof IHabboEntity) {
             this.entitiesToUpdate.remove(entity);
+
+            final IRoomTile tile = this.room.getMappingComponent().getTile(entity.getPosition());
+
+            if(tile != null) {
+                tile.onEntityLeave(entity);
+            }
         }
     }
 
@@ -35,6 +41,8 @@ public class HabboEntityProcess {
 
     private void preProcess() {
         for(final IHabboEntity entity : this.room.getEntitiesComponent().getHabboEntities()) {
+            entity.tickHandItem();
+
             if(entity.needsUpdate()) {
                 entity.setNeedsUpdate(false);
 

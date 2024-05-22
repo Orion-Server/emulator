@@ -72,6 +72,11 @@ public class RoomItemData implements IRoomItemData {
     }
 
     @Override
+    public void setExtraData(String extraData) {
+        this.extraData = extraData;
+    }
+
+    @Override
     public String getWiredData() {
         return this.wiredData;
     }

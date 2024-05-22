@@ -81,12 +81,12 @@ public class RoomTile implements IRoomTile {
                     statusType = RoomTileStatusType.LAY;
                     movementNode = RoomEntityMovementNode.END_OF_ROUTE;
 
-                    if(item.getRotation() == 2 || item.getRotation() == 6) {
+                    if(item.getData().getRotation() == 2 || item.getData().getRotation() == 6) {
                         this.redirectTo = item.getPosition().copy();
                         break;
                     }
 
-                    if(item.getRotation() == 0 || item.getRotation() == 4) {
+                    if(item.getData().getRotation() == 0 || item.getData().getRotation() == 4) {
                         this.redirectTo = this.position.copy();
                     }
 

@@ -8,6 +8,7 @@ import Orion.Api.Server.Game.Room.Object.Entity.Enum.RoomEntityStatus;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
 import Orion.Api.Server.Game.Util.Position;
 import Orion.Game.Room.Object.Entity.Component.EntityWalkComponent;
+import Orion.Protocol.Message.Composer.Room.Entities.GiveHandItemComposer;
 import Orion.Writer.Room.Object.Entity.HabboEntityWriter;
 
 import java.util.Map;
@@ -34,6 +35,9 @@ public class HabboEntity implements IHabboEntity {
 
     private boolean disposed = false;
     private boolean needsUpdate = false;
+
+    private int handItemId;
+    private int handItemTimer;
 
     public HabboEntity(int virtualId, final IHabbo habbo, final IRoom room) {
         this.virtualId = virtualId;
@@ -210,6 +214,34 @@ public class HabboEntity implements IHabboEntity {
         }
 
         this.setNeedsUpdate(true);
+    }
+
+    @Override
+    public void giveHandItem(int handItemId) {
+        this.giveHandItem(handItemId, 240);
+    }
+
+    @Override
+    public void giveHandItem(int handItemId, int timer) {
+        this.handItemId = handItemId;
+        this.handItemTimer = timer;
+
+        this.room.broadcastMessage(new GiveHandItemComposer(this.getVirtualId(), handItemId));
+    }
+
+    @Override
+    public void tickHandItem() {
+        if(this.handItemId <= 0 || this.handItemTimer == -999) return;
+
+        if(this.handItemTimer > 0) {
+            this.handItemTimer--;
+            return;
+        }
+
+        this.handItemId = 0;
+        this.handItemTimer = 0;
+
+        this.room.broadcastMessage(new GiveHandItemComposer(this.getVirtualId(), 0));
     }
 
     @Override

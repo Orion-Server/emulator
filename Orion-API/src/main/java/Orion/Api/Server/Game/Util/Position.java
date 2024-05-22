@@ -82,6 +82,10 @@ public class Position {
         };
     }
 
+    public Position positionInFront(int rotation) {
+        return calculatePosition(this.x, this.y, rotation, false, 1);
+    }
+
     public static Position calculatePosition(int x, int y, int angle, boolean isReversed, int distance) {
         if (isReversed) {
             angle = (angle + 4) % 8;

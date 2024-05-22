@@ -10,7 +10,7 @@ import Orion.Game.Room.Object.Item.Interaction.RoomItemInteraction;
 public class SeatFloorItem extends RoomItemInteraction {
     private final IRoomFloorItem item;
 
-    public SeatFloorItem(IRoomFloorItem item) {
+    public SeatFloorItem(final IRoomFloorItem item) {
         this.item = item;
     }
 
@@ -21,7 +21,7 @@ public class SeatFloorItem extends RoomItemInteraction {
         for (final Position position : this.item.getAffectedPositions()) {
             if(!position.equals(entity.getPosition())) continue;
 
-            entity.sit(item.getDefinition().getStackHeight(), item.getRotation());
+            entity.sit(item.getDefinition().getStackHeight(), item.getData().getRotation());
             sitting = true;
             break;
         }

@@ -18,6 +18,8 @@ public interface IRoomItemData extends IFillable {
 
     String getExtraData();
 
+    void setExtraData(String extraData);
+
     String getWiredData();
 
     ILimitedItemData getLimitedData();

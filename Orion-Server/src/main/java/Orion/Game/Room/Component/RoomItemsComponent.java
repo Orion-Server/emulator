@@ -60,6 +60,16 @@ public class RoomItemsComponent implements IRoomItemsComponent {
     }
 
     @Override
+    public IRoomFloorItem getFloorItemByVirtualId(int virtualId) {
+        return this.floorItems.get(virtualId);
+    }
+
+    @Override
+    public IRoomWallItem getWallItemByVirtualId(int virtualId) {
+        return this.wallItems.get(virtualId);
+    }
+
+    @Override
     public ConcurrentHashMap<Integer, String> getOwnerNames() {
         return this.ownerNames;
     }

@@ -155,6 +155,19 @@ public class ItemDefinition implements IItemDefinition {
     }
 
     @Override
+    public Integer getRandomVendingId() {
+        if (this.vendingIds == null || this.vendingIds.length == 0) {
+            return null;
+        }
+
+        try {
+            return this.vendingIds[(int) Math.floor(Math.random() * this.vendingIds.length)];
+        } catch (Exception e) {
+            return this.vendingIds[0];
+        }
+    }
+
+    @Override
     public Double[] getMultiHeights() {
         return this.multiHeights;
     }

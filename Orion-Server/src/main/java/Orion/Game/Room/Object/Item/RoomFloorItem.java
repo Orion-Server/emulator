@@ -9,6 +9,7 @@ import Orion.Api.Server.Game.Room.Object.Item.Interaction.IRoomItemInteraction;
 import Orion.Api.Server.Game.Util.Position;
 import Orion.Api.Storage.Result.IConnectionResult;
 import Orion.Game.Room.Object.Item.Data.RoomItemData;
+import Orion.Protocol.Message.Composer.Room.Object.UpdateFloorItemComposer;
 import Orion.Writer.Room.Object.Item.RoomFloorItemWriter;
 import gnu.trove.map.hash.THashMap;
 
@@ -90,16 +91,6 @@ public class RoomFloorItem implements IRoomFloorItem {
     }
 
     @Override
-    public int getRotation() {
-        return this.data.getRotation();
-    }
-
-    @Override
-    public void setRotation(int rotation) {
-        // Implement this
-    }
-
-    @Override
     public void setAffectedPositions(List<Position> positions) {
         this.affectedPositions.clear();
         this.affectedPositions.addAll(positions);
@@ -108,6 +99,11 @@ public class RoomFloorItem implements IRoomFloorItem {
     @Override
     public List<Position> getAffectedPositions() {
         return this.affectedPositions;
+    }
+
+    @Override
+    public void sendUpdate() {
+        this.room.broadcastMessage(new UpdateFloorItemComposer(this));
     }
 
     @Override

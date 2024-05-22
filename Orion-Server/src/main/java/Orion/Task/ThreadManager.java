@@ -23,15 +23,22 @@ public class ThreadManager implements IThreadManager {
 
     private ScheduledExecutorService roomProcessingExecutor;
 
+    private ScheduledExecutorService roomItemProcessingExecutor;
+
     @Override
     public void initialize() {
         this.habboLoginExecutor = Executors.newFixedThreadPool(
                 this.environmentSettings.getInteger("game.login_provider.threads")
         );
-        
+
         this.roomProcessingExecutor = Executors.newScheduledThreadPool(
                 this.environmentSettings.getInteger("game.room_processing.threads"),
                 this.getThreadFactory("RoomProcess")
+        );
+
+        this.roomItemProcessingExecutor = Executors.newScheduledThreadPool(
+                this.environmentSettings.getInteger("game.room_item_processing.threads"),
+                this.getThreadFactory("RoomItemProcess")
         );
 
         this.logger.debug("Emulator thread manager initialized successfully.");
@@ -42,7 +49,7 @@ public class ThreadManager implements IThreadManager {
             final Thread fixedThread = new Thread(r);
             final Logger logger = LogManager.getLogger(STR."\{name}Thread");
 
-            fixedThread.setName("Orion-LoginProvider-Thread");
+            fixedThread.setName(STR."Orion-\{name}-Thread");
             fixedThread.setUncaughtExceptionHandler((_, e) -> logger.error(STR."An error occurred in the \{name} thread.", e));
 
             return fixedThread;
@@ -57,5 +64,10 @@ public class ThreadManager implements IThreadManager {
     @Override
     public ScheduledExecutorService getRoomProcessingExecutor() {
         return this.roomProcessingExecutor;
+    }
+
+    @Override
+    public ScheduledExecutorService getRoomItemProcessingExecutor() {
+        return this.roomItemProcessingExecutor;
     }
 }

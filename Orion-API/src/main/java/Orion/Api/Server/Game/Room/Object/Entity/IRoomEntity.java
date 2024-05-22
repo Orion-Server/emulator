@@ -30,4 +30,10 @@ public interface IRoomEntity extends IRoomObject, IWriteable, IStatusable, IDisp
     void sit(double height);
 
     void sit(double height, int rotation);
+
+    void giveHandItem(int handItemId);
+
+    void giveHandItem(int handItemId, int timer);
+
+    void tickHandItem();
 }

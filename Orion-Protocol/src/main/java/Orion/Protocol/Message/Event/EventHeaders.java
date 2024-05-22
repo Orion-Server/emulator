@@ -53,4 +53,5 @@ public abstract class EventHeaders {
     public static final int RequestRoomHeightmapEvent = 2300;
     public static final int RequestItemMovementEvent = 248;
     public static final int RequestCreateRoomEvent = 2752;
+    public static final int ToggleFloorItemStateEvent = 99;
 }

@@ -13,7 +13,11 @@ public interface IRoomItemsComponent extends Initializable {
 
     ConcurrentHashMap<Integer, IRoomFloorItem> getFloorItems();
 
+    IRoomFloorItem getFloorItemByVirtualId(int virtualId);
+
     ConcurrentHashMap<Integer, String> getOwnerNames();
+
+    IRoomWallItem getWallItemByVirtualId(int virtualId);
 
     FurnitureMovementError moveFloorItem(final IRoomFloorItem item, Position position, int rotation);
 }

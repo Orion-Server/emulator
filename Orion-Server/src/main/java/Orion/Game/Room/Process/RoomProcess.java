@@ -4,7 +4,8 @@ import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Api.Server.Game.Room.Process.IRoomProcess;
 import Orion.Api.Server.Task.IThreadManager;
-import Orion.Game.Room.Process.Entities.HabboEntityProcess;
+import Orion.Game.Room.Process.Entity.HabboEntityProcess;
+import Orion.Game.Room.Process.Item.RoomItemProcess;
 import com.google.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +26,8 @@ public class RoomProcess implements IRoomProcess {
     private boolean started = false;
     private boolean processing = false;
 
+    private final RoomItemProcess roomItemProcess;
+
     private final HabboEntityProcess habboEntityProcess;
 
     public RoomProcess(final IRoom room) {
@@ -32,6 +35,7 @@ public class RoomProcess implements IRoomProcess {
         this.logger = LogManager.getLogger(STR."[Room Process #\{this.room.getData().getId()}]");
 
         this.habboEntityProcess = new HabboEntityProcess(room);
+        this.roomItemProcess = new RoomItemProcess(room);
     }
 
     @Override
@@ -39,6 +43,8 @@ public class RoomProcess implements IRoomProcess {
         if(this.started) return;
 
         this.task = this.threadManager.getRoomProcessingExecutor().scheduleAtFixedRate(this, 500, 500, TimeUnit.MILLISECONDS);
+
+        this.roomItemProcess.initialize(this.threadManager);
 
         this.started = true;
     }
@@ -66,5 +72,7 @@ public class RoomProcess implements IRoomProcess {
     @Override
     public void dispose() {
         this.task.cancel(true);
+
+        this.roomItemProcess.stop();
     }
 }

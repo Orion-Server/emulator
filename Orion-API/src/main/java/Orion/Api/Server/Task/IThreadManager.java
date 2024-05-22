@@ -9,4 +9,6 @@ public interface IThreadManager extends Initializable {
     ExecutorService getHabboLoginExecutor();
 
     ScheduledExecutorService getRoomProcessingExecutor();
+
+    ScheduledExecutorService getRoomItemProcessingExecutor();
 }

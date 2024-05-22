@@ -9,7 +9,7 @@ public abstract class RoomFloorItemWriter {
         composer.appendInt(item.getDefinition().getSpriteId());
         composer.appendInt(item.getPosition().getX());
         composer.appendInt(item.getPosition().getY());
-        composer.appendInt(item.getRotation());
+        composer.appendInt(item.getData().getRotation());
         composer.appendString(item.getPosition().getZ());
         composer.appendString(item.getDefinition().getStackHeight());
         composer.appendInt(1); // TODO: Gift, song, etc
