@@ -1,5 +1,6 @@
 package Orion.Game.Room.Object.Item.Interaction.Floor;
 
+import Orion.Api.Server.Game.Room.Data.Model.IRoomTile;
 import Orion.Api.Server.Game.Room.Object.Entity.Enum.RoomEntityStatus;
 import Orion.Api.Server.Game.Room.Object.Entity.IRoomEntity;
 import Orion.Api.Server.Game.Room.Object.Entity.Type.IHabboEntity;
@@ -28,6 +29,13 @@ public class VendingMachineFloorItem extends RoomItemInteraction {
 
         if(!positionInFront.equals(entity.getPosition())) {
             habbo.getWalkComponent().walkToPosition(positionInFront.getX(), positionInFront.getY());
+
+            final IRoomTile tile = this.item.getRoom().getMappingComponent().getTile(positionInFront);
+
+            if(tile != null) {
+                tile.scheduleEvent(entity.getVirtualId(), scheduledEntity -> this.onInteract(scheduledEntity, requestData));
+            }
+
             return;
         }
 

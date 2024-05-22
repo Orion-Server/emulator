@@ -24,7 +24,6 @@
         <module>Orion-Storage</module>
         <module>Orion-Protocol</module>
         <module>Orion-Writer</module>
-        <module>Orion-StressTest</module>
     </modules>
 
     <dependencies>

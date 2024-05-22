@@ -76,6 +76,14 @@ public class EntityWalkComponent implements IEntityWalkComponent {
                 this.entity.getRoom().getData().getDiagonalType()
         );
 
+        if(!this.processingPath.isEmpty()) {
+            final IRoomTile lastGoalTile = this.entity.getRoom().getMappingComponent().getTile(this.processingPath.getLast());
+
+            if(lastGoalTile != null) {
+                lastGoalTile.clearScheduledEvent(this.entity.getVirtualId());
+            }
+        }
+
         this.walkingPath.clear();
         this.walkingPath.addAll(walkingPath);
     }

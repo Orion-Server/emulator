@@ -7,12 +7,14 @@ import Orion.Api.Server.Game.Room.Object.Item.IRoomItem;
 import Orion.Api.Server.Game.Room.Object.Pathfinder.RoomEntityMovementNode;
 import Orion.Api.Server.Game.Room.Object.Pathfinder.RoomTileStatusType;
 import Orion.Api.Server.Game.Util.Position;
+import Orion.Api.Util.IDisposable;
 import Orion.Api.Util.IPositionable;
 import Orion.Api.Util.Initializable;
 
 import java.util.Set;
+import java.util.function.Consumer;
 
-public interface IRoomTile extends IPositionable, Initializable {
+public interface IRoomTile extends IPositionable, Initializable, IDisposable {
     double getStackHeight();
 
     void onEntityLeave(IRoomEntity entity);
@@ -38,4 +40,8 @@ public interface IRoomTile extends IPositionable, Initializable {
     Position getRedirectTo();
 
     Set<IRoomEntity> getEntities();
+
+    void scheduleEvent(int entityId, Consumer<IRoomEntity> event);
+
+    void clearScheduledEvent(int entityId);
 }

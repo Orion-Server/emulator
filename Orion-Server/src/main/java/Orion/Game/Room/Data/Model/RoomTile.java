@@ -13,8 +13,10 @@ import io.netty.util.internal.ConcurrentSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 public class RoomTile implements IRoomTile {
     private final IRoom room;
@@ -43,11 +45,15 @@ public class RoomTile implements IRoomTile {
 
     private final Set<IRoomEntity> entities;
 
+    private Map<Integer, Consumer<IRoomEntity>> pendingEvents;
+
     public RoomTile(final IRoom room, final Position position) {
         this.room = room;
         this.position = position;
         this.floorItems = new ArrayList<>();
         this.entities = ConcurrentHashMap.newKeySet();
+
+        this.pendingEvents = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -149,6 +155,7 @@ public class RoomTile implements IRoomTile {
     @Override
     public void onEntityEnter(IRoomEntity entity) {
         this.entities.add(entity);
+        this.executePendingEvents(entity);
 
         if(this.topItem == null) return;
 
@@ -158,6 +165,24 @@ public class RoomTile implements IRoomTile {
     @Override
     public double getStackHeight() {
         return this.stackHeight;
+    }
+
+    @Override
+    public void scheduleEvent(int entityId, Consumer<IRoomEntity> event) {
+        this.pendingEvents.put(entityId, event);
+    }
+
+    @Override
+    public void clearScheduledEvent(int entityId) {
+        this.pendingEvents.remove(entityId);
+    }
+
+    private void executePendingEvents(IRoomEntity entity) {
+        final Consumer<IRoomEntity> event = this.pendingEvents.remove(entity.getVirtualId());
+
+        if(event == null) return;
+
+        event.accept(entity);
     }
 
     @Override
@@ -211,5 +236,12 @@ public class RoomTile implements IRoomTile {
     @Override
     public Set<IRoomEntity> getEntities() {
         return this.entities;
+    }
+
+    @Override
+    public void dispose() {
+        this.floorItems.clear();
+        this.entities.clear();
+        this.pendingEvents.clear();
     }
 }
