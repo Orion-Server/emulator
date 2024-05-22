@@ -1,6 +1,6 @@
 package Orion.Api.Server.Game.Room.Object.Item.Data;
 
-public interface ILimitedItemData {
+public interface ILimitedEditionData {
     int getLimitedEditionNumber();
 
     int getLimitedEditionTotal();

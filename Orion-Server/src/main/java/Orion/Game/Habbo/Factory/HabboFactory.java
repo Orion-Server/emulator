@@ -33,17 +33,20 @@ public class HabboFactory {
     @Inject
     private HabboMessengerFactory habboMessengerFactory;
 
-    public IHabbo create(IConnectionResult databaseData) {
-        try {
-            final int habboId = databaseData.getInt("id");
+    @Inject
+    private HabboInventoryFactory habboInventoryFactory;
 
-            final IHabboData data = new HabboData(databaseData);
-            final IHabboInventory inventory = new HabboInventory();
-            final IHabboSettings settings = new HabboSettings(databaseData);
+    public IHabbo create(IConnectionResult habboData) {
+        try {
+            final int habboId = habboData.getInt("id");
+
+            final IHabboData data = new HabboData(habboData);
+            final IHabboInventory inventory = this.habboInventoryFactory.create(habboId);
+            final IHabboSettings settings = new HabboSettings(habboData);
 
             final IHabboRooms rooms = this.habboRoomsFactory.create(habboId);
             final IHabboCurrencies currencies = this.habboCurrenciesFactory.create(habboId);
-            final IHabboNavigator navigator = this.habboNavigatorFactory.create(databaseData);
+            final IHabboNavigator navigator = this.habboNavigatorFactory.create(habboData);
             final IHabboAchievements achievements = this.habboAchievementsFactory.create(habboId);
             final IHabboPermission permission = new HabboPermission();
             final IHabboMessenger messenger = this.habboMessengerFactory.create(habboId);

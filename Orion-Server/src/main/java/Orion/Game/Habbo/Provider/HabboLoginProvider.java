@@ -118,7 +118,6 @@ public class HabboLoginProvider implements IHabboLoginProvider {
         composers.add(new FavoriteRoomsComposer(habbo, this.databaseSettings));
         composers.add(new CampaignCalendarDataComposer());
         composers.add(new HabboClubComposer());
-        composers.add(new UpdateInventoryComposer());
         composers.add(new InventoryAchievementsComposer(this.achievementManager));
         composers.add(new HabboHomeRoomComposer(habbo));
 

@@ -1,8 +1,8 @@
 package Orion.Game.Room.Object.Item.Data;
 
-import Orion.Api.Server.Game.Room.Object.Item.Data.ILimitedItemData;
+import Orion.Api.Server.Game.Room.Object.Item.Data.ILimitedEditionData;
 
-public class LimitedEditionData implements ILimitedItemData {
+public class LimitedEditionData implements ILimitedEditionData {
     private final int limitedEditionNumber;
 
     private final int limitedEditionTotal;
@@ -12,6 +12,11 @@ public class LimitedEditionData implements ILimitedItemData {
 
         this.limitedEditionNumber = Integer.parseInt(split[0]);
         this.limitedEditionTotal = Integer.parseInt(split[1]);
+    }
+
+    public LimitedEditionData(int limitedEditionNumber, int limitedEditionTotal) {
+        this.limitedEditionNumber = limitedEditionNumber;
+        this.limitedEditionTotal = limitedEditionTotal;
     }
 
     @Override

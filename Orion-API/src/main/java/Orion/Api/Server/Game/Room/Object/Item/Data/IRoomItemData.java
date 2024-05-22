@@ -22,7 +22,7 @@ public interface IRoomItemData extends IFillable {
 
     String getWiredData();
 
-    ILimitedItemData getLimitedData();
+    ILimitedEditionData getLimitedData();
 
     int getGroupId();
 

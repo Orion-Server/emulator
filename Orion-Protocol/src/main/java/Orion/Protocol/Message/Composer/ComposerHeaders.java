@@ -77,4 +77,5 @@ public abstract class ComposerHeaders {
     public static int RoomCreatedComposer = 1304;
     public static int UpdateFloorItemComposer = 3776;
     public static int GiveHandItemComposer = 1474;
+    public static int InventoryItemsComposer = 994;
 }

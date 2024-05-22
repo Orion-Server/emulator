@@ -125,8 +125,12 @@ public class RoomItemFactory implements Initializable {
                 return item;
             }
 
+            if(interactionType.equalsIgnoreCase("default")) {
+                interactionType = "default_wall";
+            }
+
             final IRoomItemInteraction interaction = this.interactions.get(
-                    definition.getInteractionType().toLowerCase()
+                    interactionType
             ).getConstructor(IRoomWallItem.class).newInstance(item);
 
             item.setInteraction(interaction);

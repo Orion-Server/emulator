@@ -1,6 +1,6 @@
 package Orion.Game.Room.Object.Item.Data;
 
-import Orion.Api.Server.Game.Room.Object.Item.Data.ILimitedItemData;
+import Orion.Api.Server.Game.Room.Object.Item.Data.ILimitedEditionData;
 import Orion.Api.Server.Game.Room.Object.Item.Data.IRoomItemData;
 import Orion.Api.Server.Game.Util.Position;
 import Orion.Api.Storage.Result.IConnectionResult;
@@ -22,7 +22,7 @@ public class RoomItemData implements IRoomItemData {
 
     private String wiredData;
 
-    private ILimitedItemData limitedData;
+    private ILimitedEditionData limitedData;
 
     private int groupId;
 
@@ -82,7 +82,7 @@ public class RoomItemData implements IRoomItemData {
     }
 
     @Override
-    public ILimitedItemData getLimitedData() {
+    public ILimitedEditionData getLimitedData() {
         return this.limitedData;
     }
 

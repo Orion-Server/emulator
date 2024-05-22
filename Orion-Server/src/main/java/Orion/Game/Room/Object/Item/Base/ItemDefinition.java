@@ -172,6 +172,14 @@ public class ItemDefinition implements IItemDefinition {
         return this.multiHeights;
     }
 
+    @Override
+    public boolean isDecoration() {
+        return this.getItemName().equalsIgnoreCase("floor")
+                || this.getItemName().equalsIgnoreCase("wallpaper")
+                || this.getItemName().equalsIgnoreCase("landscape")
+                || this.getItemName().equalsIgnoreCase("poster");
+    }
+
     public void fill(IConnectionResult data) throws Exception {
         this.id = data.getInt("id");
         this.spriteId = data.getInt("sprite_id");
