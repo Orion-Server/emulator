@@ -19,5 +19,5 @@ public interface IRoomItemsComponent extends Initializable {
 
     IRoomWallItem getWallItemByVirtualId(int virtualId);
 
-    FurnitureMovementError moveFloorItem(final IRoomFloorItem item, Position position, int rotation);
+    FurnitureMovementError applyItemMovement(final IRoomFloorItem item, Position position, int rotation);
 }

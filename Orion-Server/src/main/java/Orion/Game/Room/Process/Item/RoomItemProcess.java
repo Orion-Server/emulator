@@ -46,9 +46,9 @@ public class RoomItemProcess implements Runnable {
     }
 
     private void processFloorItems() {
+        // TODO: Improve this, maybe create a new property here to store the items that need to be ticked.
         for(final IRoomFloorItem floorItem : this.room.getItemsComponent().getFloorItems().values()) {
             if(floorItem.getInteraction().needsTick()) {
-                System.out.println("ticking " + floorItem.getData().getId());
                 floorItem.getInteraction().tick();
             }
         }

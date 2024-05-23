@@ -9,6 +9,7 @@ import Orion.Api.Server.Game.Room.Object.Item.IRoomFloorItem;
 import Orion.Api.Server.Game.Util.Alert.MiddleAlertType;
 import Orion.Api.Server.Game.Util.Position;
 import Orion.Protocol.Message.Composer.Alerts.MiddleAlertComposer;
+import Orion.Protocol.Message.Composer.Room.Object.UpdateFloorItemComposer;
 import Orion.Protocol.Message.Event.EventHeaders;
 import Orion.Protocol.Parser.Room.Item.RequestItemMovementEventParser;
 import com.google.inject.Inject;
@@ -41,17 +42,23 @@ public class RequestItemMovementEvent implements IMessageEventHandler {
 
         if(item == null) return;
 
-        final FurnitureMovementError error = room.getItemsComponent().moveFloorItem(
-                item,
-                new Position(this.parser.newX, this.parser.newY),
-                this.parser.newRotation
-        );
-
-        if(!error.equals(FurnitureMovementError.NONE)) {
-            session.send(new MiddleAlertComposer(MiddleAlertType.FURNITURE_PLACEMENT_ERROR, error));
+        if(!room.getRightsComponent().hasRights(session.getHabbo()) && !session.getHabbo().getPermission().hasAccountPermission("moverotate")) {
+            session.send(
+                    new MiddleAlertComposer(MiddleAlertType.FURNITURE_PLACEMENT_ERROR, FurnitureMovementError.NO_RIGHTS),
+                    new UpdateFloorItemComposer(item)
+            );
             return;
         }
 
-        System.out.println("Moved");
+        final FurnitureMovementError error = room.getItemsComponent().applyItemMovement(
+                item, new Position(this.parser.newX, this.parser.newY), this.parser.newRotation
+        );
+
+        if(error.equals(FurnitureMovementError.NONE)) return;
+
+        session.send(
+                new MiddleAlertComposer(MiddleAlertType.FURNITURE_PLACEMENT_ERROR, error),
+                new UpdateFloorItemComposer(item)
+        );
     }
 }

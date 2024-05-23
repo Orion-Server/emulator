@@ -60,6 +60,10 @@ public class RoomTile implements IRoomTile {
     public void initialize() {
         final RoomTileState modelState = this.room.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()];
 
+        this.canStack = true;
+        this.stackHeight = 0d;
+        this.statusType = RoomTileStatusType.NONE;
+        this.movementNode = RoomEntityMovementNode.OPEN;
         this.state = modelState == null ? RoomTileState.INVALID : modelState;
         this.canPlaceItems = modelState != null && modelState.equals(RoomTileState.VALID);
         this.originalHeight = this.room.getModel().getSquareHeight()[this.getPosition().getX()][this.getPosition().getY()];
@@ -79,13 +83,13 @@ public class RoomTile implements IRoomTile {
             }
 
             if(!item.getDefinition().isAllowWalk() && this.topItem.getData().getId() == item.getData().getId()) { // TODO: Check gate
-                movementNode = RoomEntityMovementNode.CLOSED;
+                this.movementNode = RoomEntityMovementNode.CLOSED;
             }
 
             switch (item.getDefinition().getInteractionType()) {
                 case "bed":
-                    statusType = RoomTileStatusType.LAY;
-                    movementNode = RoomEntityMovementNode.END_OF_ROUTE;
+                    this.statusType = RoomTileStatusType.LAY;
+                    this.movementNode = RoomEntityMovementNode.END_OF_ROUTE;
 
                     if(item.getData().getRotation() == 2 || item.getData().getRotation() == 6) {
                         this.redirectTo = item.getPosition().copy();
@@ -107,13 +111,13 @@ public class RoomTile implements IRoomTile {
             // TODO: SnowBoard
 
             if(item.getDefinition().isAllowSit()) {
-                statusType = RoomTileStatusType.SIT;
-                movementNode = RoomEntityMovementNode.END_OF_ROUTE;
+                this.statusType = RoomTileStatusType.SIT;
+                this.movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
 
             if (item.getDefinition().getInteractionType().equals("bed")) {
-                statusType = RoomTileStatusType.LAY;
-                movementNode = RoomEntityMovementNode.END_OF_ROUTE;
+                this.statusType = RoomTileStatusType.LAY;
+                this.movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
 
             if(!item.getDefinition().isAllowStack()) {
@@ -140,7 +144,31 @@ public class RoomTile implements IRoomTile {
 
     @Override
     public void addItem(IRoomFloorItem item) {
+        final int lastTopItemId = this.topItem == null ? 0 : this.topItem.getData().getId();
+
         this.floorItems.add(item);
+
+        this.initialize();
+
+        if(this.topItem != null && this.topItem.getData().getId() != lastTopItemId) {
+            for (final IRoomEntity entity : this.entities) {
+                this.topItem.getInteraction().onEntityEnter(entity);
+            }
+        }
+    }
+
+    @Override
+    public void removeItem(IRoomFloorItem item) {
+        if(this.topItem != null && this.topItem.getData().getId() == item.getData().getId()) {
+            for (final IRoomEntity entity : this.entities) {
+                this.topItem.getInteraction().onEntityLeave(entity);
+            }
+
+            this.topItem = null;
+        }
+
+        this.floorItems.remove(item);
+        this.initialize();
     }
 
     @Override

@@ -12,7 +12,11 @@ public interface IRoomItemData extends IFillable {
 
     Position getPosition();
 
+    void setPosition(Position position);
+
     int getRotation();
+
+    void setRotation(int rotation);
 
     String getWallPosition();
 

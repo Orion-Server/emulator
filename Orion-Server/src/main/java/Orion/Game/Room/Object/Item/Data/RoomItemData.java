@@ -57,8 +57,18 @@ public class RoomItemData implements IRoomItemData {
     }
 
     @Override
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    @Override
     public int getRotation() {
         return this.rotation;
+    }
+
+    @Override
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
     }
 
     @Override

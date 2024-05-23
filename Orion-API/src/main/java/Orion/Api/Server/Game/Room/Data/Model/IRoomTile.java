@@ -44,4 +44,6 @@ public interface IRoomTile extends IPositionable, Initializable, IDisposable {
     void scheduleEvent(int entityId, Consumer<IRoomEntity> event);
 
     void clearScheduledEvent(int entityId);
+
+    void removeItem(IRoomFloorItem item);
 }
