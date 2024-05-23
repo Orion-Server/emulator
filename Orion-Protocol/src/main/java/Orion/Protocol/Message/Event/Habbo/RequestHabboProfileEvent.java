@@ -39,6 +39,6 @@ public class RequestHabboProfileEvent implements IMessageEventHandler {
             return;
         }
 
-        session.send(new HabboProfileComposer(habbo));
+        session.send(new HabboProfileComposer(session.getHabbo(), habbo));
     }
 }

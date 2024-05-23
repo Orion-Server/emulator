@@ -3,13 +3,16 @@ package Orion.Game.Habbo.Data;
 import Orion.Api.Server.Game.Habbo.Data.IHabboData;
 import Orion.Api.Storage.Result.IConnectionResult;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class HabboData implements IHabboData {
     private int id;
     private String username;
     private String email;
-    private String accountCreated;
+    private int accountCreated;
     private String lastLogin;
-    private String lastOnline;
+    private int lastOnline;
     private String motto;
     private String look;
     private String gender;
@@ -21,6 +24,8 @@ public class HabboData implements IHabboData {
     private String currentIp;
     private String machineId;
     private int homeRoom;
+
+    private String accountCreatedFormatted;
 
     public HabboData(IConnectionResult data) {
         try {
@@ -51,8 +56,13 @@ public class HabboData implements IHabboData {
     }
 
     @Override
-    public String getAccountCreated() {
+    public int getAccountCreated() {
         return this.accountCreated;
+    }
+
+    @Override
+    public String getAccountCreatedFormatted() {
+        return this.accountCreatedFormatted;
     }
 
     @Override
@@ -61,7 +71,7 @@ public class HabboData implements IHabboData {
     }
 
     @Override
-    public String getLastOnline() {
+    public int getLastOnline() {
         return this.lastOnline;
     }
 
@@ -120,9 +130,9 @@ public class HabboData implements IHabboData {
         this.id = result.getInt("id");
         this.username = result.getString("username");
         this.email = result.getString("mail");
-        this.accountCreated = result.getString("account_created");
+        this.accountCreated = result.getInt("account_created");
         this.lastLogin = result.getString("last_login");
-        this.lastOnline = result.getString("last_online");
+        this.lastOnline = result.getInt("last_online");
         this.motto = result.getString("motto");
         this.look = result.getString("look");
         this.gender = result.getString("gender");
@@ -134,5 +144,7 @@ public class HabboData implements IHabboData {
         this.currentIp = result.getString("ip_current");
         this.machineId = result.getString("machine_id");
         this.homeRoom = result.getInt("home_room");
+
+        this.accountCreatedFormatted = new SimpleDateFormat("dd-MM-yyyy").format(new Date(this.accountCreated * 1000L));
     }
 }

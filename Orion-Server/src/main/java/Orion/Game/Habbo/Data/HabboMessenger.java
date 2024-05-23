@@ -8,12 +8,13 @@ import gnu.trove.set.hash.THashSet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HabboMessenger implements IHabboMessenger {
     private List<IMessengerCategory> categories;
 
-    private ConcurrentLinkedQueue<IMessengerFriendsPage> friends;
+    private Set<IMessengerFriendsPage> friends;
 
     private THashSet<IMessengerFriendRequest> friendRequests;
 
@@ -21,7 +22,7 @@ public class HabboMessenger implements IHabboMessenger {
         this.categories = new ArrayList<>();
 
         this.friendRequests = new THashSet<>();
-        this.friends = new ConcurrentLinkedQueue<>();
+        this.friends = ConcurrentHashMap.newKeySet();
     }
 
     @Override
@@ -35,13 +36,13 @@ public class HabboMessenger implements IHabboMessenger {
     }
 
     @Override
-    public void setFriends(final ConcurrentLinkedQueue<IMessengerFriendsPage> friends) {
+    public void setFriends(final Set<IMessengerFriendsPage> friends) {
         this.friends.clear();
         this.friends.addAll(friends);
     }
 
     @Override
-    public ConcurrentLinkedQueue<IMessengerFriendsPage> getFriends() {
+    public Set<IMessengerFriendsPage> getFriends() {
         return this.friends;
     }
 
@@ -54,6 +55,17 @@ public class HabboMessenger implements IHabboMessenger {
     @Override
     public THashSet<IMessengerFriendRequest> getFriendRequests() {
         return this.friendRequests;
+    }
+
+    @Override
+    public boolean hasFriend(final int id) {
+        for (IMessengerFriendsPage friend : this.friends) {
+            if (friend.getFriend(id) != null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

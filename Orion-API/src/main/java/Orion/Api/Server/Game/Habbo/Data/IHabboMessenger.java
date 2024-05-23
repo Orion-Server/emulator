@@ -1,15 +1,13 @@
 package Orion.Api.Server.Game.Habbo.Data;
 
 import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerCategory;
-import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerFriend;
 import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerFriendRequest;
 import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerFriendsPage;
 import Orion.Api.Util.IDisposable;
 import gnu.trove.set.hash.THashSet;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Set;
 
 public interface IHabboMessenger extends IDisposable {
     List<IMessengerCategory> getCategories();
@@ -20,7 +18,9 @@ public interface IHabboMessenger extends IDisposable {
 
     THashSet<IMessengerFriendRequest> getFriendRequests();
 
-    void setFriends(final ConcurrentLinkedQueue<IMessengerFriendsPage> friends);
+    boolean hasFriend(final int id);
 
-    ConcurrentLinkedQueue<IMessengerFriendsPage> getFriends();
+    void setFriends(final Set<IMessengerFriendsPage> friends);
+
+    Set<IMessengerFriendsPage> getFriends();
 }

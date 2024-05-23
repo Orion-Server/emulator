@@ -19,11 +19,13 @@ public interface IHabboData extends IFillable {
 
     int getCredits();
 
-    String getAccountCreated();
+    int getAccountCreated();
+
+    String getAccountCreatedFormatted();
 
     String getLastLogin();
 
-    String getLastOnline();
+    int getLastOnline();
 
     boolean isOnline();
 

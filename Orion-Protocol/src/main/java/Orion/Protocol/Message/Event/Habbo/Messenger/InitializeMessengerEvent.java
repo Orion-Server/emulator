@@ -11,7 +11,7 @@ import Orion.Protocol.Message.Event.EventHeaders;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Set;
 
 @Singleton
 public class InitializeMessengerEvent implements IMessageEventHandler {
@@ -31,7 +31,7 @@ public class InitializeMessengerEvent implements IMessageEventHandler {
 
         messages.add(new InitializeMessengerComposer(session.getHabbo()));
 
-        final ConcurrentLinkedQueue<IMessengerFriendsPage> friendsPages = session.getHabbo().getMessenger().getFriends();
+        final Set<IMessengerFriendsPage> friendsPages = session.getHabbo().getMessenger().getFriends();
         int pageIndex = 0;
 
         for (final IMessengerFriendsPage page : friendsPages) {

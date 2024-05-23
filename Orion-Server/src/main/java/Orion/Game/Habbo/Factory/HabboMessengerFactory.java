@@ -19,6 +19,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Singleton
@@ -50,14 +52,14 @@ public class HabboMessengerFactory {
         return categories;
     }
 
-    private ConcurrentLinkedQueue<IMessengerFriendsPage> loadMessengerFriends(final int habboId) {
-        final ConcurrentLinkedQueue<IMessengerFriendsPage> pages = new ConcurrentLinkedQueue<>();
+    private Set<IMessengerFriendsPage> loadMessengerFriends(final int habboId) {
+        final Set<IMessengerFriendsPage> pages = ConcurrentHashMap.newKeySet();
 
         this.repository.loadAllMessengerFriends(result -> {
             if(result == null) return;
 
             final IMessengerFriend friend = new MessengerFriend(result);
-            final IMessengerFriendsPage currentPage = pages.peek();
+            final IMessengerFriendsPage currentPage = pages.stream().filter(page -> page.getFriends().size() < 750).findFirst().orElse(null);
 
             if(currentPage != null && currentPage.getFriends().size() < 750) {
                 currentPage.addFriend(friend);
