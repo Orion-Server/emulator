@@ -9,8 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InventoryItemsComponent implements IInventoryItemsComponent {
     private final ConcurrentHashMap<Long, IHabboInventoryItem> items;
 
-    public InventoryItemsComponent(ConcurrentHashMap<Long, IHabboInventoryItem> items) {
-        this.items = items;
+    public InventoryItemsComponent() {
+        this.items = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -21,5 +21,10 @@ public class InventoryItemsComponent implements IInventoryItemsComponent {
     @Override
     public void setItems(ConcurrentHashMap<Long, IHabboInventoryItem> items) {
         this.items.putAll(items);
+    }
+
+    @Override
+    public void dispose() {
+        this.items.clear();
     }
 }

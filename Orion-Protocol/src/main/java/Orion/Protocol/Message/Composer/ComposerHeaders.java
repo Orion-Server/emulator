@@ -78,4 +78,5 @@ public abstract class ComposerHeaders {
     public static int UpdateFloorItemComposer = 3776;
     public static int GiveHandItemComposer = 1474;
     public static int InventoryItemsComposer = 994;
+    public static int InventoryBotsComposer = 3086;
 }

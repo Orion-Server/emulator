@@ -1,7 +1,9 @@
 package Orion.Game.Habbo.Factory;
 
 import Orion.Api.Server.Game.Habbo.Data.IHabboInventory;
+import Orion.Api.Server.Game.Habbo.Data.Inventory.Components.IInventoryBotsComponent;
 import Orion.Api.Server.Game.Habbo.Data.Inventory.Components.IInventoryItemsComponent;
+import Orion.Api.Server.Game.Habbo.Data.Inventory.IHabboInventoryBot;
 import Orion.Api.Server.Game.Habbo.Data.Inventory.IHabboInventoryItem;
 import Orion.Api.Server.Game.Habbo.Factory.IHabboInventoryFactory;
 import Orion.Api.Server.Game.Habbo.IHabbo;
@@ -9,10 +11,13 @@ import Orion.Api.Server.Game.Room.Object.Item.Base.IItemDefinition;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomItemManager;
 import Orion.Api.Storage.Repository.Habbo.IHabboInventoryRepository;
 import Orion.Game.Habbo.Data.HabboInventory;
+import Orion.Game.Habbo.Data.Inventory.Components.InventoryBotsComponent;
 import Orion.Game.Habbo.Data.Inventory.Components.InventoryItemsComponent;
+import Orion.Game.Habbo.Data.Inventory.HabboInventoryBot;
 import Orion.Game.Habbo.Data.Inventory.HabboInventoryItem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import gnu.trove.map.hash.THashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,13 +34,15 @@ public class HabboInventoryFactory implements IHabboInventoryFactory {
     private IRoomItemManager roomItemManager;
 
     public IHabboInventory create() {
-        final IInventoryItemsComponent itemsComponent = new InventoryItemsComponent(new ConcurrentHashMap<>());
-
-        return new HabboInventory(itemsComponent);
+        return new HabboInventory(
+                new InventoryItemsComponent(),
+                new InventoryBotsComponent()
+        );
     }
     @Override
     public void loadAllHabboInventory(final IHabbo habbo) {
         this.loadHabboItems(habbo);
+        this.loadHabboBots(habbo);
     }
 
     private void loadHabboItems(final IHabbo habbo) {
@@ -62,5 +69,20 @@ public class HabboInventoryFactory implements IHabboInventoryFactory {
 
         habbo.getInventory().getItemsComponent().setItems(items);
         items.clear();
+    }
+
+    private void loadHabboBots(final IHabbo habbo) {
+        final THashMap<Integer, IHabboInventoryBot> bots = new THashMap<>();
+
+        this.repository.loadAllHabboBots(result -> {
+            if(result == null) return;
+
+            final IHabboInventoryBot bot = new HabboInventoryBot(result);
+
+            bots.putIfAbsent(bot.getId(), bot);
+        }, habbo.getData().getId());
+
+        habbo.getInventory().getBotsComponent().setBots(bots);
+        bots.clear();
     }
 }

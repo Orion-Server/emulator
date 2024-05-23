@@ -25,7 +25,8 @@ public abstract class EventHeaders {
     public static final int RequestEntitySitEvent = 2235;
     public static final int RequestEntityActionEvent = 2456;
     public static final int ApplyEntitySignEvent = 1975;
-    public static final int RequestInventoryItemsEvent = 3150;
+    public static final int RequestInventoryDataEvent = 3150;
+    public static final int RequestInventoryBotsEvent = 3848;
 
     // Messenger
     public static final int InitializeMessengerEvent = 2781;

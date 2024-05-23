@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Singleton
-public class RequestInventoryItemsEvent implements IMessageEventHandler {
+public class RequestInventoryDataEvent implements IMessageEventHandler {
     @Inject
     private IThreadManager threadManager;
 
@@ -24,7 +24,7 @@ public class RequestInventoryItemsEvent implements IMessageEventHandler {
 
     @Override
     public int getId() {
-        return EventHeaders.RequestInventoryItemsEvent;
+        return EventHeaders.RequestInventoryDataEvent;
     }
 
     @Override

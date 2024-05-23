@@ -16,4 +16,9 @@ public class HabboInventoryRepository extends DatabaseRepository implements IHab
     public void loadAllHabboItems(IConnectionResultConsumer consumer, int habboId) {
         this.select(HabboInventoryQuery.LOAD_ALL_HABBO_ITEMS.get(), consumer, habboId);
     }
+
+    @Override
+    public void loadAllHabboBots(IConnectionResultConsumer consumer, int habboId) {
+        this.select(HabboInventoryQuery.LOAD_ALL_HABBO_BOTS.get(), consumer, habboId);
+    }
 }

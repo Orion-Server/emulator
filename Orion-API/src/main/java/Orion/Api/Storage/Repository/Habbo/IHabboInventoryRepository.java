@@ -4,4 +4,6 @@ import Orion.Api.Storage.Result.IConnectionResultConsumer;
 
 public interface IHabboInventoryRepository {
     void loadAllHabboItems(IConnectionResultConsumer consumer, int habboId);
+
+    void loadAllHabboBots(IConnectionResultConsumer consumer, int habboId);
 }
