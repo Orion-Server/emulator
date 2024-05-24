@@ -8,15 +8,10 @@ import Orion.Api.Server.Game.Room.Object.Item.Enum.FurnitureMovementError;
 import Orion.Api.Server.Game.Util.Alert.MiddleAlertType;
 import Orion.Protocol.Message.Composer.Alerts.MiddleAlertComposer;
 import Orion.Protocol.Message.Event.EventHeaders;
-import Orion.Protocol.Parser.Room.Item.RequestPlaceItemEventParser;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class RequestPlaceItemEvent implements IMessageEventHandler {
-    @Inject
-    private RequestPlaceItemEventParser parser;
-
     @Override
     public int getId() {
         return EventHeaders.RequestPlaceItemEvent;
