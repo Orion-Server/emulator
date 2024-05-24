@@ -1,5 +1,6 @@
 package Orion.Protocol.Message.Event.Room.Chat;
 
+import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
 import Orion.Api.Protocol.Parser.IEventParser;
@@ -15,12 +16,7 @@ public class HabboStopTypingEvent implements IMessageEventHandler {
     }
 
     @Override
-    public IEventParser getParser() {
-        return null;
-    }
-
-    @Override
-    public void handle(ISession session) {
+    public void handle(IMessageEvent event, ISession session) {
         if(!session.getHabbo().isInRoom()) return;
 
         session.getHabbo().getEntity().getRoom().broadcastMessage(

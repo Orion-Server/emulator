@@ -37,4 +37,6 @@ public interface ISession {
     IHabbo getHabbo();
 
     boolean isAuthenticated();
+
+    boolean isDisposed();
 }

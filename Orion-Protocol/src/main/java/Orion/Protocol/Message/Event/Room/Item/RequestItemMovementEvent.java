@@ -1,5 +1,6 @@
 package Orion.Protocol.Message.Event.Room.Item;
 
+import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
 import Orion.Api.Protocol.Parser.IEventParser;
@@ -11,34 +12,29 @@ import Orion.Api.Server.Game.Util.Position;
 import Orion.Protocol.Message.Composer.Alerts.MiddleAlertComposer;
 import Orion.Protocol.Message.Composer.Room.Object.UpdateFloorItemComposer;
 import Orion.Protocol.Message.Event.EventHeaders;
-import Orion.Protocol.Parser.Room.Item.RequestItemMovementEventParser;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class RequestItemMovementEvent implements IMessageEventHandler {
-    @Inject
-    private RequestItemMovementEventParser parser;
-
     @Override
     public int getId() {
         return EventHeaders.RequestItemMovementEvent;
     }
 
     @Override
-    public IEventParser getParser() {
-        return this.parser;
-    }
-
-    @Override
-    public void handle(ISession session) {
+    public void handle(IMessageEvent event, ISession session) {
         if(!session.getHabbo().isInRoom()) return;
 
         final IRoom room = session.getHabbo().getEntity().getRoom();
 
         if(room == null) return;
 
-        final IRoomFloorItem item = room.getItemsComponent().getFloorItems().get(this.parser.itemId);
+        final int itemId = event.readInt();
+        final int newX = event.readInt();
+        final int newY = event.readInt();
+        final int newRotation = event.readInt();
+
+        final IRoomFloorItem item = room.getItemsComponent().getFloorItems().get(itemId);
 
         if(item == null) return;
 
@@ -50,9 +46,7 @@ public class RequestItemMovementEvent implements IMessageEventHandler {
             return;
         }
 
-        final FurnitureMovementError error = room.getItemsComponent().applyItemMovement(
-                item, new Position(this.parser.newX, this.parser.newY), this.parser.newRotation
-        );
+        final FurnitureMovementError error = room.getItemsComponent().applyItemMovement(item, new Position(newX, newY), newRotation);
 
         if(error.equals(FurnitureMovementError.NONE)) return;
 

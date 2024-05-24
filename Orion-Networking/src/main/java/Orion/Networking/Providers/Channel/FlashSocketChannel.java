@@ -45,12 +45,12 @@ public class FlashSocketChannel extends ChannelInitializer<SocketChannel> {
 
         final IAddressAttempt addressAttempt = this.sessionManager.getConnectionAttempt(ip);
 
-        if (addressAttempt != null && addressAttempt.shouldBlockConnection()) {
-            this.logger.warn(STR."Connection attempt from \{ip} has been blocked.");
-
-            socketChannel.disconnect();
-            return;
-        }
+//        if (addressAttempt != null && addressAttempt.shouldBlockConnection()) {
+//            this.logger.warn(STR."Connection attempt from \{ip} has been blocked.");
+//
+//            socketChannel.disconnect();
+//            return;
+//        }
 
         socketChannel.config().setTrafficClass(0x18);
 

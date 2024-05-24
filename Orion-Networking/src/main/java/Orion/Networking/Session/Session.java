@@ -26,6 +26,8 @@ public class Session implements ISession {
 
     private IHabbo habbo;
 
+    private boolean isDisposed = false;
+
     public Session(int id, ChannelHandlerContext context, String ipAddress) {
         this.id = id;
         this.context = context;
@@ -44,6 +46,10 @@ public class Session implements ISession {
 
     @Override
     public void disconnect() {
+        if(this.isDisposed) return;
+
+        this.isDisposed = true;
+
         this.setHabbo(null);
         this.getContext().disconnect();
     }
@@ -89,6 +95,11 @@ public class Session implements ISession {
     }
 
     @Override
+    public boolean isDisposed() {
+        return this.isDisposed || !this.context.channel().isOpen();
+    }
+
+    @Override
     public void handleIdleStateEvent(IdleStateEvent event) {
         switch (event.state()) {
             case READER_IDLE:
@@ -104,7 +115,7 @@ public class Session implements ISession {
     public ISession send(IMessageComposer composer) {
         if(!this.context.channel().isOpen()) return this;
 
-        this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getName()}");
+        //this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getName()}");
 
         this.context.writeAndFlush(composer, this.context.voidPromise());
 
@@ -116,7 +127,7 @@ public class Session implements ISession {
         if(!this.context.channel().isOpen()) return this;
 
         for (final IMessageComposer composer : composers) {
-            this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
+            //this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
             this.context.write(composer);
         }
@@ -131,7 +142,7 @@ public class Session implements ISession {
         if(!this.context.channel().isOpen()) return this;
 
         for (final IMessageComposer composer : composers) {
-            this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
+            //this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
             this.context.write(composer);
         }

@@ -1,9 +1,9 @@
 package Orion.Protocol.Message.Event.Habbo.Messenger;
 
 import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
-import Orion.Api.Protocol.Parser.IEventParser;
 import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerFriendsPage;
 import Orion.Protocol.Message.Composer.Habbo.Messenger.InitializeMessengerComposer;
 import Orion.Protocol.Message.Composer.Habbo.Messenger.MessengerFriendsComposer;
@@ -21,12 +21,7 @@ public class InitializeMessengerEvent implements IMessageEventHandler {
     }
 
     @Override
-    public IEventParser getParser() {
-        return null;
-    }
-
-    @Override
-    public void handle(ISession session) {
+    public void handle(IMessageEvent event, ISession session) {
         final ArrayList<IMessageComposer> messages = new ArrayList<>();
 
         messages.add(new InitializeMessengerComposer(session.getHabbo()));

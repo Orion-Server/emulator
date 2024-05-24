@@ -1,5 +1,6 @@
 package Orion.Module;
 
+import Orion.Api.Server.Boot.Utils.IEmulatorRuntimeVariables;
 import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
 import Orion.Api.Server.Core.Configuration.IEmulatorEnvironmentSettings;
 import Orion.Api.Server.Task.IThreadManager;
@@ -14,7 +15,7 @@ public class EmulatorModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(EmulatorVersioning.class).asEagerSingleton();
-        bind(EmulatorRuntimeVariables.class).asEagerSingleton();
+        bind(IEmulatorRuntimeVariables.class).to(EmulatorRuntimeVariables.class);
 
         bind(IEmulatorEnvironmentSettings.class).to(EmulatorEnvironmentSettings.class);
         bind(IEmulatorDatabaseSettings.class).to(EmulatorDatabaseSettings.class);

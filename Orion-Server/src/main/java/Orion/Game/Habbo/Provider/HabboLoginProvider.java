@@ -3,12 +3,14 @@ package Orion.Game.Habbo.Provider;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Networking.Session.ISessionManager;
+import Orion.Api.Server.Boot.Utils.IEmulatorRuntimeVariables;
 import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
 import Orion.Api.Server.Game.Achievement.IAchievementManager;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Habbo.IHabboManager;
 import Orion.Api.Server.Game.Habbo.Provider.IHabboLoginProvider;
 import Orion.Api.Storage.Repository.Habbo.IHabboRepository;
+import Orion.Boot.Utils.EmulatorRuntimeVariables;
 import Orion.Game.Habbo.Factory.HabboFactory;
 import Orion.Protocol.Message.Composer.Achievement.AchievementScoreComposer;
 import Orion.Protocol.Message.Composer.Calendar.CampaignCalendarDataComposer;
@@ -20,7 +22,6 @@ import Orion.Protocol.Message.Composer.Habbo.HabboRightsComposer;
 import Orion.Protocol.Message.Composer.Habbo.Inventory.FigureSetIdsComposer;
 import Orion.Protocol.Message.Composer.Habbo.Inventory.InventoryAchievementsComposer;
 import Orion.Protocol.Message.Composer.Habbo.Inventory.InventoryEffectsListComposer;
-import Orion.Protocol.Message.Composer.Habbo.Inventory.UpdateInventoryComposer;
 import Orion.Protocol.Message.Composer.Habbo.IsFirstLoginOfDayComposer;
 import Orion.Protocol.Message.Composer.Handshake.AuthenticationOkComposer;
 import Orion.Protocol.Message.Composer.Handshake.AvailabilityStatusComposer;
@@ -59,6 +60,9 @@ public class HabboLoginProvider implements IHabboLoginProvider {
     @Inject
     private IAchievementManager achievementManager;
 
+    @Inject
+    private IEmulatorRuntimeVariables runtimeVariables;
+
     @Override
     public boolean canLogin(final ISession session, String authTicket) {
         if(authTicket.isEmpty()) {
@@ -94,6 +98,8 @@ public class HabboLoginProvider implements IHabboLoginProvider {
             habbo.setSession(session);
 
             this.habboManager.addHabbo(habbo);
+
+            this.runtimeVariables.incrementAndGetPlayersOnline();
 
             this.sendLoginComposers(habbo);
         }, authTicket);

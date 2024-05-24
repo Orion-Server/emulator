@@ -1,22 +1,18 @@
 package Orion.Protocol.Message.Event.Handshake;
 
+import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
-import Orion.Api.Protocol.Parser.IEventParser;
 import Orion.Api.Server.Game.Habbo.Provider.IHabboLoginProvider;
 import Orion.Api.Server.Task.IThreadManager;
 import Orion.Protocol.Annotations.HandshakeEvent;
 import Orion.Protocol.Message.Event.EventHeaders;
-import Orion.Protocol.Parser.Hanshake.SSOTicketEventParser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 @HandshakeEvent
 public class SSOTicketEvent implements IMessageEventHandler {
-    @Inject
-    private SSOTicketEventParser parser;
-
     @Inject
     private IHabboLoginProvider loginProvider;
 
@@ -29,18 +25,15 @@ public class SSOTicketEvent implements IMessageEventHandler {
     }
 
     @Override
-    public IEventParser getParser() {
-        return this.parser;
-    }
+    public void handle(IMessageEvent event, ISession session) {
+        final String ticket = event.readString();
 
-    @Override
-    public void handle(ISession session) {
         this.threadManager.getHabboLoginExecutor().submit(() -> {
-            if(!this.loginProvider.canLogin(session, this.parser.ticket)) {
+            if(!this.loginProvider.canLogin(session, ticket)) {
                 return;
             }
 
-            this.loginProvider.attemptLogin(session, this.parser.ticket);
+            this.loginProvider.attemptLogin(session, ticket);
         });
     }
 }

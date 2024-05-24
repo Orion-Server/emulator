@@ -1,8 +1,8 @@
 package Orion.Protocol.Message.Event.Habbo.Currencies;
 
+import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
-import Orion.Api.Protocol.Parser.IEventParser;
 import Orion.Api.Server.Core.Configuration.IEmulatorDatabaseSettings;
 import Orion.Protocol.Message.Composer.Habbo.Currencies.HabboCreditsComposer;
 import Orion.Protocol.Message.Composer.Habbo.Currencies.HabboCurrenciesComposer;
@@ -21,12 +21,7 @@ public class RequestHabboCurrenciesEvent implements IMessageEventHandler {
     }
 
     @Override
-    public IEventParser getParser() {
-        return null;
-    }
-
-    @Override
-    public void handle(ISession session) {
+    public void handle(IMessageEvent event, ISession session) {
         session.send(new HabboCreditsComposer(session.getHabbo()));
         session.send(new HabboCurrenciesComposer(session.getHabbo(),
                 this.databaseSettings.getSettingOrDefault("seasonal.types", "")

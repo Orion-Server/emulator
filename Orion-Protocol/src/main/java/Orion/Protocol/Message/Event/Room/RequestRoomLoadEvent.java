@@ -1,14 +1,13 @@
 package Orion.Protocol.Message.Event.Room;
 
+import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
-import Orion.Api.Protocol.Parser.IEventParser;
 import Orion.Api.Server.Game.Room.Handler.IJoinRoomHandler;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.IRoomManager;
 import Orion.Protocol.Message.Composer.HotelView.GoToHotelViewComposer;
 import Orion.Protocol.Message.Event.EventHeaders;
-import Orion.Protocol.Parser.Room.RequestRoomLoadParser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -16,9 +15,6 @@ import com.google.inject.Singleton;
 public class RequestRoomLoadEvent implements IMessageEventHandler {
     @Inject
     private IRoomManager roomManager;
-
-    @Inject
-    private RequestRoomLoadParser parser;
 
     @Inject
     private IJoinRoomHandler joinRoomHandler;
@@ -29,19 +25,17 @@ public class RequestRoomLoadEvent implements IMessageEventHandler {
     }
 
     @Override
-    public IEventParser getParser() {
-        return this.parser;
-    }
+    public void handle(IMessageEvent event, ISession session) {
+        final int roomId = event.readInt();
+        final String password = event.readString();
 
-    @Override
-    public void handle(ISession session) {
-        final IRoom room = this.roomManager.getRoomById(this.parser.roomId);
+        final IRoom room = this.roomManager.getRoomById(roomId);
 
         if(room == null) {
             session.send(new GoToHotelViewComposer());
             return;
         }
 
-        joinRoomHandler.prepareRoom(room, session.getHabbo(), this.parser.password);
+        joinRoomHandler.prepareRoom(room, session.getHabbo(), password);
     }
 }

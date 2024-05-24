@@ -1,8 +1,8 @@
 package Orion.Protocol.Message.Event.Navigator;
 
+import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
-import Orion.Api.Protocol.Parser.IEventParser;
 import Orion.Api.Server.Game.Navigator.INavigatorManager;
 import Orion.Protocol.Message.Composer.Navigator.*;
 import Orion.Protocol.Message.Event.EventHeaders;
@@ -20,12 +20,7 @@ public class RequestNavigatorDataEvent implements IMessageEventHandler {
     }
 
     @Override
-    public IEventParser getParser() {
-        return null;
-    }
-
-    @Override
-    public void handle(ISession session) {
+    public void handle(IMessageEvent event, ISession session) {
         session.send(
                 new NavigatorSettingsComposer(session.getHabbo().getNavigator().getNavigatorWindowSettings()),
                 new NavigatorMetaDataComposer(session.getHabbo().getNavigator()),

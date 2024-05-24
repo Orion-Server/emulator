@@ -28,6 +28,8 @@ public class Habbo implements IHabbo {
 
     private final ConcurrentHashMap<String, Object> status;
 
+    private boolean isDisposed = false;
+
     public Habbo(
             final IHabboData data,
             final IHabboSettings settings,
@@ -155,7 +157,16 @@ public class Habbo implements IHabbo {
     }
 
     @Override
+    public boolean isDisposed() {
+        return this.isDisposed || this.session.isDisposed();
+    }
+
+    @Override
     public void onDisconnect() {
+        if(this.isDisposed) return;
+
+        this.isDisposed = true;
+
         this.logger.debug("Just left the game.");
 
         if(this.entity != null) {

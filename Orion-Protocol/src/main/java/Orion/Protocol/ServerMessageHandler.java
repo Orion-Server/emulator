@@ -37,7 +37,7 @@ public class ServerMessageHandler implements IServerMessageHandler {
             final IMessageEventHandler messageEventHandler = this.messageEventProvider.getMessageEventByHeaderId(headerId);
 
             if(messageEventHandler == null) {
-                this.logger.warn(STR."[\{headerId}] Received message with unknown header.");
+                //this.logger.warn(STR."[\{headerId}] Received message with unknown header.");
                 return;
             }
 
@@ -47,18 +47,9 @@ public class ServerMessageHandler implements IServerMessageHandler {
                 return;
             }
 
-            this.logger.debug(STR.">> Handling Event [\{message.getId()}] \{messageEventHandler.getClass().getSimpleName()}");
+            //this.logger.debug(STR.">> Handling Event [\{message.getId()}] \{messageEventHandler.getClass().getSimpleName()}");
 
-            if(messageEventHandler.getParser() != null) {
-                try {
-                    messageEventHandler.getParser().parse(message);
-                } catch (Exception e) {
-                    this.logger.error(STR."Error parsing message: \{messageEventHandler.getClass().getSimpleName()} with header: \{headerId}", e);
-                    return;
-                }
-            }
-
-            messageEventHandler.handle(session);
+            messageEventHandler.handle(message, session);
         } catch (Exception e) {
             this.logger.error(STR."Error handling message: \{message} with header: \{headerId}", e);
         } finally {

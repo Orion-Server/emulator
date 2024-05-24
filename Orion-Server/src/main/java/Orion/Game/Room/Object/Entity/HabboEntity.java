@@ -33,7 +33,7 @@ public class HabboEntity implements IHabboEntity {
 
     private int danceId;
 
-    private boolean disposed = false;
+    private boolean isDisposed = false;
     private boolean needsUpdate = false;
 
     private int handItemId;
@@ -251,12 +251,12 @@ public class HabboEntity implements IHabboEntity {
 
     @Override
     public boolean isDisposed() {
-        return this.disposed;
+        return this.isDisposed || this.getHabbo().isDisposed();
     }
 
     @Override
     public void dispose() {
-        this.disposed = true;
+        this.isDisposed = true;
 
         this.room.getEntitiesComponent().removeEntity(this);
 

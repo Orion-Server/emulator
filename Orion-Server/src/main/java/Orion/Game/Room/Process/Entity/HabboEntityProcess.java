@@ -41,6 +41,11 @@ public class HabboEntityProcess {
 
     private void preProcess() {
         for(final IHabboEntity entity : this.room.getEntitiesComponent().getHabboEntities()) {
+            if(entity.isDisposed()) {
+                this.onEntityRemoved(entity);
+                continue;
+            }
+
             entity.tickHandItem();
 
             if(entity.needsUpdate()) {
@@ -73,6 +78,11 @@ public class HabboEntityProcess {
         this.room.broadcastMessage(new RoomEntityStatusComposer(this.entitiesToUpdate));
 
         for(final IRoomEntity entity : this.entitiesToUpdate) {
+            if(entity instanceof IHabboEntity habboEntity && habboEntity.isDisposed()) {
+                this.onEntityRemoved(entity);
+                continue;
+            }
+
             if(entity.hasStatus(RoomEntityStatus.SIGN)) {
                 entity.removeStatus(RoomEntityStatus.SIGN);
             }

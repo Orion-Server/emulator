@@ -1,8 +1,8 @@
 package Orion.Protocol.Message.Event.HotelView;
 
+import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
-import Orion.Api.Protocol.Parser.IEventParser;
 import Orion.Api.Server.Game.HotelView.IHotelViewManager;
 import Orion.Protocol.Message.Composer.HotelView.HallOfFameComposer;
 import Orion.Protocol.Message.Composer.HotelView.HotelViewArticlesComposer;
@@ -22,12 +22,7 @@ public class RequestPromoArticlesEvent implements IMessageEventHandler {
     }
 
     @Override
-    public IEventParser getParser() {
-        return null;
-    }
-
-    @Override
-    public void handle(ISession session) {
+    public void handle(IMessageEvent event, ISession session) {
         session.send(new HotelViewCampaignComposer("2013-05-08 13:0", "gamesmaker"));
         session.send(new HallOfFameComposer(hotelViewManager.getHallOfFame()));
         session.send(new HotelViewArticlesComposer(hotelViewManager.getArticleWidgetList()));

@@ -1,8 +1,8 @@
 package Orion.Protocol.Message.Event.Navigator;
 
+import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Protocol.Message.IMessageEventHandler;
-import Orion.Api.Protocol.Parser.IEventParser;
 import Orion.Api.Server.Game.Room.Utils.RoomEnvironmentVariables;
 import Orion.Protocol.Message.Composer.Navigator.CanCreateRoomComposer;
 import Orion.Protocol.Message.Event.EventHeaders;
@@ -20,12 +20,7 @@ public class RequestCanCreateRoomEvent implements IMessageEventHandler {
     }
 
     @Override
-    public IEventParser getParser() {
-        return null;
-    }
-
-    @Override
-    public void handle(ISession session) {
+    public void handle(IMessageEvent event, ISession session) {
         final int canCreateRoom = session.getHabbo().getRooms().getOwnRooms().size() < this.roomEnvironmentVariables.userRoomsLimit ? 0 : 1;
         final int roomLimit = this.roomEnvironmentVariables.userRoomsLimit; // TODO: Check user HC subscription
 

@@ -35,4 +35,6 @@ public interface IHabbo extends IStatusable {
     void setEntity(IHabboEntity entity);
 
     boolean isInRoom();
+
+    boolean isDisposed();
 }
