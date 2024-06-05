@@ -1,21 +1,33 @@
 package Orion.Protocol.Message.Composer.Habbo.Messenger;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerFriendRequest;
 import Orion.Api.Server.Game.Habbo.IHabbo;
+import Orion.Networking.Message.Composer;
 import Orion.Networking.Message.MessageComposer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class MessengerFriendRequestsComposer extends MessageComposer {
+public class MessengerFriendRequestsComposer extends Composer {
+    private final IHabbo habbo;
+
     public MessengerFriendRequestsComposer(final IHabbo habbo) {
-        super(ComposerHeaders.MessengerFriendRequestsComposer);
+        this.habbo = habbo;
+    }
 
-        appendInt(habbo.getMessenger().getFriendRequests().size());
-        appendInt(habbo.getMessenger().getFriendRequests().size());
+    @Override
+    public short getId() {
+        return ComposerHeaders.MessengerFriendRequestsComposer;
+    }
 
-        for (final IMessengerFriendRequest friendRequest : habbo.getMessenger().getFriendRequests()) {
-            appendInt(friendRequest.getId());
-            appendString(friendRequest.getUsername());
-            appendString(friendRequest.getLook());
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.habbo.getMessenger().getFriendRequests().size());
+        msg.appendInt(this.habbo.getMessenger().getFriendRequests().size());
+
+        for (final IMessengerFriendRequest friendRequest : this.habbo.getMessenger().getFriendRequests()) {
+            msg.appendInt(friendRequest.getId());
+            msg.appendString(friendRequest.getUsername());
+            msg.appendString(friendRequest.getLook());
         }
     }
 }

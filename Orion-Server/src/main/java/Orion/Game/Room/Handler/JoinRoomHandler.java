@@ -1,6 +1,6 @@
 package Orion.Game.Room.Handler;
 
-import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Api.Networking.Message.IComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Room.Enums.RoomAccessError;
 import Orion.Api.Server.Game.Room.Enums.RoomAccessState;
@@ -158,7 +158,7 @@ public class JoinRoomHandler implements IJoinRoomHandler {
 
         // TODO: update messenger
 
-        final List<IMessageComposer> composers = new ArrayList<>();
+        final List<IComposer> composers = new ArrayList<>();
 
         if(!room.getData().getPaperWall().equals("0.0")) {
             composers.add(new RoomPaintComposer("wallpaper", room.getData().getPaperWall()));
@@ -183,7 +183,7 @@ public class JoinRoomHandler implements IJoinRoomHandler {
         composers.clear();
     }
 
-    private void resolveRoomRightsForHabbo(List<IMessageComposer> composers, IRoom room, IHabbo habbo) {
+    private void resolveRoomRightsForHabbo(List<IComposer> composers, IRoom room, IHabbo habbo) {
         RoomRightLevel flatCtrl = RoomRightLevel.None;
 
         // TODO: check renting space
@@ -220,7 +220,7 @@ public class JoinRoomHandler implements IJoinRoomHandler {
             return;
         }
 
-        final List<IMessageComposer> composers = new ArrayList<>();
+        final List<IComposer> composers = new ArrayList<>();
 
         if(room.habboIsOwner(habbo)) {
             composers.add(new RoomOwnerComposer());

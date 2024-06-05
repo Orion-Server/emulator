@@ -1,17 +1,22 @@
 package Orion.Protocol.Message.Composer.Calendar;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class CampaignCalendarDataComposer extends MessageComposer {
-    public CampaignCalendarDataComposer() {
-        super(ComposerHeaders.CampaignCalendarDataComposer);
+public class CampaignCalendarDataComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.CampaignCalendarDataComposer;
+    }
 
-        appendString("xmas14");
-        appendString("");
-        appendInt(0);
-        appendInt(0);
-        appendInt(0);
-        appendInt(0);
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendString("xmas14");
+        msg.appendString("");
+        msg.appendInt(0);
+        msg.appendInt(0);
+        msg.appendInt(0);
+        msg.appendInt(0);
     }
 }

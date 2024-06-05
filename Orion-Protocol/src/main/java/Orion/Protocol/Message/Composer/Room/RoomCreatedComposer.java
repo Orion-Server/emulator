@@ -1,13 +1,26 @@
 package Orion.Protocol.Message.Composer.Room;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class RoomCreatedComposer extends MessageComposer {
-    public RoomCreatedComposer(final int roomId, final String roomName) {
-        super(ComposerHeaders.RoomCreatedComposer);
+public class RoomCreatedComposer extends Composer {
+    private final int roomId;
+    private final String roomName;
 
-        appendInt(roomId);
-        appendString(roomName);
+    public RoomCreatedComposer(final int roomId, final String roomName) {
+        this.roomId = roomId;
+        this.roomName = roomName;
+    }
+
+    @Override
+    public short getId() {
+        return ComposerHeaders.RoomCreatedComposer;
+    }
+
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.roomId);
+        msg.appendString(this.roomName);
     }
 }

@@ -1,17 +1,27 @@
 package Orion.Protocol.Message.Composer.GameCenter;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class GameAccountStatusComposer extends MessageComposer {
-    public GameAccountStatusComposer(
-            int gameId,
-            int tickets
-    ) {
-        super(ComposerHeaders.GameAccountStatusComposer);
+public class GameAccountStatusComposer extends Composer {
+    private final int gameId;
+    private final int tickets;
 
-        appendInt(gameId);
-        appendInt(tickets);
-        appendInt(1);
+    public GameAccountStatusComposer(int gameId, int tickets) {
+        this.gameId = gameId;
+        this.tickets = tickets;
+    }
+
+    @Override
+    public short getId() {
+        return ComposerHeaders.GameAccountStatusComposer;
+    }
+
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(gameId);
+        msg.appendInt(tickets);
+        msg.appendInt(1);
     }
 }

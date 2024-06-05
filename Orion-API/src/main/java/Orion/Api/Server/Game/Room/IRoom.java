@@ -1,5 +1,6 @@
 package Orion.Api.Server.Game.Room;
 
+import Orion.Api.Networking.Message.IComposer;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Room.Component.*;
@@ -36,9 +37,9 @@ public interface IRoom extends Comparable<IRoom>, IWriteable, Initializable, IDi
 
     void onEntityRemoved(final IRoomEntity entity);
 
-    void broadcastMessage(final IMessageComposer composer);
+    void broadcastMessage(final IComposer composer);
 
-    void broadcastMessages(IMessageComposer... composers);
+    void broadcastMessages(IComposer... composers);
 
     boolean habboIsOwner(final IHabbo habbo);
 

@@ -1,12 +1,17 @@
 package Orion.Protocol.Message.Composer.Habbo;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class IsFirstLoginOfDayComposer extends MessageComposer {
-    public IsFirstLoginOfDayComposer() {
-        super(ComposerHeaders.IsFirstLoginOfDayComposer);
+public class IsFirstLoginOfDayComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.IsFirstLoginOfDayComposer;
+    }
 
-        appendBoolean(true);
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendBoolean(true);
     }
 }

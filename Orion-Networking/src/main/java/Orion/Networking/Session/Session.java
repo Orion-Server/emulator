@@ -1,5 +1,6 @@
 package Orion.Networking.Session;
 
+import Orion.Api.Networking.Message.IComposer;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Server.Game.Habbo.IHabbo;
@@ -112,7 +113,7 @@ public class Session implements ISession {
     }
 
     @Override
-    public ISession send(IMessageComposer composer) {
+    public ISession send(IComposer composer) {
         if(!this.context.channel().isOpen()) return this;
 
         //this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getName()}");
@@ -123,10 +124,10 @@ public class Session implements ISession {
     }
 
     @Override
-    public ISession send(IMessageComposer... composers) {
+    public ISession send(IComposer... composers) {
         if(!this.context.channel().isOpen()) return this;
 
-        for (final IMessageComposer composer : composers) {
+        for (final IComposer composer : composers) {
             //this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
             this.context.write(composer);
@@ -138,10 +139,10 @@ public class Session implements ISession {
     }
 
     @Override
-    public ISession send(List<IMessageComposer> composers) {
+    public ISession send(List<IComposer> composers) {
         if(!this.context.channel().isOpen()) return this;
 
-        for (final IMessageComposer composer : composers) {
+        for (final IComposer composer : composers) {
             //this.logger.debug(STR."<< Composing [\{composer.getId()}] \{composer.getClass().getSimpleName()}");
 
             this.context.write(composer);

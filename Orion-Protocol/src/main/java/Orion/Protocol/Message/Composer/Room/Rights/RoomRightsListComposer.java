@@ -1,14 +1,25 @@
 package Orion.Protocol.Message.Composer.Room.Rights;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Room.IRoom;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class RoomRightsListComposer extends MessageComposer {
-    public RoomRightsListComposer(final IRoom room) {
-        super(ComposerHeaders.RoomRightsListComposer);
+public class RoomRightsListComposer extends Composer {
+    private final IRoom room;
 
-        appendInt(room.getData().getId());
-        appendInt(0);
+    public RoomRightsListComposer(final IRoom room) {
+        this.room = room;
+    }
+
+    @Override
+    public short getId() {
+        return ComposerHeaders.RoomRightsListComposer;
+    }
+
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.room.getData().getId());
+        msg.appendInt(0);
     }
 }

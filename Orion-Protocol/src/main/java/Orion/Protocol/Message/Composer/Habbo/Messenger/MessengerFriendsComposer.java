@@ -1,38 +1,54 @@
 package Orion.Protocol.Message.Composer.Habbo.Messenger;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerFriend;
 import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerFriendsPage;
 import Orion.Api.Server.Game.Habbo.Enums.HabboGender;
+import Orion.Networking.Message.Composer;
 import Orion.Networking.Message.MessageComposer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class MessengerFriendsComposer extends MessageComposer {
+public class MessengerFriendsComposer extends Composer {
+    private final int totalPages;
+    private final int pageIndex;
+    private final IMessengerFriendsPage page;
+
     public MessengerFriendsComposer(
             final int totalPages,
             final int pageIndex,
             final IMessengerFriendsPage page
     ) {
-        super(ComposerHeaders.MessengerFriendsComposer);
+        this.totalPages = totalPages;
+        this.pageIndex = pageIndex;
+        this.page = page;
+    }
 
-        appendInt(totalPages);
-        appendInt(pageIndex);
-        appendInt(page.getFriends().size());
+    @Override
+    public short getId() {
+        return ComposerHeaders.MessengerFriendsComposer;
+    }
 
-        for (final IMessengerFriend friend : page.getFriends().values()) {
-            appendInt(friend.getId());
-            appendString(friend.getUsername());
-            appendInt(friend.getGender().equals(HabboGender.M) ? 0 : 1);
-            appendBoolean(friend.getOnline() == 1);
-            appendBoolean(friend.isInRoom());
-            appendString(friend.getLookIfAvailable());
-            appendInt(friend.getCategoryId());
-            appendString(friend.getMotto());
-            appendString("");
-            appendString("");
-            appendBoolean(false);
-            appendBoolean(false);
-            appendBoolean(false);
-            appendShort(friend.getRelationType());
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.totalPages);
+        msg.appendInt(this.pageIndex);
+        msg.appendInt(this.page.getFriends().size());
+
+        for (final IMessengerFriend friend : this.page.getFriends().values()) {
+            msg.appendInt(friend.getId());
+            msg.appendString(friend.getUsername());
+            msg.appendInt(friend.getGender().equals(HabboGender.M) ? 0 : 1);
+            msg.appendBoolean(friend.getOnline() == 1);
+            msg.appendBoolean(friend.isInRoom());
+            msg.appendString(friend.getLookIfAvailable());
+            msg.appendInt(friend.getCategoryId());
+            msg.appendString(friend.getMotto());
+            msg.appendString("");
+            msg.appendString("");
+            msg.appendBoolean(false);
+            msg.appendBoolean(false);
+            msg.appendBoolean(false);
+            msg.appendShort(friend.getRelationType());
         }
     }
 }

@@ -1,12 +1,17 @@
 package Orion.Protocol.Message.Composer.Habbo;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class HabboNoobnessLevelComposer extends MessageComposer {
-    public HabboNoobnessLevelComposer() {
-        super(ComposerHeaders.HabboNoobnessLevelComposer);
+public class HabboNoobnessLevelComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.HabboNoobnessLevelComposer;
+    }
 
-        appendInt(1);
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(1);
     }
 }

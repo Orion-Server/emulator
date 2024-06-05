@@ -1,16 +1,21 @@
 package Orion.Protocol.Message.Composer.Habbo.Club;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class BuildersClubMembershipComposer extends MessageComposer {
-    public BuildersClubMembershipComposer() {
-        super(ComposerHeaders.BuildersClubMembershipComposer);
+public class BuildersClubMembershipComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.BuildersClubMembershipComposer;
+    }
 
-        appendInt(Integer.MAX_VALUE);
-        appendInt(0);
-        appendInt(100);
-        appendInt(Integer.MAX_VALUE);
-        appendInt(0);
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(Integer.MAX_VALUE);
+        msg.appendInt(0);
+        msg.appendInt(100);
+        msg.appendInt(Integer.MAX_VALUE);
+        msg.appendInt(0);
     }
 }

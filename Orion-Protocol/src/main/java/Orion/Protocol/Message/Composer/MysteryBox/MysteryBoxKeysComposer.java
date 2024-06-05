@@ -1,13 +1,18 @@
 package Orion.Protocol.Message.Composer.MysteryBox;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class MysteryBoxKeysComposer extends MessageComposer {
-    public MysteryBoxKeysComposer() {
-        super(ComposerHeaders.MysteryBoxKeysComposer);
+public class MysteryBoxKeysComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.MysteryBoxKeysComposer;
+    }
 
-        appendString("");
-        appendString("");
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendString("");
+        msg.appendString("");
     }
 }

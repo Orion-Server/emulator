@@ -1,12 +1,23 @@
 package Orion.Protocol.Message.Composer.Room;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class RemoveHabboEntityComposer extends MessageComposer {
-    public RemoveHabboEntityComposer(final int virtualId) {
-        super(ComposerHeaders.RemoveHabboEntityComposer);
+public class RemoveHabboEntityComposer extends Composer {
+    private final int virtualId;
 
-        appendString(String.valueOf(virtualId));
+    public RemoveHabboEntityComposer(final int virtualId) {
+        this.virtualId = virtualId;
+    }
+
+    @Override
+    public short getId() {
+        return ComposerHeaders.RemoveHabboEntityComposer;
+    }
+
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendString(String.valueOf(this.virtualId));
     }
 }

@@ -22,5 +22,5 @@ public interface IMessageComposer extends ByteBufHolder {
 
     void appendShort(int shortValue);
 
-    ByteBuf getBuffer();
+    ByteBuf setBufferHeader();
 }

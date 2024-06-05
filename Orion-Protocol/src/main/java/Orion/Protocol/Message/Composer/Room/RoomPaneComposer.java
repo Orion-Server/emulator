@@ -1,17 +1,27 @@
 package Orion.Protocol.Message.Composer.Room;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Room.IRoom;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class RoomPaneComposer extends MessageComposer {
-    public RoomPaneComposer(
-            final IRoom room,
-            final boolean isOwner
-    ) {
-        super(ComposerHeaders.RoomPaneComposer);
+public class RoomPaneComposer extends Composer {
+    private final IRoom room;
+    private final boolean isOwner;
 
-        appendInt(room.getData().getId());
-        appendBoolean(isOwner);
+    public RoomPaneComposer(final IRoom room, final boolean isOwner) {
+        this.room = room;
+        this.isOwner = isOwner;
+    }
+
+    @Override
+    public short getId() {
+        return ComposerHeaders.RoomPaneComposer;
+    }
+
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.room.getData().getId());
+        msg.appendBoolean(this.isOwner);
     }
 }

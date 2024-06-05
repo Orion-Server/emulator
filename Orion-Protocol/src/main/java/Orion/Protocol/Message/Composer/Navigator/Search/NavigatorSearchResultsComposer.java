@@ -1,26 +1,41 @@
 package Orion.Protocol.Message.Composer.Navigator.Search;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Navigator.Data.INavigatorResultCategory;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
 import java.util.List;
 
-public class NavigatorSearchResultsComposer extends MessageComposer {
+public class NavigatorSearchResultsComposer extends Composer {
+    private final String code;
+    private final String query;
+    private final List<INavigatorResultCategory> categories;
+
     public NavigatorSearchResultsComposer(
-            String code,
-            String query,
-            List<INavigatorResultCategory> categories
+            final String code,
+            final String query,
+            final List<INavigatorResultCategory> categories
     ) {
-        super(ComposerHeaders.NavigatorSearchResultsComposer);
+        this.code = code;
+        this.query = query;
+        this.categories = categories;
+    }
 
-        appendString(code);
-        appendString(query);
+    @Override
+    public short getId() {
+        return ComposerHeaders.NavigatorSearchResultsComposer;
+    }
 
-        appendInt(categories.size());
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendString(code);
+        msg.appendString(query);
+
+        msg.appendInt(categories.size());
 
         for (final INavigatorResultCategory category : categories) {
-            category.write(this);
+            category.write(msg);
         }
     }
 }

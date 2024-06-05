@@ -1,27 +1,38 @@
 package Orion.Protocol.Message.Composer.Room.Object;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Room.IRoom;
 import Orion.Api.Server.Game.Room.Object.Item.IRoomFloorItem;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
 import java.util.Map;
 
-public class RoomFloorObjectsComposer extends MessageComposer {
+public class RoomFloorObjectsComposer extends Composer {
+    private final IRoom room;
+
     public RoomFloorObjectsComposer(final IRoom room) {
-        super(ComposerHeaders.RoomFloorObjectsComposer);
+        this.room = room;
+    }
 
-        appendInt(room.getItemsComponent().getOwnerNames().size());
+    @Override
+    public short getId() {
+        return ComposerHeaders.RoomFloorObjectsComposer;
+    }
 
-        for (final Map.Entry<Integer, String> itemOwner : room.getItemsComponent().getOwnerNames().entrySet()) {
-            appendInt(itemOwner.getKey());
-            appendString(itemOwner.getValue());
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.room.getItemsComponent().getOwnerNames().size());
+
+        for (final Map.Entry<Integer, String> itemOwner : this.room.getItemsComponent().getOwnerNames().entrySet()) {
+            msg.appendInt(itemOwner.getKey());
+            msg.appendString(itemOwner.getValue());
         }
 
-        appendInt(room.getItemsComponent().getFloorItems().size());
+        msg.appendInt(this.room.getItemsComponent().getFloorItems().size());
 
-        for (final IRoomFloorItem item : room.getItemsComponent().getFloorItems().values()) {
-            item.write(this);
+        for (final IRoomFloorItem item : this.room.getItemsComponent().getFloorItems().values()) {
+            item.write(msg);
         }
     }
 }

@@ -1,5 +1,6 @@
 package Orion.Game.Room;
 
+import Orion.Api.Networking.Message.IComposer;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import Orion.Api.Server.Game.Room.Component.*;
@@ -133,14 +134,14 @@ public class Room implements IRoom {
     }
 
     @Override
-    public void broadcastMessage(final IMessageComposer composer) {
+    public void broadcastMessage(final IComposer composer) {
         for (final IHabboEntity habboEntity : this.getEntitiesComponent().getHabboEntities()) {
             habboEntity.getHabbo().getSession().send(composer);
         }
     }
 
     @Override
-    public void broadcastMessages(final IMessageComposer... composers) {
+    public void broadcastMessages(final IComposer... composers) {
         for (final IHabboEntity habboEntity : this.getEntitiesComponent().getHabboEntities()) {
             habboEntity.getHabbo().getSession().send(composers);
         }

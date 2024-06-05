@@ -1,22 +1,33 @@
 package Orion.Protocol.Message.Composer.Room.Access;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Room.Enums.RoomAccessError;
 import Orion.Api.Server.Game.Room.Enums.RoomQueueAccessError;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class RoomAccessErrorComposer extends MessageComposer {
-    public RoomAccessErrorComposer(RoomAccessError error) {
-        super(ComposerHeaders.RoomAccessErrorComposer);
+public class RoomAccessErrorComposer extends Composer {
+    private final int errorCode;
+    private final String queueError;
 
-        appendInt(error.get());
-        appendString("");
+    public RoomAccessErrorComposer(RoomAccessError error) {
+        this.errorCode = error.get();
+        this.queueError = "";
     }
 
     public RoomAccessErrorComposer(RoomAccessError error, RoomQueueAccessError queueError) {
-        super(ComposerHeaders.RoomAccessErrorComposer);
+        this.errorCode = error.get();
+        this.queueError = queueError.get();
+    }
 
-        appendInt(error.get());
-        appendString(queueError.get());
+    @Override
+    public short getId() {
+        return ComposerHeaders.RoomAccessErrorComposer;
+    }
+
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.errorCode);
+        msg.appendString(this.queueError);
     }
 }

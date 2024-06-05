@@ -1,5 +1,6 @@
 package Orion.Game.Habbo.Provider;
 
+import Orion.Api.Networking.Message.IComposer;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Networking.Session.ISession;
 import Orion.Api.Networking.Session.ISessionManager;
@@ -106,7 +107,7 @@ public class HabboLoginProvider implements IHabboLoginProvider {
     }
 
     private void sendLoginComposers(final IHabbo habbo) {
-        final ArrayList<IMessageComposer> composers = new ArrayList<>(19);
+        final ArrayList<IComposer> composers = new ArrayList<>(19);
 
         composers.add(new AuthenticationOkComposer());
         composers.add(new InventoryEffectsListComposer(habbo));

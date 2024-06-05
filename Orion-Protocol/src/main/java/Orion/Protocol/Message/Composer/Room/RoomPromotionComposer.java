@@ -1,21 +1,26 @@
 package Orion.Protocol.Message.Composer.Room;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class RoomPromotionComposer extends MessageComposer {
-    public RoomPromotionComposer() {
-        super(ComposerHeaders.RoomPromotionComposer);
+public class RoomPromotionComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.RoomPromotionComposer;
+    }
 
-        appendInt(-1);
-        appendInt(-1);
-        appendString("");
-        appendInt(0);
-        appendInt(0);
-        appendString("");
-        appendString("");
-        appendInt(0);
-        appendInt(0);
-        appendInt(0);
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(-1);
+        msg.appendInt(-1);
+        msg.appendString("");
+        msg.appendInt(0);
+        msg.appendInt(0);
+        msg.appendString("");
+        msg.appendString("");
+        msg.appendInt(0);
+        msg.appendInt(0);
+        msg.appendInt(0);
     }
 }

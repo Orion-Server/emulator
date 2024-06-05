@@ -1,24 +1,35 @@
 package Orion.Protocol.Message.Composer.HotelView;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.HotelView.Data.IArticleWidget;
 import Orion.Api.Server.Game.HotelView.Data.IArticleWidgetList;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class HotelViewArticlesComposer extends MessageComposer {
+public class HotelViewArticlesComposer extends Composer {
+    private final IArticleWidgetList articleWidgetList;
+
     public HotelViewArticlesComposer(final IArticleWidgetList articleWidgetList) {
-        super(ComposerHeaders.HotelViewArticlesComposer);
+        this.articleWidgetList = articleWidgetList;
+    }
 
-        appendInt(articleWidgetList.getWidgets().size());
+    @Override
+    public short getId() {
+        return ComposerHeaders.HotelViewArticlesComposer;
+    }
 
-        for (final IArticleWidget articleWidget : articleWidgetList.getWidgets()) {
-            appendInt(articleWidget.getId());
-            appendString(articleWidget.getTitle());
-            appendString(articleWidget.getText());
-            appendString(articleWidget.getButtonText());
-            appendInt(articleWidget.getType());
-            appendString(articleWidget.getLink());
-            appendString(articleWidget.getImage());
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.articleWidgetList.getWidgets().size());
+
+        for (final IArticleWidget articleWidget : this.articleWidgetList.getWidgets()) {
+            msg.appendInt(articleWidget.getId());
+            msg.appendString(articleWidget.getTitle());
+            msg.appendString(articleWidget.getText());
+            msg.appendString(articleWidget.getButtonText());
+            msg.appendInt(articleWidget.getType());
+            msg.appendString(articleWidget.getLink());
+            msg.appendString(articleWidget.getImage());
         }
     }
 }

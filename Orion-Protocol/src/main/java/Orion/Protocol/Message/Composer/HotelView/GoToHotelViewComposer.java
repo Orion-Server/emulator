@@ -1,10 +1,17 @@
 package Orion.Protocol.Message.Composer.HotelView;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class GoToHotelViewComposer extends MessageComposer {
-    public GoToHotelViewComposer() {
-        super(ComposerHeaders.GoToHotelViewMessageComposer);
+public class GoToHotelViewComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.GoToHotelViewMessageComposer;
+    }
+
+    @Override
+    public void compose(IMessageComposer msg) {
+
     }
 }

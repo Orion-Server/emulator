@@ -1,28 +1,39 @@
 package Orion.Protocol.Message.Composer.Habbo.Messenger;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.Data.Messenger.IMessengerCategory;
 import Orion.Api.Server.Game.Habbo.IHabbo;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class InitializeMessengerComposer extends MessageComposer {
+public class InitializeMessengerComposer extends Composer {
+    private final IHabbo habbo;
+
     public InitializeMessengerComposer(final IHabbo habbo) {
-        super(ComposerHeaders.InitializeMessengerComposer);
+        this.habbo = habbo;
+    }
 
-        this.writeMessengerLimits(habbo.getPermission().hasAccountPermission("infinite_friends"));
+    @Override
+    public short getId() {
+        return ComposerHeaders.InitializeMessengerComposer;
+    }
 
-        appendInt(habbo.getMessenger().getCategories().size());
+    @Override
+    public void compose(IMessageComposer msg) {
+        this.writeMessengerLimits(msg, habbo.getPermission().hasAccountPermission("infinite_friends"));
+
+        msg.appendInt(habbo.getMessenger().getCategories().size());
 
         for (final IMessengerCategory category : habbo.getMessenger().getCategories()) {
-            appendInt(category.getId());
-            appendString(category.getName());
+            msg.appendInt(category.getId());
+            msg.appendString(category.getName());
         }
     }
 
-    private void writeMessengerLimits(final boolean hasInfiniteFriendsPermission) {
+    private void writeMessengerLimits(IMessageComposer msg, final boolean hasInfiniteFriendsPermission) {
         // TODO: Fetch these values from the database - Non-HC messenger / HC Messenger
-        appendInt(hasInfiniteFriendsPermission ? Integer.MAX_VALUE : 200);
-        appendInt(0x539);
-        appendInt(hasInfiniteFriendsPermission ? Integer.MAX_VALUE : 500);
+        msg.appendInt(hasInfiniteFriendsPermission ? Integer.MAX_VALUE : 200);
+        msg.appendInt(0x539);
+        msg.appendInt(hasInfiniteFriendsPermission ? Integer.MAX_VALUE : 500);
     }
 }

@@ -1,5 +1,6 @@
 package Orion.Api.Networking.Session;
 
+import Orion.Api.Networking.Message.IComposer;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
 import io.netty.channel.ChannelHandlerContext;
@@ -20,11 +21,11 @@ public interface ISession {
 
     void handleIdleStateEvent(IdleStateEvent event);
 
-    ISession send(IMessageComposer composer);
+    ISession send(IComposer composer);
 
-    ISession send(IMessageComposer... composers);
+    ISession send(IComposer... composers);
 
-    ISession send(List<IMessageComposer> composers);
+    ISession send(List<IComposer> composers);
 
     void setMachineId(String machineId);
 

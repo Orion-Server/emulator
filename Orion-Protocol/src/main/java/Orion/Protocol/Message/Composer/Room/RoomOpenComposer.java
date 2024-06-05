@@ -1,10 +1,17 @@
 package Orion.Protocol.Message.Composer.Room;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class RoomOpenComposer extends MessageComposer {
-    public RoomOpenComposer() {
-        super(ComposerHeaders.RoomOpenComposer);
+public class RoomOpenComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.RoomOpenComposer;
+    }
+
+    @Override
+    public void compose(IMessageComposer msg) {
+
     }
 }

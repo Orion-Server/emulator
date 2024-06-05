@@ -1,12 +1,17 @@
 package Orion.Protocol.Message.Composer.Habbo.Inventory;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class UpdateInventoryComposer extends MessageComposer {
-    public UpdateInventoryComposer() {
-        super(ComposerHeaders.UpdateInventoryComposer);
+public class UpdateInventoryComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.UpdateInventoryComposer;
+    }
 
+    @Override
+    public void compose(IMessageComposer msg) {
         // TODO: Implement
     }
 }

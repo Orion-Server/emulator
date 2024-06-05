@@ -1,13 +1,17 @@
 package Orion.Protocol.Message.Composer.Navigator;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.Data.IHabboNavigator;
 import Orion.Api.Server.Game.Habbo.Data.Navigator.IHabboNavigatorSearch;
+import Orion.Networking.Message.Composer;
 import Orion.Networking.Message.MessageComposer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
 import java.util.List;
 
-public class NavigatorMetaDataComposer extends MessageComposer {
+public class NavigatorMetaDataComposer extends Composer {
+    private final IHabboNavigator navigator;
+
     private final String[] tabs = {
             "official_view",
             "hotel_view",
@@ -16,19 +20,27 @@ public class NavigatorMetaDataComposer extends MessageComposer {
     };
 
     public NavigatorMetaDataComposer(final IHabboNavigator navigator) {
-        super(ComposerHeaders.NavigatorMetaDataComposer);
+        this.navigator = navigator;
+    }
 
-        appendInt(this.tabs.length);
+    @Override
+    public short getId() {
+        return ComposerHeaders.NavigatorMetaDataComposer;
+    }
 
-        for (String tabName : this.tabs) {
-            appendString(tabName);
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.tabs.length);
 
-            final List<IHabboNavigatorSearch> savedSearches = navigator.getNavigatorSearchForTab(tabName);
+        for (final String tabName : this.tabs) {
+            msg.appendString(tabName);
 
-            appendInt(savedSearches.size());
+            final List<IHabboNavigatorSearch> savedSearches = this.navigator.getNavigatorSearchForTab(tabName);
+
+            msg.appendInt(savedSearches.size());
 
             for (final IHabboNavigatorSearch search : savedSearches) {
-                search.write(this);
+                search.write(msg);
             }
         }
     }

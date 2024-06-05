@@ -171,7 +171,7 @@ public class MessageComposer implements IMessageComposer {
         }
     }
 
-    public ByteBuf getBuffer() {
+    public ByteBuf setBufferHeader() {
         this.buffer.setInt(0, this.buffer.writerIndex() - 4);
 
         return this.buffer;

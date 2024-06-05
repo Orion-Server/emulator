@@ -1,13 +1,24 @@
 package Orion.Protocol.Message.Composer.Habbo.Inventory;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class InventoryEffectsListComposer extends MessageComposer {
-    public InventoryEffectsListComposer(final IHabbo habbo) {
-        super(ComposerHeaders.InventoryEffectsListComposer);
+public class InventoryEffectsListComposer extends Composer {
+    private final IHabbo habbo;
 
-        appendInt(0); // TODO: Implement
+    public InventoryEffectsListComposer(final IHabbo habbo) {
+        this.habbo = habbo;
+    }
+
+    @Override
+    public short getId() {
+        return ComposerHeaders.InventoryEffectsListComposer;
+    }
+
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(0); // TODO: Implement
     }
 }

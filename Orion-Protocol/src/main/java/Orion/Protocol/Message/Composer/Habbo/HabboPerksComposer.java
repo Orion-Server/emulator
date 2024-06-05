@@ -1,73 +1,84 @@
 package Orion.Protocol.Message.Composer.Habbo;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Habbo.IHabbo;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class HabboPerksComposer extends MessageComposer {
+public class HabboPerksComposer extends Composer {
+    private final IHabbo habbo;
+
     public HabboPerksComposer(final IHabbo habbo) {
-        super(ComposerHeaders.HabboPerksComposer);
+        this.habbo = habbo;
+    }
 
-        appendInt(15);
+    @Override
+    public short getId() {
+        return ComposerHeaders.HabboPerksComposer;
+    }
 
-        appendString("USE_GUIDE_TOOL");
-        appendString("requirement.unfulfilled.helper_level_4");
-        appendBoolean(habbo.getPermission().hasAccountPermission("helper_use_guide_tool"));
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(15);
 
-        appendString("GIVE_GUIDE_TOURS");
-        appendString("");
-        appendBoolean(habbo.getPermission().hasAccountPermission("helper_give_guide_tours"));
+        msg.appendString("USE_GUIDE_TOOL");
+        msg.appendString("requirement.unfulfilled.helper_level_4");
+        msg.appendBoolean(this.habbo.getPermission().hasAccountPermission("helper_use_guide_tool"));
 
-        appendString("JUDGE_CHAT_REVIEWS");
-        appendString("requirement.unfulfilled.helper_level_6");
-        appendBoolean(habbo.getPermission().hasAccountPermission("helper_judge_chat_reviews"));
+        msg.appendString("GIVE_GUIDE_TOURS");
+        msg.appendString("");
+        msg.appendBoolean(this.habbo.getPermission().hasAccountPermission("helper_give_guide_tours"));
 
-        appendString("VOTE_IN_COMPETITIONS");
-        appendString("requirement.unfulfilled.helper_level_2");
-        appendBoolean(true);
+        msg.appendString("JUDGE_CHAT_REVIEWS");
+        msg.appendString("requirement.unfulfilled.helper_level_6");
+        msg.appendBoolean(this.habbo.getPermission().hasAccountPermission("helper_judge_chat_reviews"));
 
-        appendString("CALL_ON_HELPERS");
-        appendString("");
-        appendBoolean(true);
+        msg.appendString("VOTE_IN_COMPETITIONS");
+        msg.appendString("requirement.unfulfilled.helper_level_2");
+        msg.appendBoolean(true);
 
-        appendString("CITIZEN");
-        appendString("");
-        appendBoolean(true);
+        msg.appendString("CALL_ON_HELPERS");
+        msg.appendString("");
+        msg.appendBoolean(true);
 
-        appendString("TRADE");
-        appendString("requirement.unfulfilled.no_trade_lock");
-        appendBoolean(habbo.getSettings().allowTrade());
+        msg.appendString("CITIZEN");
+        msg.appendString("");
+        msg.appendBoolean(true);
 
-        appendString("HEIGHTMAP_EDITOR_BETA");
-        appendString("requirement.unfulfilled.feature_disabled");
-        appendBoolean(habbo.getPermission().hasAccountPermission("floorplan_editor"));
+        msg.appendString("TRADE");
+        msg.appendString("requirement.unfulfilled.no_trade_lock");
+        msg.appendBoolean(this.habbo.getSettings().allowTrade());
 
-        appendString("BUILDER_AT_WORK");
-        appendString("");
-        appendBoolean(true);
+        msg.appendString("HEIGHTMAP_EDITOR_BETA");
+        msg.appendString("requirement.unfulfilled.feature_disabled");
+        msg.appendBoolean(this.habbo.getPermission().hasAccountPermission("floorplan_editor"));
 
-        appendString("CALL_ON_HELPERS");
-        appendString("");
-        appendBoolean(true);
+        msg.appendString("BUILDER_AT_WORK");
+        msg.appendString("");
+        msg.appendBoolean(true);
 
-        appendString("CAMERA");
-        appendString("");
-        appendBoolean(habbo.getPermission().hasAccountPermission("camera"));
+        msg.appendString("CALL_ON_HELPERS");
+        msg.appendString("");
+        msg.appendBoolean(true);
 
-        appendString("NAVIGATOR_PHASE_TWO_2014");
-        appendString("");
-        appendBoolean(true);
+        msg.appendString("CAMERA");
+        msg.appendString("");
+        msg.appendBoolean(this.habbo.getPermission().hasAccountPermission("camera"));
 
-        appendString("MOUSE_ZOOM");
-        appendString("");
-        appendBoolean(true);
+        msg.appendString("NAVIGATOR_PHASE_TWO_2014");
+        msg.appendString("");
+        msg.appendBoolean(true);
 
-        appendString("NAVIGATOR_ROOM_THUMBNAIL_CAMERA");
-        appendString("");
-        appendBoolean(true);
+        msg.appendString("MOUSE_ZOOM");
+        msg.appendString("");
+        msg.appendBoolean(true);
 
-        appendString("HABBO_CLUB_OFFER_BETA");
-        appendString("");
-        appendBoolean(true);
+        msg.appendString("NAVIGATOR_ROOM_THUMBNAIL_CAMERA");
+        msg.appendString("");
+        msg.appendBoolean(true);
+
+        msg.appendString("HABBO_CLUB_OFFER_BETA");
+        msg.appendString("");
+        msg.appendBoolean(true);
     }
 }

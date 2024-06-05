@@ -1,25 +1,36 @@
 package Orion.Protocol.Message.Composer.Habbo.Inventory;
 
+import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Server.Game.Achievement.Data.IAchievement;
 import Orion.Api.Server.Game.Achievement.Data.IAchievementLevel;
 import Orion.Api.Server.Game.Achievement.IAchievementManager;
-import Orion.Networking.Message.MessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class InventoryAchievementsComposer extends MessageComposer {
+public class InventoryAchievementsComposer extends Composer {
+    private final IAchievementManager achievementManager;
+
     public InventoryAchievementsComposer(final IAchievementManager achievementManager) {
-        super(ComposerHeaders.InventoryAchievementsComposer);
+        this.achievementManager = achievementManager;
+    }
 
-        appendInt(achievementManager.getAchievements().size());
+    @Override
+    public short getId() {
+        return ComposerHeaders.InventoryAchievementsComposer;
+    }
 
-        for (final IAchievement achievement : achievementManager.getAchievements().values()) {
-           appendString(achievement.getName().replaceAll("^(ACH_)", ""));
-           appendInt(achievement.getLevelsCount());
+    @Override
+    public void compose(IMessageComposer msg) {
+        msg.appendInt(this.achievementManager.getAchievements().size());
 
-           for (final IAchievementLevel level : achievement.getLevels().values()) {
-               appendInt(level.getLevel());
-               appendInt(level.getProgressNeeded());
-           }
+        for (final IAchievement achievement : this.achievementManager.getAchievements().values()) {
+            msg.appendString(achievement.getName().replaceAll("^(ACH_)", ""));
+            msg.appendInt(achievement.getLevelsCount());
+
+            for (final IAchievementLevel level : achievement.getLevels().values()) {
+                msg.appendInt(level.getLevel());
+                msg.appendInt(level.getProgressNeeded());
+            }
         }
     }
 }

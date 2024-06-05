@@ -1,23 +1,28 @@
 package Orion.Protocol.Message.Composer.Habbo.Club;
 
-import Orion.Networking.Message.MessageComposer;
+import Orion.Api.Networking.Message.IMessageComposer;
+import Orion.Networking.Message.Composer;
 import Orion.Protocol.Message.Composer.ComposerHeaders;
 
-public class HabboClubComposer extends MessageComposer {
-    public HabboClubComposer() {
-        super(ComposerHeaders.HabboClubComposer);
+public class HabboClubComposer extends Composer {
+    @Override
+    public short getId() {
+        return ComposerHeaders.HabboClubComposer;
+    }
 
+    @Override
+    public void compose(IMessageComposer msg) {
         // TODO: Implement
-        appendString("HABBO_CLUB".toLowerCase());
-        appendInt(0);
-        appendInt(0);
-        appendInt(0);
-        appendInt(0);
-        appendBoolean(false);
-        appendBoolean(false);
-        appendInt(0);
-        appendInt(0);
-        appendInt(0);
-        appendInt(0);
+        msg.appendString("HABBO_CLUB".toLowerCase());
+        msg.appendInt(0);
+        msg.appendInt(0);
+        msg.appendInt(0);
+        msg.appendInt(0);
+        msg.appendBoolean(false);
+        msg.appendBoolean(false);
+        msg.appendInt(0);
+        msg.appendInt(0);
+        msg.appendInt(0);
+        msg.appendInt(0);
     }
 }

@@ -1,5 +1,6 @@
 package Orion.Protocol.Message.Event.Habbo.Messenger;
 
+import Orion.Api.Networking.Message.IComposer;
 import Orion.Api.Networking.Message.IMessageComposer;
 import Orion.Api.Networking.Message.IMessageEvent;
 import Orion.Api.Networking.Session.ISession;
@@ -22,7 +23,7 @@ public class InitializeMessengerEvent implements IMessageEventHandler {
 
     @Override
     public void handle(IMessageEvent event, ISession session) {
-        final ArrayList<IMessageComposer> messages = new ArrayList<>();
+        final ArrayList<IComposer> messages = new ArrayList<>();
 
         messages.add(new InitializeMessengerComposer(session.getHabbo()));
 
